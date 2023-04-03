@@ -72,49 +72,49 @@ public class AuthController {
     }
   }
 
-  @PostMapping("facebookLogin")
-  public Object facebookLogin(
-      @RequestBody Map<String,String> jsonData,
-      HttpSession session) throws Exception {
-
-    // 클라이언트가 보낸 accessToken을 가지고
-    // 페이스북 서버에 접속(AJAX 요청)하여 사용자를 정보를 가져온다.
-    //
-    RestTemplate restTemplate = new RestTemplate();
-
-    @SuppressWarnings("rawtypes")
-    Map result = restTemplate.getForObject(
-        "https://graph.facebook.com/v16.0/me?access_token={value1}&fields={value2}", // 요청할 URL
-        Map.class, // 서버에서 받은 결과의 타입
-        jsonData.get("accessToken"), // URL의 첫 번째 자리에 들어갈 값
-        "id,name,email,gender" // 페이스북 측에 요청하는 로그인 사용자 정보
-        );
-
-    // 페이스북에서 받은 데이터에서 이메일과 이름을 꺼낸다.
-    @SuppressWarnings("null")
-    String email = (String) result.get("email");
-    String name = (String) result.get("name");
-
-    // 기존 회원 정보 가져오기
-    Member user = memberService.get(email);
-    if (user == null) {
-      // 페이스북에서 받은 최소 정보를 가지고 회원 가입을 위한 객체를 준비한다.
-      Member s = new Member();
-      s.setEmail(email);
-      s.setName(name);
-      s.setPassword("bitcamp-nopassword");
-
-      // 회원 가입을 수행한다.
-      memberService.add(s);
-    }
-    user = memberService.get(email);
-
-    // 세션에 로그인 사용자 정보 보관
-    session.setAttribute("loginUser", user);
-
-    return new RestResult()
-        .setStatus(RestStatus.SUCCESS);
-  }
+//  @PostMapping("facebookLogin")
+//  public Object facebookLogin(
+//      @RequestBody Map<String,String> jsonData,
+//      HttpSession session) throws Exception {
+//
+//    // 클라이언트가 보낸 accessToken을 가지고
+//    // 페이스북 서버에 접속(AJAX 요청)하여 사용자를 정보를 가져온다.
+//    //
+//    RestTemplate restTemplate = new RestTemplate();
+//
+//    @SuppressWarnings("rawtypes")
+//    Map result = restTemplate.getForObject(
+//        "https://graph.facebook.com/v16.0/me?access_token={value1}&fields={value2}", // 요청할 URL
+//        Map.class, // 서버에서 받은 결과의 타입
+//        jsonData.get("accessToken"), // URL의 첫 번째 자리에 들어갈 값
+//        "id,name,email,gender" // 페이스북 측에 요청하는 로그인 사용자 정보
+//        );
+//
+//    // 페이스북에서 받은 데이터에서 이메일과 이름을 꺼낸다.
+//    @SuppressWarnings("null")
+//    String email = (String) result.get("email");
+//    String name = (String) result.get("name");
+//
+//    // 기존 회원 정보 가져오기
+//    Member user = memberService.get(email);
+//    if (user == null) {
+//      // 페이스북에서 받은 최소 정보를 가지고 회원 가입을 위한 객체를 준비한다.
+//      Member s = new Member();
+//      s.setEmail(email);
+//      s.setName(name);
+//      s.setPassword("bitcamp-nopassword");
+//
+//      // 회원 가입을 수행한다.
+//      memberService.add(s);
+//    }
+//    user = memberService.get(email);
+//
+//    // 세션에 로그인 사용자 정보 보관
+//    session.setAttribute("loginUser", user);
+//
+//    return new RestResult()
+//        .setStatus(RestStatus.SUCCESS);
+//  }
 
 }
 

@@ -20,7 +20,7 @@
   <insert id="insert" parameterType="member" 
           useGeneratedKeys="true" keyProperty="no" keyColumn="member_id">
     insert into gh_member(email, pwd, name, tel, nickname, introduce, photo, state, auth) 
-    values(#{email}, #{password}, #{name}, #{tel}, #{nickname}, #{introduce}, #{photo}, #{state}, #{auth})
+    values(#{email}, sha2(#{password},256), #{name}, #{tel}, #{nickname}, #{introduce}, #{photo}, #{state}, #{auth})
   </insert>
 
   <select id="findAll" resultMap="memberMap">
@@ -73,20 +73,20 @@
       auth 
     from 
       gh_member 
-    where 
-      email = #{email} and pwd = #{password}
+    where
+      email = #{email} and pwd = sha2(#{password},256)
   </select>
   
   <update id="update" parameterType="member">
     update gh_member set
       email=#{email}, 
-      pwd=#{password}, 
+      pwd=sha2(#{password},256), 
       name=#{name}, 
       tel=#{tel}, 
       nickname=#{nickname}, 
-      introduce=#{introduce}, 
-      photo=#{photo}, 
-      state=#{state}, 
+      introduce=#{introduce},
+      photo=#{photo},
+      state=#{state},
       auth=#{auth} 
     where member_id=#{no}
   </update>

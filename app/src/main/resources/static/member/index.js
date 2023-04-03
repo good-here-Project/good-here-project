@@ -87,7 +87,7 @@ function getmember(e) {
       document.querySelector("#f-nickname").value = member.nickname;
       document.querySelector("#f-introduce").value = member.introduce;
       document.querySelector("#f-photo").value = member.photo;
-      document.querySelector("#f-created_date").innerHTML = member.created_date;
+      document.querySelector("#f-createdDate").innerHTML = member.createdDate;
       document.querySelector("#f-state").value = member.state;
       document.querySelector("#f-auth").value = member.auth;
 
