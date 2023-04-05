@@ -1,12 +1,13 @@
 package bitcamp.goodhere.vo;
 
+import java.io.Serializable;
 import java.sql.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import lombok.Data;
 
 @Data
-public class Member {
+public class Member implements Serializable {
   private int no;
   private String email;
   private String password;

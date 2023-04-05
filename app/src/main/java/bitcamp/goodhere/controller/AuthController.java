@@ -30,20 +30,18 @@ public class AuthController {
 
   @PostMapping("login")
   public Object login(
-      String usertype,
       String email,
       String password,
       HttpSession session) {
 
     Member member = null;
-    switch (usertype) {
-      case "member":
-        member = memberService.get(email, password);
-        break;
-    }
+
+    member = memberService.get(email, password);
 
     if (member != null) {
       session.setAttribute("loginUser", member);
+      //      System.out.println(session);
+      //      System.out.println(member);
       return new RestResult()
           .setStatus(RestStatus.SUCCESS);
     } else {
@@ -62,6 +60,8 @@ public class AuthController {
   @RequestMapping("user")
   public Object user(HttpSession session) {
     Member loginUser = (Member) session.getAttribute("loginUser");
+    //    System.out.println(session);
+    //    System.out.println(loginUser);
     if (loginUser != null) {
       return new RestResult()
           .setStatus(RestStatus.SUCCESS)
