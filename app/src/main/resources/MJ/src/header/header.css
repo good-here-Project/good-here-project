@@ -1,3 +1,9 @@
+.upload {
+	display: none;
+	justify-content: center;
+	text-align: center;
+}
+
 .login {
 	display: none;
 	justify-content: center;
@@ -102,6 +108,18 @@
 	width: 100px;
 	border-radius: 10px;
 	color: #da18a3;
+	padding-top: 3px;
+}
+
+#upload {
+	cursor: pointer;
+	border: 1px solid;
+	text-align: center;
+	height: 33px;
+	width: 80px;
+	border-radius: 10px;
+	background: linear-gradient(101.12deg, #eb1484 27.35%, #c91cc3 99.99%, #c81cc5 100%, #c81cc5 100%);
+	color: white;
 	padding-top: 3px;
 }
 
