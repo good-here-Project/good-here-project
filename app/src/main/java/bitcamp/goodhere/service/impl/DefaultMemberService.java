@@ -62,6 +62,18 @@ public class DefaultMemberService implements MemberService {
       throw new RuntimeException("회원이 존재하지 않습니다.");
     }
   }
+
+  @Override   //아이디 중복체크
+  public int emailCheck(String email) {
+    int cnt = memberDao.emailCheck(email);
+    return cnt;
+  }
+
+  @Override   //닉네임 중복체크
+  public int nickCheck(String nickname) {
+    int cnt = memberDao.nickCheck(nickname);
+    return cnt;
+  }
 }
 
 

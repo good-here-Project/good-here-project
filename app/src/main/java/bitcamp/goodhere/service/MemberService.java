@@ -11,6 +11,9 @@ public interface MemberService {
   Member get(String email);
   void update(Member member);
   void delete(int no);
+
+  int emailCheck(String email);
+  int nickCheck(String nickname);
 }
 
 

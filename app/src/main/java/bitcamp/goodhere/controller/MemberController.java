@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import bitcamp.goodhere.service.MemberService;
 import bitcamp.goodhere.vo.Member;
@@ -68,6 +69,22 @@ public class MemberController {
     memberService.delete(no);
     return new RestResult()
         .setStatus(RestStatus.SUCCESS);
+  }
+
+  //아이디 중복체크
+  @GetMapping("/emailCheck")
+  @ResponseBody
+  public int checkEmail(String email) {
+    int cnt = memberService.emailCheck(email);
+    return cnt;
+  }
+
+  //닉네임 중복체크
+  @GetMapping("/nickCheck")
+  @ResponseBody
+  public int checkNick(String nickname) {
+    int cnt = memberService.nickCheck(nickname);
+    return cnt;
   }
 
 }
