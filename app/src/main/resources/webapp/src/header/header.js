@@ -2,9 +2,21 @@ import React, { useState } from "react";
 import './header.css';
 import { Link } from "react-router-dom";
 import axios from "axios";
+import Modal from "../modal/modal";
+
 axios.defaults.withCredentials = true;
 
 function Header() {
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
 
   axios.get("http://localhost:8080/web/auth/user")
   .then((response) => {
@@ -15,6 +27,7 @@ function Header() {
       // console.log(result.status);
     if (result.status === "success") {
       document.querySelector("#nickname").innerHTML = result.data.nickname;
+      document.querySelector(".upload").classList.remove("upload");
       document.querySelector(".logout").classList.remove("logout");
     } else {
       document.querySelector(".login").classList.remove("login");
@@ -60,6 +73,27 @@ function Header() {
             <ul>
               <Link to='/Sign' style={{ textDecoration: "none" }}><li className="signup" id="signup">Create</li></Link>
               <Link to='/Login' style={{ textDecoration: "none" }}><li className="login" id="login">Connect</li></Link>
+              <div>
+                <li className="upload" id="upload" onClick={handleModalOpen}>Upload</li>
+
+                <Modal isOpen={isModalOpen} onClose={handleModalClose}>
+                <div className="modal-main">
+                  <div className="modal-hotplace">
+                    <img src='img/hotplace.png'></img>
+                    <p>Hot 플레이스 업로드</p>
+                  </div>
+                  <div className="modal-board">
+                    <img src='img/board.png'></img>
+                    <p>커뮤니티 업로드</p>
+                  </div>
+                </div>
+                <div className="modal-text">
+                  허위 정보나 불법적 내용 혹은 도배성 게시물은<br/>
+                  관리자에 의해 삭제될 수 있습니다.
+                </div>
+                </Modal>
+
+              </div>
               <li className="logout" id="logout">
               <a onClick={logout}>
                   로그아웃(<span id="nickname"></span>)</a>
