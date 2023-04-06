@@ -1,27 +1,33 @@
-import React from 'react';
-import './App.css';
-import Header from './header/header';
-import Main from './main/main';
-import Login from './login/login';
-import Footer from './footer/footer';
-import Sign from './sign/sign';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import React from "react";
+import "./App.css";
+import Header from "./header/header";
+import Main from "./main/main";
+import Login from "./login/login";
+import Footer from "./footer/footer";
+import Sign from "./sign/sign";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Board from "./Board/Board";
+import Form from "./Form/Form";
+import FormComm from "./FormComm/FormComm";
 
 function App() {
   return (
     <BrowserRouter>
-    <div className="App">
-      <Header />
+      <div className="App">
+        <Header />
 
-      <Routes>
-        <Route path="/" element={ <Main /> } />
-        <Route path="/Main" element={ <Main /> } />
-        <Route path="/Login" element={ <Login /> } />
-        <Route path="/Sign" element={ <Sign />} />
-      </Routes>
-      
-      <Footer />
-    </div>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/Main" element={<Main />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Sign" element={<Sign />} />
+          <Route path="/Board" element={<Board />} />
+          <Route path="/Form" element={<Form />} />
+          <Route path="/FormComm" element={<FormComm />} />
+        </Routes>
+
+        <Footer />
+      </div>
     </BrowserRouter>
   );
 }
