@@ -101,29 +101,29 @@ function checkNickname() {
           <table>
             <tbody>
               <tr>
-                <th className="email-th">아이디</th>
+                <th className="email-th">Email</th>
                 <td><input id="f-email" type="email" name="email" className="email" placeholder="email 형식으로 입력해주세요." onInput={checkEmail} />
                   <span className="email_ok">사용 가능한 아이디입니다.</span>
                   <span className="email_already">누군가 이 아이디를 사용하고 있어요.</span>
                 </td>
               </tr>
               <tr>
-                <th className="password-th">비밀번호</th>
+                <th className="password-th">Password</th>
                 <td><input type="password" name="password" className="password" /></td>
               </tr>
               <tr>
-                <th className="name-th">성함</th>
+                <th className="name-th">Name</th>
                 <td><input type="name" name="name" className="name" /></td>
               </tr>
               <tr>
-                <th className="nickname-th">닉네임</th>
+                <th className="nickname-th">Nickname</th>
                 <td><input id="f-nickname" type="nickname" name="nickname" className="nickname" onInput={checkNickname} />
                   <span className="nickname_ok">사용 가능한 닉네임입니다.</span>
                   <span className="nickname_already">누군가 이 닉네임을 사용하고 있어요.</span>
                 </td>
               </tr>
               <tr>
-                <th className="tel-th">휴대폰번호</th>
+                <th className="tel-th">tel</th>
                 <td><input type="tel" name="tel" className="tel" /></td>
               </tr>
             </tbody>
