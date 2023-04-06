@@ -123,7 +123,7 @@ function checkNickname() {
                 </td>
               </tr>
               <tr>
-                <th className="tel-th">tel</th>
+                <th className="tel-th">Tel</th>
                 <td><input type="tel" name="tel" className="tel" /></td>
               </tr>
             </tbody>
