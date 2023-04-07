@@ -25,7 +25,7 @@ function App() {
           <Route path="/Board" element={<Board />} />
           <Route path="/Form" element={<Form />} />
           <Route path="/FormComm" element={<FormComm />} />
-          <Route path="/View" element={<View />} />
+          <Route path="/View/:no" element={<View />} />
         </Routes>
 
         <Footer />

@@ -71,7 +71,9 @@ const Board = () => {
             posts.data.map((post) => (
               <tr key={post.no}>
                 <td>{post.no}</td>
-                <td>{post.title}</td>
+                <Link to={`/view/${post.no}`}>
+                  <td>{post.title}</td>
+                </Link>
                 <td>{post.writer.nickname}</td>
                 <td>{post.viewCount}</td>
                 <td>{post.createdDate}</td>

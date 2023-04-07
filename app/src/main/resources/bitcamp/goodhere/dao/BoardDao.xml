@@ -68,7 +68,7 @@
       bf.mime_type
     from 
       gh_board b
-      left outer join gh_board_file bf on b.board_id = bf.board_id
+      left outer join gh_boardfile bf on b.board_id = bf.board_id
     where 
       b.board_id=#{no}
   </select>

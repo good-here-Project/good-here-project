@@ -1,6 +1,29 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import "./view.css";
 
 const View = () => {
+  const baseUrl = "http://localhost";
+  const { no } = useParams();
+  const [content, setContent] = useState([]);
+  //   console.log(no);
+
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url: baseUrl + `/web/boards/${no}`,
+      withCredentials: true,
+    })
+      .then((response) => {
+        setContent(response.data);
+      })
+      .catch((error) => console.log(error));
+  }, [no]);
+
+  console.log(content);
+  console.log(content.data);
+
   return (
     <div className="view-main">
       <section>
