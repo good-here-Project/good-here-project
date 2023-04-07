@@ -6,8 +6,9 @@ import "./view.css";
 const View = () => {
   const baseUrl = "http://localhost";
   const { no } = useParams();
-  const [content, setContent] = useState([]);
-  //   console.log(no);
+  const [content, setContent] = useState({ data: null });
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     axios({
@@ -17,12 +18,21 @@ const View = () => {
     })
       .then((response) => {
         setContent(response.data);
+        setIsLoading(false);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        setIsLoading(false);
+        setError(error);
+      });
   }, [no]);
 
-  console.log(content);
-  console.log(content.data);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div className="view-main">
@@ -31,19 +41,25 @@ const View = () => {
           <div className="view-head-cate">카테고리명</div>
           <div className="view-content-wrap">
             <div className="view-content-head">
-              <h3 className="view-content-title">제목1</h3>
+              <h3 className="view-content-title">{content.data?.title}</h3>
               <div className="view-content-info">
-                <span className="view-content-nickname">ㅇㅇ</span>
-                <span className="view-content-date">2023-04-12</span>
+                <span className="view-content-nickname">
+                  {content.data?.nickname ?? "ㅇㅇ"}
+                </span>
+                <span className="view-content-date">
+                  {content.data?.createdDate}
+                </span>
               </div>
               <div className="view-content-etc">
-                <span className="view-content-count">조회 13</span>
+                <span className="view-content-count">
+                  조회 {content.data?.viewCount}
+                </span>
                 <span className="view-content-reply">추천 9</span>
               </div>
             </div>
             <div className="view-content-body">
               <div className="view-content-write">
-                <p>가나다라</p>
+                <p>{content.data?.content}</p>
               </div>
             </div>
           </div>
