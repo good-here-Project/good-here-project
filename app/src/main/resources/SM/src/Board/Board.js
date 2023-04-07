@@ -15,7 +15,7 @@ const Board = () => {
     })
       .then((response) => {
         setPosts(response.data);
-        // console.log(response.data);
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -70,7 +70,7 @@ const Board = () => {
               <tr key={post.no}>
                 <td>{post.no}</td>
                 <td>{post.title}</td>
-                <td>{post.writer.name}</td>
+                <td>{post.writer.nickname}</td>
                 <td>{post.viewCount}</td>
                 <td>{post.createdDate}</td>
                 <td>{post.viewCount}</td>

@@ -13,10 +13,10 @@ function Footer() {
             <li className="f-s">Get the lates Updates</li>
           </ul>
         </div>
-        <div className="rs">
-          <ul className="rs-main-ss">
-            <li className="rs-ss-f">가나다라</li>
-            <li className="rs-ss-s">가나다</li>
+        <div>
+          <ul className="main-ss">
+            <li className="s-f">가나다라</li>
+            <li className="s-s">가나다</li>
           </ul>
         </div>
         <div>

@@ -6,6 +6,7 @@
 
   <resultMap type="board" id="boardMap">
     <id column="board_id" property="no"/>
+    <result column="board_type_id" property="boardTypeId"/>
     <result column="title" property="title"/>
     <result column="content" property="content"/>
     <result column="pwd" property="password"/>
@@ -14,7 +15,7 @@
     
     <association property="writer" javaType="member">
       <id column="writer" property="no"/>
-      <result column="name" property="name"/>
+      <result column="nickname" property="nickname"/>
     </association>
     
     <collection property="attachedFiles" ofType="boardfile">
@@ -28,8 +29,8 @@
 
   <insert id="insert" parameterType="board" 
           useGeneratedKeys="true" keyColumn="board_id" keyProperty="no">
-    insert into gh_board(title, content, writer) 
-    values(#{title}, #{content}, #{writer.no})
+    insert into gh_board(board_type_id, title, content, writer) 
+    values(#{boardTypeId}, #{title}, #{content}, #{writer.no})
   </insert>
 
   <select id="findAll" resultMap="boardMap" parameterType="string">
@@ -39,7 +40,7 @@
       b.writer,
       b.created_date, 
       b.view_cnt,
-      m.name 
+      m.nickname 
     from 
       gh_board b
       inner join gh_member m on b.writer = m.member_id

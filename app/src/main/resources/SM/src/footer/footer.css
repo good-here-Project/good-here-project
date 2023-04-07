@@ -60,29 +60,29 @@
   text-decoration: underline;
 }
 
-.rs-main-ss {
+.main-ss {
   width: 150px;
   padding-right: 150px;
   text-align: left;
 }
 
-.rs-ss-f {
+.s-f {
   cursor: pointer;
   font-weight: bold;
   font-size: 20px;
 }
 
-.rs-ss-f:hover {
+.s-f:hover {
   text-decoration: underline;
 }
 
-.rs-ss-s {
+.s-s {
   cursor: pointer;
   font-size: 15;
   font-weight: 400;
 }
 
-.rs-ss-s:hover {
+.s-s:hover {
   text-decoration: underline;
 }
 

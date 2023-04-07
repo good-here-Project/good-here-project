@@ -56,7 +56,7 @@ function Login() {
                 ></input>
               </td>
             </tr>
-            <tr>
+            {/* <tr>
               <th className="usertype-th">type</th>
               <td>
                 <input
@@ -65,7 +65,7 @@ function Login() {
                   name="usertype"
                 ></input>
               </td>
-            </tr>
+            </tr> */}
           </table>
 
           <div>

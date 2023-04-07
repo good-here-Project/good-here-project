@@ -22,6 +22,9 @@ const FormComm = () => {
       url: baseUrl + "/web/boards",
       data: formData,
       withCredentials: true,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     })
       .then((response) => {
         console.log(response.data);
@@ -62,12 +65,16 @@ const FormComm = () => {
               <Row className="mb-3">
                 <Form.Group as={Col} controlId="formGridState">
                   <Form.Label>카테고리</Form.Label>
-                  <Form.Select style={{ width: "300px" }} defaultValue="자유">
-                    <option>자유</option>
-                    <option>Q&A</option>
-                    <option>맛집&이색 카페</option>
-                    <option>여행 정보</option>
-                    <option>여행 동행</option>
+                  <Form.Select
+                    name="boardTypeId"
+                    style={{ width: "300px" }}
+                    defaultValue="1"
+                  >
+                    <option value="1">자유</option>
+                    <option value="2">Q&A</option>
+                    <option value="3">맛집&이색 카페</option>
+                    <option value="4">여행 정보</option>
+                    <option value="5">여행 동행</option>
                   </Form.Select>
                 </Form.Group>
 

@@ -11,7 +11,9 @@ public class Board {
   private int no;
   private String title;
   private String content;
-  private String password;
+  private int boardTypeId;
+  private int password;
+
 
   @JsonFormat(
       shape = Shape.STRING,
