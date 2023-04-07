@@ -2,6 +2,7 @@ import React from 'react';
 import './sign.css';
 import { useState } from 'react';
 
+//----------------------------------회원가입--------------------------------------------
 function Sign() {
   const signUp = function() {
     const form = document.querySelector("#member-form");
@@ -34,10 +35,50 @@ function Sign() {
       });
   };
 
+//----------------------------------이메일체크--------------------------------------------
   function checkEmail() {
     const email = document.querySelector('#f-email').value; //id값이 "f-email"인 입력란의 값을 저장
+    const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]{3,}$/; // 이메일 형식 검사를 위한 정규식
 
-    fetch("http://localhost:8080/web/members/emailCheck?email=" + email, {
+    if (!emailRegex.test(email)) { // 이메일 형식이 유효하지 않은 경우
+      document.querySelector('.email_already').style.display = 'none';
+      document.querySelector('.email_ok').style.display = 'none';
+      document.querySelector('.email_no').style.display = 'inline-block';
+      return;
+    } else {
+      
+      fetch("http://localhost:8080/web/members/emailCheck?email=" + email, {
+        method: 'GET',
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then(response => response.json())
+        .then(cnt => {
+          if (cnt == 0) { //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 아이디 
+            document.querySelector('.email_ok').style.display = 'inline-block';
+            document.querySelector('.email_already').style.display = 'none';
+            document.querySelector('.email_no').style.display = 'none';
+          } else { // cnt가 1일 경우 -> 이미 존재하는 아이디
+            document.querySelector('.email_already').style.display = 'inline-block';
+            document.querySelector('.email_ok').style.display = 'none';
+            document.querySelector('.email_no').style.display = 'none';
+            alert("아이디를 다시 입력해주세요");
+            document.getElementById('f-email').value = '';
+          }
+        })
+        .catch(error => {
+          console.error(error);
+          alert("에러입니다");
+        });
+    };
+  };
+
+//----------------------------------닉네임체크--------------------------------------------
+  function checkNickname() {
+    const nickname = document.querySelector('#f-nickname').value;
+
+    fetch("http://localhost:8080/web/members/nickCheck?nickname=" + nickname, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -45,14 +86,14 @@ function Sign() {
     })
       .then(response => response.json())
       .then(cnt => {
-        if (cnt == 0) { //cnt가 1이 아니면(=0일 경우) -> 사용 가능한 아이디 
-          document.querySelector('.email_ok').style.display = 'inline-block';
-          document.querySelector('.email_already').style.display = 'none';
-        } else { // cnt가 1일 경우 -> 이미 존재하는 아이디
-          document.querySelector('.email_already').style.display = 'inline-block';
-          document.querySelector('.email_ok').style.display = 'none';
-          alert("아이디를 다시 입력해주세요");
-          document.getElementById('f-email').value = '';
+        if (cnt == 0) {
+          document.querySelector('.nickname_ok').style.display = 'inline-block';
+          document.querySelector('.nickname_already').style.display = 'none';
+        } else {
+          document.querySelector('.nickname_already').style.display = 'inline-block';
+          document.querySelector('.nickname_ok').style.display = 'none';
+          alert("닉네임을 다시 입력해주세요");
+          document.getElementById('f-nickname').value = '';
         }
       })
       .catch(error => {
@@ -60,33 +101,6 @@ function Sign() {
         alert("에러입니다");
       });
   };
-  
-function checkNickname() {
-  const nickname = document.querySelector('#f-nickname').value;
-
-  fetch("http://localhost:8080/web/members/nickCheck?nickname=" + nickname, {
-    method: 'GET',
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then(response => response.json())
-    .then(cnt => {
-      if (cnt == 0) {
-        document.querySelector('.nickname_ok').style.display = 'inline-block';
-        document.querySelector('.nickname_already').style.display = 'none';
-      } else {
-        document.querySelector('.nickname_already').style.display = 'inline-block';
-        document.querySelector('.nickname_ok').style.display = 'none';
-        alert("닉네임을 다시 입력해주세요");
-        document.getElementById('f-nickname').value = '';
-      }
-    })
-    .catch(error => {
-      console.error(error);
-      alert("에러입니다");
-    });
-};
 
 
 
@@ -105,6 +119,7 @@ function checkNickname() {
                 <td><input id="f-email" type="email" name="email" className="email" placeholder="email 형식으로 입력해주세요." onInput={checkEmail} />
                   <span className="email_ok">사용 가능한 아이디입니다.</span>
                   <span className="email_already">누군가 이 아이디를 사용하고 있어요.</span>
+                  <span className="email_no">올바른 이메일 형식이 아닙니다.</span>
                 </td>
               </tr>
               <tr>

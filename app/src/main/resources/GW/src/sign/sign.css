@@ -87,6 +87,11 @@ tr {
   display: none;
 }
 
+.email_no {
+  color:#ff0080;
+  display: none;
+}
+
 .password {
 	width: 300px;
 	height: 40px;
