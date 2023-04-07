@@ -9,6 +9,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Board from "./Board/Board";
 import Form from "./Form/Form";
 import FormComm from "./FormComm/FormComm";
+import View from "./View/View";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/Board" element={<Board />} />
           <Route path="/Form" element={<Form />} />
           <Route path="/FormComm" element={<FormComm />} />
+          <Route path="/View" element={<View />} />
         </Routes>
 
         <Footer />
