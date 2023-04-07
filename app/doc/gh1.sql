@@ -102,7 +102,7 @@ ALTER TABLE gh_comment
 CREATE TABLE gh_board (
   board_id      INTEGER      NOT NULL COMMENT '게시글번호', -- 게시글번호
   board_type_id INTEGER      NOT NULL COMMENT '게시판유형번호', -- 게시판유형번호
-  member_id     INTEGER      NOT NULL COMMENT '회원번호', -- 회원번호
+  writer        INTEGER      NOT NULL COMMENT '회원번호', -- 회원번호
   title         VARCHAR(100) NOT NULL COMMENT '게시글명', -- 게시글명
   content       LONGTEXT     NOT NULL COMMENT '게시글내용', -- 게시글내용
   created_date  DATETIME     NOT NULL DEFAULT now() COMMENT '등록일', -- 등록일
@@ -126,6 +126,10 @@ CREATE INDEX IX_gh_board
 
 ALTER TABLE gh_board
   MODIFY COLUMN board_id INTEGER NOT NULL AUTO_INCREMENT COMMENT '게시글번호';
+  
+--ALTER table gh_board
+--  add column writer int,
+--  add constraint app_board_fk foreign key (writer) references app_member(member_id); // Foreign키값 밑에 있으나 혹시 안된다면 이걸로 ALTER해서 member_id값 writer로 받기
 
 -- 신고
 CREATE TABLE gh_report (
@@ -343,7 +347,7 @@ ALTER TABLE gh_comment
 ALTER TABLE gh_board
   ADD CONSTRAINT FK_gh_member_TO_gh_board -- 회원 -> 게시글
   FOREIGN KEY (
-  member_id -- 회원번호
+  writer -- 회원번호
   )
   REFERENCES gh_member ( -- 회원
   member_id -- 회원번호
