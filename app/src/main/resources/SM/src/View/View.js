@@ -26,6 +26,8 @@ const View = () => {
       });
   }, [no]);
 
+  //   console.log(setContent);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -34,11 +36,29 @@ const View = () => {
     return <div>Error: {error.message}</div>;
   }
 
+  let boardTypeValue = () => {
+    switch (content.data.boardTypeId) {
+      case 0:
+        return "자유";
+      case 1:
+        return "Q & A";
+      case 2:
+        return "맛집&이색카페";
+      case 3:
+        return "여행 정보";
+      case 4:
+        return "여행 동행";
+
+      default:
+        break;
+    }
+  };
+
   return (
     <div className="view-main">
       <section>
         <header>
-          <div className="view-head-cate">카테고리명</div>
+          <div className="view-head-cate">{boardTypeValue()}</div>
           <div className="view-content-wrap">
             <div className="view-content-head">
               <h3 className="view-content-title">{content.data?.title}</h3>
