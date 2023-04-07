@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./view.css";
 
@@ -9,24 +9,32 @@ const View = () => {
   const [content, setContent] = useState({ data: null });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const prevNoRef = useRef(null);
 
   useEffect(() => {
-    axios({
-      method: "GET",
-      url: baseUrl + `/web/boards/${no}`,
-      withCredentials: true,
-    })
-      .then((response) => {
-        setContent(response.data);
-        setIsLoading(false);
+    if (prevNoRef.current !== no) {
+      // 현재 no와 이전 no가 다를 경우에만 API 요청을 보냅니다.
+      axios({
+        method: "GET",
+        url: baseUrl + `/web/boards/${no}`,
+        cache: true,
+        withCredentials: true,
       })
-      .catch((error) => {
-        setIsLoading(false);
-        setError(error);
-      });
+        .then((response) => {
+          setContent(response.data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          setIsLoading(false);
+          setError(error);
+        });
+      prevNoRef.current = no; // 현재 no를 이전 no로 저장합니다.
+    } else {
+      setIsLoading(false); // 현재 no와 이전 no가 동일하다면 로딩을 종료합니다.
+    }
   }, [no]);
 
-  //   console.log(setContent);
+  //   console.log(content.data);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -36,8 +44,8 @@ const View = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  let boardTypeValue = () => {
-    switch (content.data.boardTypeId) {
+  const boardTypeValue = () => {
+    switch (content.data?.boardTypeId) {
       case 0:
         return "자유";
       case 1:

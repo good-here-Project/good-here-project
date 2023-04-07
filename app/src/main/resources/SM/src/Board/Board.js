@@ -41,9 +41,7 @@ const Board = () => {
       </div>
       <div className="board-cate">
         <ul className="board-list">
-          <Link to="/View">
-            <li>자유</li>
-          </Link>
+          <li>자유</li>
           <li>Q&A</li>
           <li>맛집&이색카페</li>
           <li>여행 정보</li>
