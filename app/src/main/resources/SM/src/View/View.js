@@ -92,6 +92,10 @@ const View = () => {
               </div>
             </div>
           </div>
+          <div className="view-content-bottom">
+            <button>수정</button>
+            <button>삭제</button>
+          </div>
         </header>
       </section>
     </div>

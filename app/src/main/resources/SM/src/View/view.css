@@ -13,7 +13,7 @@
 
 .view-content-wrap {
   /* border: 1px solid red; */
-  height: 720px;
+  min-height: 560px;
 }
 
 .view-content-head {
@@ -70,4 +70,17 @@
 
 .view-content-write p {
   text-align: left;
+}
+
+.view-content-bottom {
+  border-top: 3px solid black;
+  height: 60px;
+}
+
+.view-content-bottom button {
+  margin: 10px 5px 10px 0;
+  border: none;
+  float: right;
+  width: 80px;
+  height: 40px;
 }
