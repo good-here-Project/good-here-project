@@ -1,7 +1,10 @@
 import axios from "axios";
 import { useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./view.css";
+
+// const navigate = useNavigate();
 
 const View = () => {
   const baseUrl = "http://localhost";
@@ -93,8 +96,11 @@ const View = () => {
             </div>
           </div>
           <div className="view-content-bottom">
-            <button>수정</button>
             <button>삭제</button>
+            <Link to={`/FormUpdate/${content.data?.no}`}>
+              <button>수정</button>
+            </Link>
+            <button>목록</button>
           </div>
         </header>
       </section>
