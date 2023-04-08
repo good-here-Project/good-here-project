@@ -17,7 +17,7 @@ const FormUpdate = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const prevNoRef = useRef(null);
-  const [setIsSubmitting] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleTitleChange = (event) => {
     setContent((prevState) => ({
