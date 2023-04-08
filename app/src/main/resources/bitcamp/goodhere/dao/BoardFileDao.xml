@@ -13,7 +13,7 @@
   </resultMap>
 
   <insert id="insert" parameterType="boardfile">
-    insert into gh_board_file(filepath, origin_filename, mime_type, board_id) 
+    insert into gh_boardfile(filepath, origin_filename, mime_type, board_id) 
     values(#{filepath}, #{originalFilename}, #{mimeType}, #{boardNo})
   </insert>
   
@@ -21,7 +21,7 @@
        foreach 태그의 collection 속성에 사용할 수 있는 파라미터 이름은 
        list 또는 collection 이 가능하다.  -->
   <insert id="insertList">
-    insert into gh_board_file(filepath, origin_filename, mime_type, board_id) 
+    insert into gh_boardfile(filepath, origin_filename, mime_type, board_id) 
     values
     <foreach collection="list" item="file" separator=",">
       (#{file.filepath}, #{file.originalFilename}, #{file.mimeType}, #{file.boardNo})
@@ -36,7 +36,7 @@
       mime_type,
       board_id
     from 
-      gh_board_file
+      gh_boardfile
     where 
       board_id = ${no}
     order by 
@@ -51,18 +51,18 @@
       mime_type,
       board_id
     from 
-      gh_board_file
+      gh_boardfile
     where 
       boardfile_id = ${no}
   </select>
   
   <delete id="delete" parameterType="int">
-    delete from gh_board_file 
+    delete from gh_boardfile 
     where boardfile_id=#{no}
   </delete>
   
   <delete id="deleteOfBoard" parameterType="int">
-    delete from gh_board_file 
+    delete from gh_boardfile 
     where board_id=#{no}
   </delete>
 </mapper>

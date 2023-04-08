@@ -12,7 +12,23 @@ const View = () => {
   const [content, setContent] = useState({ data: null });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
   const prevNoRef = useRef(null);
+
+  const handleDelete = () => {
+    axios({
+      method: "DELETE",
+      url: baseUrl + `/web/boards/${no}`,
+      withCredentials: true,
+    })
+      .then(() => {
+        // 삭제 요청이 성공하면 목록 페이지로 이동합니다.
+        navigate("/board");
+      })
+      .catch((error) => {
+        setError(error);
+      });
+  };
 
   useEffect(() => {
     if (prevNoRef.current !== no) {
@@ -96,7 +112,7 @@ const View = () => {
             </div>
           </div>
           <div className="view-content-bottom">
-            <button>삭제</button>
+            <button onClick={handleDelete}>삭제</button>
             <Link to={`/FormUpdate/${content.data?.no}`}>
               <button>수정</button>
             </Link>
