@@ -44,6 +44,7 @@ const View = () => {
     return <div>Error: {error.message}</div>;
   }
 
+  console.log(content.data?.boardTypeId);
   const boardTypeValue = () => {
     switch (content.data?.boardTypeId) {
       case 0:

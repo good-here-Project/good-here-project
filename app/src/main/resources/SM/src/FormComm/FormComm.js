@@ -4,7 +4,6 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-// import "bootstrap/dist/css/bootstrap.min.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -14,6 +13,7 @@ const FormComm = () => {
   const handleInsert = () => {
     const form = document.querySelector("#board-form");
     const formData = new FormData(form);
+    console.log(formData);
 
     const baseUrl = "http://localhost";
 
