@@ -64,6 +64,7 @@
 	width: 300px;
 	height: 40px;
 	border-radius: 5px;
+	border: 1px solid;
 	border-color: lightgray;
 }
 
@@ -79,10 +80,15 @@
 	width: 300px;
 	height: 350px;
 	border-radius: 5px;
+	border: 1px solid;
 	border-color: lightgray;
 }
 
 input::placeholder {
+	font-size: 15px;
+}
+
+textarea::placeholder {
 	font-size: 15px;
 }
 

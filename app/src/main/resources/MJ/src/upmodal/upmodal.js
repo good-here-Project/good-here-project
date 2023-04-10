@@ -20,7 +20,7 @@ function UPModal(props) {
 			return response;
 		})
 		.then(result => {
-			// console.log(result.status);
+			// console.log(result);
 			if (result.status == '200') {
 				window.location.href='./';
 			} else if (result.errorCode == '401') {
@@ -58,7 +58,7 @@ function UPModal(props) {
 								</div>
 							</div>
 						</div>
-						<form className='upmodal-text' method='post' enctype="multipart/form-data" value='1'>
+						<form className='upmodal-text' method='post' enctype="multipart/form-data">
 							<div className='upmodal-text-title'>
 								<p>Title</p>
 								<input type='text' className='text-title' placeholder='Input Title' name='title'></input>
