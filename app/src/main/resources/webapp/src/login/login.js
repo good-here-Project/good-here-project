@@ -10,7 +10,7 @@ function Login() {
 		const form = document.querySelector('#login-form');
 		const formData = new FormData(form);
 		
-		axios.post('http://localhost:8080/web/auth/login', formData)
+		axios.post('http://localhost/web/auth/login', formData)
         .then(response => {
             // console.log(response.data.status);
             if (response.data.status === 'success') {

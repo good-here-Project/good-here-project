@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import './main.css';
 import HModal from "../hmodal/hmodal";
+import { ReactDOM } from "react";
 
 function Main() {
 
@@ -84,8 +85,10 @@ function Main() {
                                 </div>
                             </div>
                             <div className="text-footer-footer">
-                                <input type="text" className="comment-input-text"></input>
-                                <button type="button" className="hotplace-comment-btn">입 력</button>
+                                <form>
+                                    <input type="text" className="comment-input-text"/>
+                                    <button type="button" className="hotplace-comment-btn">입 력</button>
+                                </form>
                             </div>
                         </div>
                     </div>

@@ -87,6 +87,11 @@ tr {
   display: none;
 }
 
+.email_no {
+  color:#ff0080;
+  display: none;
+}
+
 .password {
 	width: 300px;
 	height: 40px;
@@ -99,6 +104,11 @@ tr {
 	margin-left: 8px;
 	font-size: 12px;
 	font-weight: 200;
+}
+
+.password_ok {
+  color:#008000;
+  display: none;
 }
 
 .name {
