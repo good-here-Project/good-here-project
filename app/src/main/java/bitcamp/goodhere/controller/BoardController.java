@@ -50,6 +50,8 @@ public class BoardController {
 
     Member loginUser = (Member) session.getAttribute("loginUser");
 
+    System.out.println(loginUser);
+
     Member writer = new Member();
     writer.setNo(loginUser.getNo());
     board.setWriter(writer);

@@ -113,7 +113,6 @@ function Header() {
 
           <UPModal isOpen={isUpModalOpen} onClose={handleUpModalClose}>
             <div className="upmoal-main">
-
             </div>
           </UPModal>
       </div>

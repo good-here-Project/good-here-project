@@ -353,7 +353,7 @@ ALTER TABLE gh_board
   member_id -- 회원번호
   );
 
--- 게시글
+ 게시글
 ALTER TABLE gh_board
   ADD CONSTRAINT FK_gh_board_type_TO_gh_board -- 게시판유형 -> 게시글
   FOREIGN KEY (

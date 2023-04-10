@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './upmodal.css';
+import axios from 'axios';
+axios.defaults.withCredentials = true;
 
 function UPModal(props) {
   const { isOpen, onClose, children } = props;
@@ -7,6 +9,32 @@ function UPModal(props) {
   if (!isOpen) {
     return null;
   }
+
+	function insert() {
+		const form = document.querySelector('.upmodal-text');
+  	const formData = new FormData(form);
+  
+		axios.post("http://localhost/web/boards", formData)
+		.then(response => {
+			// console.log(response);
+			return response;
+		})
+		.then(result => {
+			// console.log(result.status);
+			if (result.status == '200') {
+				window.location.href='./';
+			} else if (result.errorCode == '401') {
+				// location.href = '../auth/form.html';
+			} else {
+				alert('입력 실패!');
+			}
+		})
+		.catch(exception => {
+			alert("입력 오류!");
+			console.log(exception);
+		});
+  
+	}
 
   return (
     <div className="upmodal-background" onClick={e => {
@@ -30,18 +58,19 @@ function UPModal(props) {
 								</div>
 							</div>
 						</div>
-						<div className='upmodal-text'>
+						<form className='upmodal-text' method='post' enctype="multipart/form-data" value='1'>
 							<div className='upmodal-text-title'>
 								<p>Title</p>
-								<input type='text' className='text-title' placeholder='Input Title'></input>
+								<input type='text' className='text-title' placeholder='Input Title' name='title'></input>
 							</div>
 							<div className='upmodal-text-message'>
 								<p>Message</p>
-								<input type='text' className='text-message' placeholder='Input your Message'></input>
+								<textarea type='content' className='text-message' placeholder='Input your Message' name='content'></textarea>
+								<input type="file" name='files' multiple className='input-file'></input>
 							</div>
 							<button className='upmodal-text-cancel-btn' onClick={onClose}>Cancel</button>
-							<button className='upmodal-text-create-btn'>Create</button>
-						</div>
+							<button type='button' className='upmodal-text-create-btn' onClick={insert}>Create</button>
+						</form>
 					</div>
         </div>
       </div>
