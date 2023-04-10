@@ -60,8 +60,8 @@ public class AuthController {
   @RequestMapping("user")
   public Object user(HttpSession session) {
     Member loginUser = (Member) session.getAttribute("loginUser");
-    //    System.out.println(session);
-    //    System.out.println(loginUser);
+    System.out.println(session);
+    System.out.println(loginUser);
     if (loginUser != null) {
       return new RestResult()
           .setStatus(RestStatus.SUCCESS)

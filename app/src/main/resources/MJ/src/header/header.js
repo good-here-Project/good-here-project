@@ -3,12 +3,15 @@ import './header.css';
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Modal from "../modal/modal";
+import UPModal from "../upmodal/upmodal";
 
 axios.defaults.withCredentials = true;
 
 function Header() {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [isUpModalOpen, setIsUpModalOpen] = useState(false);
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -18,7 +21,15 @@ function Header() {
     setIsModalOpen(false);
   };
 
-  axios.get("http://localhost:8080/web/auth/user")
+  const handleUpModalOpen = () => {
+    setIsUpModalOpen(true);
+  };
+
+  const handleUpModalClose = () => {
+    setIsUpModalOpen(false);
+  };
+
+  axios.get("http://localhost/web/auth/user")
   .then((response) => {
     // console.log(response.data);
     return response.data;
@@ -40,7 +51,7 @@ function Header() {
   });
 
   function logout() {
-    axios("http://localhost:8080/web/auth/logout")
+    axios("http://localhost/web/auth/logout")
       .then((response) => {
         return response.data;
       })
@@ -75,10 +86,17 @@ function Header() {
               <Link to='/Login' style={{ textDecoration: "none" }}><li className="login" id="login">Connect</li></Link>
               <div>
                 <li className="upload" id="upload" onClick={handleModalOpen}>Upload</li>
+              </div>
+              <li className="logout" id="logout">
+              <a onClick={logout}>
+                  로그아웃(<span id="nickname"></span>)</a>
+              </li>
+            </ul>
+          </div>
 
-                <Modal isOpen={isModalOpen} onClose={handleModalClose}>
+          <Modal isOpen={isModalOpen} onClose={handleModalClose}>
                 <div className="modal-main">
-                  <div className="modal-hotplace">
+                  <div className="modal-hotplace" onClick={handleUpModalOpen}>
                     <img src='img/hotplace.png'></img>
                     <p>Hot 플레이스 업로드</p>
                   </div>
@@ -91,15 +109,13 @@ function Header() {
                   허위 정보나 불법적 내용 혹은 도배성 게시물은<br/>
                   관리자에 의해 삭제될 수 있습니다.
                 </div>
-                </Modal>
+          </Modal>
 
-              </div>
-              <li className="logout" id="logout">
-              <a onClick={logout}>
-                  로그아웃(<span id="nickname"></span>)</a>
-              </li>
-            </ul>
-          </div>
+          <UPModal isOpen={isUpModalOpen} onClose={handleUpModalClose}>
+            <div className="upmoal-main">
+
+            </div>
+          </UPModal>
       </div>
     );
   }

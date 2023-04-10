@@ -9,7 +9,7 @@ function Sign() {
 
     let json = JSON.stringify(Object.fromEntries(formData));
     // console.log(json);
-    fetch("http://localhost:8080/web/members", {
+    fetch("http://localhost/web/members", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -22,7 +22,7 @@ function Sign() {
       })
       .then((result) => {
         if (result.status == "success") {
-          window.location.href = '../';
+          window.location.href='./';
         } else {
           alert("입력 실패!");
           console.log(result.data);
@@ -37,7 +37,7 @@ function Sign() {
   function checkEmail() {
     const email = document.querySelector('#f-email').value; //id값이 "f-email"인 입력란의 값을 저장
 
-    fetch("http://localhost:8080/web/members/emailCheck?email=" + email, {
+    fetch("http://localhost/web/members/emailCheck?email=" + email, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +64,7 @@ function Sign() {
 function checkNickname() {
   const nickname = document.querySelector('#f-nickname').value;
 
-  fetch("http://localhost:8080/web/members/nickCheck?nickname=" + nickname, {
+  fetch("http://localhost/web/members/nickCheck?nickname=" + nickname, {
     method: 'GET',
     headers: {
       "Content-Type": "application/json",
