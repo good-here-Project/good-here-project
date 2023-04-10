@@ -6,7 +6,7 @@ axios.defaults.withCredentials = true;
 
 function Header() {
 
-  axios.get("http://localhost:8080/web/auth/user")
+  axios.get("http://localhost/web/auth/user")
   .then((response) => {
     // console.log(response.data);
     return response.data;
@@ -27,7 +27,7 @@ function Header() {
   });
 
   function logout() {
-    axios("http://localhost:8080/web/auth/logout")
+    axios("http://localhost/web/auth/logout")
       .then((response) => {
         return response.data;
       })

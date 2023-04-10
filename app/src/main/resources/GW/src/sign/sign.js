@@ -10,7 +10,7 @@ function Sign() {
 
     let json = JSON.stringify(Object.fromEntries(formData));
     // console.log(json);
-    fetch("http://localhost:8080/web/members", {
+    fetch("http://localhost/web/members", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +47,7 @@ function Sign() {
       return;
     } else {
       
-      fetch("http://localhost:8080/web/members/emailCheck?email=" + email, {
+      fetch("http://localhost/web/members/emailCheck?email=" + email, {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
@@ -74,11 +74,37 @@ function Sign() {
     };
   };
 
+
+function chkPW() {
+  var pw = document.getElementsByName("password")[0].value;
+  var num = pw.search(/[0-9]/g);
+  var eng = pw.search(/[a-z]/ig);
+  var spe = pw.search(/[`~!@@#$%^&*|₩₩₩'₩";:₩/?]/gi);
+
+  if (pw.length < 6 || pw.length > 18) {
+    alert("6자리 ~ 18자리 이내로 입력해주세요.");
+    document.getElementById('f-password').value = '';
+    return false;
+  } else if (pw.search(/\s/) != -1) {
+    alert("비밀번호는 공백 없이 입력해주세요.");
+    document.getElementById('f-password').value = '';
+    return false;
+  } else if (num < 0 || eng < 0 || spe < 0) {
+    alert("영문,숫자, 특수문자를 혼합하여 입력해주세요.");
+    document.getElementById('f-password').value = '';
+    return false;
+  } else {
+    console.log("비밀번호 형식이 맞습니다.");
+    return true;
+  }
+}
+
+
 //----------------------------------닉네임체크--------------------------------------------
   function checkNickname() {
     const nickname = document.querySelector('#f-nickname').value;
 
-    fetch("http://localhost:8080/web/members/nickCheck?nickname=" + nickname, {
+    fetch("http://localhost/web/members/nickCheck?nickname=" + nickname, {
       method: 'GET',
       headers: {
         "Content-Type": "application/json",
@@ -124,7 +150,7 @@ function Sign() {
               </tr>
               <tr>
                 <th className="password-th">비밀번호</th>
-                <td><input type="password" name="password" className="password" /></td>
+                <td><input id="f-password" type="password" name="password" className="password" onBlur={chkPW} /></td>
               </tr>
               <tr>
                 <th className="name-th">성함</th>

@@ -2,7 +2,7 @@ INSERT INTO gh_member (email, pwd, name, tel, state, auth, nickname, introduce, 
 VALUES 
 ('test1@test.com', '1111', '홍길동1', '010-1111-1111', 1, 1, '길동1', '안녕1', 'john_smith.jpg'),
 ('test2@test.com', '1111', '홍길동2', '010-1111-1111', 1, 1, '길동2', '안녕2', 'jane_doe.jpg'),
-('admin@test.com', '1111', 'admin1', '010-1111-1111', 1, 1, '길동2', '안녕2', 'jane_doe.jpg');
+('admin@test.com', '1111', 'admin1', '010-1111-1111', 1, 1, '길동3', '안녕2', 'jane_doe.jpg');
 
 INSERT INTO gh_board_type(board_type_id, name)
 VALUES
