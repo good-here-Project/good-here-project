@@ -29,15 +29,15 @@ function Main() {
                     {data.map((item) => (
                     <li key={item.no}>
                         <div>
-                        <span>번호: {item.no}</span>
-                        <span>작성자: {item.writer.name}</span>
-                        <span>작성일: {item.createdDate}</span>
-                        <span>조회수: {item.viewCount}</span>
+                            <span>번호: {item.no}</span>
+                            <span>작성자: {item.writer.name}</span>
+                            <span>작성일: {item.createdDate}</span>
+                            <span>조회수: {item.viewCount}</span>
                         </div>
                         <div>
-                        <a href={`view.html?no=${item.no}`}>
-                            {item.title ? item.title : '제목없음'}
-                        </a>
+                            <a href={`view.html?no=${item.no}`}>
+                                {item.title ? item.title : '제목없음'}
+                            </a>
                         </div>
                     </li>
                     ))}
