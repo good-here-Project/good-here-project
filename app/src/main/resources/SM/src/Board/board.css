@@ -35,10 +35,13 @@ table {
   background-color: #f3f6f9;
 }
 
+.board-body tr {
+  border: solid 0.5px rgb(230, 225, 225);
+}
+
 .board-body td {
-  height: 50px;
-  text-align: left;
-  border: solid 0.5px gray;
+  height: 24px;
+  text-align: center;
 }
 
 ._1-iJ {

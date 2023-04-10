@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./App.css";
 import Header from "./header/header";
 import Main from "./main/main";
@@ -13,6 +13,8 @@ import FormUpdate from "./FormUpdate/FormUpdate";
 import View from "./View/View";
 
 function App() {
+  // const [file, setFile] = useState(null);
+
   return (
     <BrowserRouter>
       <div className="App">
@@ -27,7 +29,12 @@ function App() {
           <Route path="/Form" element={<Form />} />
           <Route path="/FormComm" element={<FormComm />} />
           <Route path="/View/:no" element={<View />} />
-          <Route path="/FormUpdate/:no" element={<FormUpdate />} />
+          <Route
+            path="/FormUpdate/:no"
+            element={<FormUpdate />}
+            // file={file}
+            // setFile={setFile}
+          />
         </Routes>
 
         <Footer />

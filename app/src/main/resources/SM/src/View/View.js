@@ -1,4 +1,5 @@
 import axios from "axios";
+import React from "react";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -18,7 +19,7 @@ const View = () => {
   const handleDelete = () => {
     axios({
       method: "DELETE",
-      url: baseUrl + `/web/boards/${no}`,
+      url: `${baseUrl}/web/boards/${no}`,
       withCredentials: true,
     })
       .then(() => {
@@ -30,16 +31,22 @@ const View = () => {
       });
   };
 
+  // 이미지 파일 URL 생성 함수
+  const getImageUrl = (filepath) => {
+    return `${filepath}`;
+  };
+
   useEffect(() => {
     if (prevNoRef.current !== no) {
       // 현재 no와 이전 no가 다를 경우에만 API 요청을 보냅니다.
       axios({
         method: "GET",
-        url: baseUrl + `/web/boards/${no}`,
+        url: `${baseUrl}/web/boards/${no}`,
         cache: true,
         withCredentials: true,
       })
         .then((response) => {
+          console.log(response);
           setContent(response.data);
           setIsLoading(false);
         })
@@ -53,7 +60,7 @@ const View = () => {
     }
   }, [no]);
 
-  //   console.log(content.data);
+  console.log(content.data);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -63,7 +70,10 @@ const View = () => {
     return <div>Error: {error.message}</div>;
   }
 
-  console.log(content.data?.boardTypeId);
+  const handleBoard = () => {
+    navigate("/board");
+  };
+
   const boardTypeValue = () => {
     switch (content.data?.boardTypeId) {
       case 0:
@@ -107,7 +117,28 @@ const View = () => {
             </div>
             <div className="view-content-body">
               <div className="view-content-write">
-                <p>{content.data?.content}</p>
+                {content.data?.attachedFiles &&
+                  content.data.attachedFiles.map((file) => {
+                    if (file.filepath !== null) {
+                      return (
+                        <div key={file.no}>
+                          <img
+                            src={getImageUrl(file.filepath)}
+                            alt={file.originalFilename}
+                          />
+                        </div>
+                      );
+                    }
+                    return null;
+                  })}
+                {content.data?.content.split("\n").map((line, index) => {
+                  return (
+                    <React.Fragment key={index}>
+                      <span style={{ fontSize: "20px" }}>{line}</span>
+                      <br />
+                    </React.Fragment>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -116,7 +147,7 @@ const View = () => {
             <Link to={`/FormUpdate/${content.data?.no}`}>
               <button>수정</button>
             </Link>
-            <button>목록</button>
+            <button onClick={handleBoard}>목록</button>
           </div>
         </header>
       </section>

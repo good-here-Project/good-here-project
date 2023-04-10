@@ -31,7 +31,7 @@ const FormComm = () => {
         return response.json();
       })
       .then((result) => {
-        console.log(result);
+        console.log(result.status);
         if (result.status === "success") {
           navigate("/board");
           console.log("success");

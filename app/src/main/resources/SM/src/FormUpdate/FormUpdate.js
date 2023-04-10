@@ -5,19 +5,19 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Link } from "react-router-dom";
-// import "./view.css";
 
-// const navigate = useNavigate();
-
-const FormUpdate = () => {
+const FormUpdate = (props) => {
   const baseUrl = "http://localhost";
   const { no } = useParams();
-  const [content, setContent] = useState({ data: null });
+  const [content, setContent] = useState({
+    data: { boardTypeId: "", title: "", content: "" },
+  });
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const prevNoRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [fileList, setFileList] = useState([]);
+  // const { file, setFile } = props;
 
   const handleTitleChange = (event) => {
     setContent((prevState) => ({
@@ -49,6 +49,22 @@ const FormUpdate = () => {
     }));
   };
 
+  const handleFileChange = (event) => {
+    const files = event.target.files;
+    const newFileList = [...fileList];
+    for (let i = 0; i < files.length; i++) {
+      newFileList.push(files[i]);
+    }
+    setFileList(newFileList);
+  };
+
+  const removeFile = (index) => {
+    if (fileList.length === 0) return;
+    const newFileList = [...fileList];
+    newFileList.splice(index, 1);
+    setFileList(newFileList);
+  };
+
   useEffect(() => {
     if (prevNoRef.current !== no) {
       axios({
@@ -70,6 +86,40 @@ const FormUpdate = () => {
       setIsLoading(false);
     }
   }, [no]);
+
+  function deleteFile(boardNo, fileNo) {
+    axios
+      .delete(baseUrl + `/web/boards/${boardNo}/files/${fileNo}`, {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((response) => {
+        if (response.status === 200 && response.data.status === "success") {
+          let li =
+            document.querySelector("#li-" + fileNo) &&
+            document.querySelector("#li-" + fileNo);
+          let form = document.querySelector("#form-f-flies");
+          form && form.removeChild(li);
+          let updatedFileList = content.data.attachedFiles.filter(
+            (file) => file.no !== fileNo
+          );
+          setContent({
+            ...content,
+            data: { ...content.data, attachedFiles: updatedFileList },
+          });
+        } else {
+          throw new Error(
+            "HTTP error, status = " + response.status + ", " + response.data.msg
+          );
+        }
+      })
+      .catch((error) => {
+        alert("파일 삭제 중 오류 발생!");
+        console.error(error);
+      });
+  }
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -143,8 +193,44 @@ const FormUpdate = () => {
 
                 <Form.Group controlId="formFileMultiple" className="mb-3">
                   <Form.Label>파일 업로드</Form.Label>
-                  <Form.Control name="files" type="file" multiple />
+                  <Form.Control
+                    name="files"
+                    type="file"
+                    multiple
+                    onChange={handleFileChange}
+                  />
                 </Form.Group>
+
+                {/* 기존 fileList */}
+                {fileList.map((file, index) => (
+                  <div key={index}>
+                    <span>{file.name}</span>
+                    <button onClick={() => removeFile(index)}>삭제</button>
+                  </div>
+                ))}
+
+                <div className="form-f-flies">
+                  {content.data.attachedFiles &&
+                    content.data.attachedFiles.map(
+                      (file) =>
+                        file.filepath !== null && (
+                          <li key={file.no} id={`li-${file.no}`}>
+                            <a
+                              href={`https://kr.object.ncloudstorage.com/bitcamp-bucket11-member-photo/${file.filepath}`}
+                            >
+                              {file.originalFilename}
+                            </a>
+                            <button
+                              onClick={() =>
+                                deleteFile(content.data.no, file.no)
+                              }
+                            >
+                              삭제
+                            </button>
+                          </li>
+                        )
+                    )}
+                </div>
 
                 <Form.Group
                   className="mb-3"

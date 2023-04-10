@@ -70,7 +70,7 @@ const Board = () => {
               <tr key={post.no}>
                 <td>{post.no}</td>
                 <Link to={`/view/${post.no}`}>
-                  <td>{post.title}</td>
+                  <td style={{ textAlign: "left" }}>{post.title}</td>
                 </Link>
                 <td>{post.writer.nickname}</td>
                 <td>{post.viewCount}</td>
