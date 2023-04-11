@@ -27,18 +27,16 @@ function HModal(props) {
     return null;
   }
 
-  fetch("http://localhost/web/boards/" + isNo)
+  axios.get(`http://localhost/web/boards/${isNo}`)
   .then(response => {
-    return response.json();
-  })
-  .then(result => {
-    if (result.status == 'failure') {
+    const result = response.data;
+    if (result.status === 'failure') {
       alert('게시글을 조회할 수 없습니다.');
       // location.href = "list.html";
       return;
     }
     
-    let board = result.data;
+    const board = result.data;
     //console.log(board);
     // document.querySelector("input[name='no']").value = board.no;
     document.querySelector("input[name='title']").value = board.title;
@@ -49,7 +47,7 @@ function HModal(props) {
     
     let ul = "";
     board.attachedFiles.forEach(file => {
-      console.log(file);
+      // console.log(file);
       if (file.no == 0) return;
       let html = `
         <li id="li-${file.no}">
@@ -61,23 +59,24 @@ function HModal(props) {
     document.querySelector("#f-files").innerHTML = ul;
     
     checkOwner(board.writer.no);
-  });
+  })
+  .catch(error => console.error(error));
 
   function checkOwner(writerNo) {
-    axios.get("http://localhost/web/auth/user")
-    .then(response => {
-      console.log(response.data);
-      if (response.data.status === 'success') {
-        if (response.data.data.no === writerNo) {
-          document.querySelector('#btn-update').classList.remove('guest');
-          document.querySelector('#btn-delete').classList.remove('guest');
+      axios.get("http://localhost/web/auth/user")
+      .then(response => {
+        // console.log(response.data);
+        if (response.data.status === 'success') {
+          if (response.data.data.no === writerNo) {
+            document.querySelector('#btn-update').classList.remove('guest');
+            document.querySelector('#btn-delete').classList.remove('guest');
+          }
         }
-      }
-    })
-    .catch(error => {
-      alert("로그인 사용자 정보 조회 중 오류 발생!");
-      console.log(error);
-    });
+      })
+      .catch(error => {
+        alert("로그인 사용자 정보 조회 중 오류 발생!");
+        console.log(error);
+      });
     }
 
     function updateBtn() {
@@ -86,7 +85,7 @@ function HModal(props) {
       
       axios.put("http://localhost/web/boards/" + isNo, formData)
         .then(response => {
-        console.log(response.data);
+        // console.log(response.data);
         if (response.data.status === 'success') {
         window.location.href='./';
         } else {
@@ -102,7 +101,7 @@ function HModal(props) {
     function deleteBtn() {
       axios.delete("http://localhost/web/boards/" + isNo)
         .then(response => {
-        console.log(response.data);
+        // console.log(response.data);
         if (response.data.status === 'success') {
         window.location.href='./';
         } else {
@@ -126,7 +125,6 @@ function HModal(props) {
     }}>
       <div className="hmodal-overlay">
         <div className="hmodal">
-          <div className="hmodal-content">
           <form id='board-form' action='update' method='post' enctype="multipart/form-data">
             <div className='hmodal-view'>
               <div className='hmodal-view-file'>
@@ -178,7 +176,6 @@ function HModal(props) {
             </div>
           </form>
           </div>
-        </div>
       </div>
     </div>
   );
