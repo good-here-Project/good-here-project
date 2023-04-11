@@ -186,3 +186,7 @@
 	color: white;
 	background: linear-gradient(101.12deg, #eb1484 27.35%, #c91cc3 99.99%, #c81cc5 100%, #c81cc5 100%);
 }
+
+.guest {
+	display: none;
+}
