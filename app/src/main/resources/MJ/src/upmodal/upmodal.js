@@ -13,6 +13,8 @@ function UPModal(props) {
 	function insert() {
 		const form = document.querySelector('.upmodal-text');
   	const formData = new FormData(form);
+
+		formData.append('boardTypeId', '1');
   
 		axios.post("http://localhost/web/boards", formData)
 		.then(response => {
