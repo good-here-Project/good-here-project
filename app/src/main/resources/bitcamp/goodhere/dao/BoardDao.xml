@@ -60,7 +60,7 @@
       b.title, 
       b.content,
       b.writer, 
-      (select name from gh_member where member_id = b.writer) name, 
+      (select nickname from gh_member where member_id = b.writer) nickname, 
       b.created_date, 
       b.view_cnt,
       bf.boardfile_id,

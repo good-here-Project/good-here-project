@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 import './hmodal.css';
 import axios from 'axios';
 
@@ -7,6 +8,19 @@ axios.defaults.withCredentials = true;
 function HModal(props) {
   const { isOpen, onClose, isNo } = props;
   
+  const [image, setImage] = useState('img/heart.png');
+  const [prevImage, setPrevImage] = useState('');
+
+  function handleClick() {
+    if (image === 'img/heart.png') {
+      setPrevImage('img/heart.png');
+      setImage('img/colorheart.png');
+    } else {
+      setImage(prevImage);
+      setPrevImage('');
+    }
+  }
+
   console.log(isNo);
 
   if (!isOpen) {
@@ -26,12 +40,12 @@ function HModal(props) {
     
     let board = result.data;
     //console.log(board);
-    document.querySelector("input[name='no']").value = board.no;
+    // document.querySelector("input[name='no']").value = board.no;
     document.querySelector("input[name='title']").value = board.title;
-    document.querySelector("textarea[name='content']").value = board.content;
-    document.querySelector("#f-writer-name").innerHTML = board.writer.name;
     document.querySelector("#f-created-date").innerHTML = board.createdDate;
-    document.querySelector("#f-view-count").innerHTML = board.viewCount;
+    document.querySelector("#f-writer-name").innerHTML = board.writer.nickname;
+    document.querySelector("textarea[name='content']").value = board.content;
+    // document.querySelector("#f-view-count").innerHTML = board.viewCount;
     
     let ul = "";
     board.attachedFiles.forEach(file => {
@@ -52,7 +66,7 @@ function HModal(props) {
   function checkOwner(writerNo) {
     axios.get("http://localhost/web/auth/user")
     .then(response => {
-    console.log(response.data);
+      console.log(response.data);
       if (response.data.status === 'success') {
         if (response.data.data.no === writerNo) {
           document.querySelector('#btn-update').classList.remove('guest');
@@ -61,8 +75,8 @@ function HModal(props) {
       }
     })
     .catch(error => {
-    alert("로그인 사용자 정보 조회 중 오류 발생!");
-    console.log(error);
+      alert("로그인 사용자 정보 조회 중 오류 발생!");
+      console.log(error);
     });
     }
 
@@ -114,44 +128,54 @@ function HModal(props) {
         <div className="hmodal">
           <div className="hmodal-content">
           <form id='board-form' action='update' method='post' enctype="multipart/form-data">
-          <table border='1'>
-          <tr>
-            <th>번호</th>
-            <td><input type='text' name='no' readonly/></td>
-          </tr>
-          <tr>
-            <th>제목</th>
-            <td><input type='text' name='title'/></td>
-          </tr>
-          <tr>
-            <th>내용</th>
-            <td><textarea name='content' rows='10' cols='60'></textarea></td>
-          </tr>
-          <tr>
-            <th>작성자</th>
-            <td><span id="f-writer-name"></span></td>
-          </tr>
-          <tr>
-            <th>등록일</th>
-            <td><span id="f-created-date"></span></td>
-          </tr>
-          <tr>
-            <th>조회수</th>
-            <td><span id="f-view-count"></span></td>
-          </tr>
-          <tr>
-            <th>첨부파일</th>
-            <td>
-              <input type="file" name='files' multiple/>
-              <ul id="f-files"></ul>
-            </td>
-          </tr>
-          </table>
-          
-          <div>
-            <button id="btn-update" type="button" class="guest" onClick={updateBtn}>변경</button>
-            <button id='btn-delete' type='button' class="guest" onClick={deleteBtn}>삭제</button>
-          </div>
+            <div className='hmodal-view'>
+              <div className='hmodal-view-file'>
+
+              </div>
+              <div className='hmodal-view-text'>
+                <div className='hmodal-view-header'>
+                  <div>
+                    <div>
+                      <input type='text' name='title' className='title-text'/>
+                    </div>
+                    <div>
+                      <span>From</span>
+                      <span id="f-created-date"></span>
+                    </div>
+                  </div>
+                  <div className='heartbox'>
+                    <img src={image} className="heart" onClick={handleClick}></img>
+                  </div>
+                </div>
+
+                <div className='hmodal-view-body'>
+                  <div className='hmodal-view-body-head'>
+                    <span id="f-writer-name"></span>
+                  </div>
+                  <div className='hmodal-view-body-body'>
+                    <textarea name='content' rows='10' cols='51' className='content-text'></textarea>
+                    <input type="file" name='files' multiple/>
+                    <ul id="f-files"></ul>
+                  </div>
+                </div>
+
+                <div className='hmodal-view-footer'>
+                  <div className='hmodal-view-footer-f'>
+                    <div className='hmodal-view-footer-f-text'>댓글</div>
+                    <div className='hmodal-view-footer-f-view'></div>
+                  </div>
+                  <div className='hmodal-view-footer-s'>
+                    <input type='text' className='comment-text'></input>
+                    <button type='button' className='comment-btn'>입력</button>
+                  </div>
+                </div>
+
+                <div className='hmodal-view-btn'>
+                  <button id="btn-update" type="button" class="guest" onClick={updateBtn}>수정</button>
+                  <button id='btn-delete' type='button' class="guest" onClick={deleteBtn}>삭제</button>
+                </div>
+              </div>
+            </div>
           </form>
           </div>
         </div>
