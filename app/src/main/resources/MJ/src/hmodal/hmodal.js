@@ -7,10 +7,14 @@ axios.defaults.withCredentials = true;
 
 function HModal(props) {
   const { isOpen, onClose, isNo } = props;
+  const [value, setValue] = useState('');
   
   const [image, setImage] = useState('img/heart.png');
   const [prevImage, setPrevImage] = useState('');
 
+  const handleChange = (event) => {
+    setValue(event.target.value);
+  };
 
   function insert() {
 
@@ -20,8 +24,8 @@ function HModal(props) {
       {},
       {
         params: {
-          boardNo: 1,
-          content: "35545542es",
+          boardNo: isNo,
+          content: value,
         },
       }
     )
@@ -32,7 +36,7 @@ function HModal(props) {
 		.then(result => {
 			console.log(result);
 			if (result.status == '200') {
-        window.location.href='./';
+        window.location.href='/';
 			} else if (result.errorCode == '401') {
 			} else {
 				alert('입력 실패!');
@@ -196,10 +200,10 @@ function HModal(props) {
                     <div className='hmodal-view-footer-f-text'>댓글</div>
                     <div className='hmodal-view-footer-f-view'></div>
                   </div>
-                  <form className='hmodal-view-footer-s' method='post'>
-                    <input type='text' className='comment-text'></input>
+                  <div className='hmodal-view-footer-s' method='post'>
+                    <input type='text' className='comment-text' value={value} onChange={handleChange}></input>
                     <button type='submit' className='comment-btn' onClick={insert}>입력</button>
-                  </form>
+                  </div>
                 </div>
 
                 <div className='hmodal-view-btn'>
