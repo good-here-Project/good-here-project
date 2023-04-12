@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.goodhere.dao.ReplyDao">
+
+  <resultMap type="reply" id="replyMap">
+    <id column="comment_id" property="no"/>
+    <result column="content" property="content"/>
+    <result column="board_id" property="boardNo"/>    
+    <result column="created_date" property="createdDate"/>
+  
+    
+    <association property="writer" javaType="member">
+      <id column="writer" property="no"/>
+      <result column="nickname" property="nickname"/>
+    </association>
+  </resultMap>
+
+  <insert id="insert" parameterType="reply" 
+          useGeneratedKeys="true" keyColumn="comment_id" keyProperty="no">
+    insert into gh_comment(board_id, content, writer) 
+    values(#{boardNo}, #{content}, #{writer.no})
+  </insert>
+
+</mapper>
+
+
+
+
+

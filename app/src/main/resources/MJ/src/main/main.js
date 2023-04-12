@@ -13,10 +13,11 @@ function Main() {
     };
 
     React.useEffect(() => {
-        axios.get('http://localhost/web/boards?boardTypeId=1')
+        axios.get('http://localhost/web/boards')
             .then((response) => setData(response.data.data))
             .catch((error) => console.error(error));
     }, []);
+    
     return (
         <div className="main">
             <div className="body">

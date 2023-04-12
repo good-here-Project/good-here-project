@@ -14,7 +14,7 @@ function UPModal(props) {
 		const form = document.querySelector('.upmodal-text');
   	const formData = new FormData(form);
 
-		formData.append('boardTypeId', '1');
+		formData.append('boardTypeId', '0');
   
 		axios.post("http://localhost/web/boards", formData)
 		.then(response => {

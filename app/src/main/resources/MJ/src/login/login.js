@@ -12,9 +12,10 @@ function Login() {
 		
 		axios.post('http://localhost/web/auth/login', formData)
         .then(response => {
-            // console.log(response.data.status);
+            console.log(formData);
+            console.log(response.data.status);
             if (response.data.status === 'success') {
-                window.location.href = '/';
+                window.location.href = './';
             } else {
                 alert('로그인 실패!');
             }

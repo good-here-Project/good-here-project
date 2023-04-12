@@ -37,7 +37,7 @@ function Sign() {
       .then((result) => {
         if (result.status == "success") {
           alert("회원가입을 축하드립니다!");
-          window.location.href = '../';
+          window.location.href = './';
         } else {
           alert("입력 실패!");
           console.log(result.data);

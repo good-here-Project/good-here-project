@@ -82,7 +82,7 @@ ALTER TABLE gh_member
 CREATE TABLE gh_comment (
   comment_id   INTEGER  NOT NULL COMMENT '댓글번호', -- 댓글번호
   board_id     INTEGER  NOT NULL COMMENT '게시글번호', -- 게시글번호
-  member_id    INTEGER  NOT NULL COMMENT '회원번호', -- 회원번호
+  writer       INTEGER  NOT NULL COMMENT '회원번호', -- 회원번호
   content      TEXT     NOT NULL COMMENT '댓글내용', -- 댓글내용
   created_date DATETIME NOT NULL DEFAULT now() COMMENT '댓글작성일' -- 댓글작성일
 )
@@ -126,10 +126,6 @@ CREATE INDEX IX_gh_board
 
 ALTER TABLE gh_board
   MODIFY COLUMN board_id INTEGER NOT NULL AUTO_INCREMENT COMMENT '게시글번호';
-  
---ALTER table gh_board
---  add column writer int,
---  add constraint app_board_fk foreign key (writer) references app_member(member_id); // Foreign키값 밑에 있으나 혹시 안된다면 이걸로 ALTER해서 member_id값 writer로 받기
 
 -- 신고
 CREATE TABLE gh_report (
@@ -337,7 +333,7 @@ ALTER TABLE gh_comment
 ALTER TABLE gh_comment
   ADD CONSTRAINT FK_gh_member_TO_gh_comment -- 회원 -> 댓글
   FOREIGN KEY (
-  member_id -- 회원번호
+  writer -- 회원번호
   )
   REFERENCES gh_member ( -- 회원
   member_id -- 회원번호
@@ -353,7 +349,7 @@ ALTER TABLE gh_board
   member_id -- 회원번호
   );
 
- 게시글
+-- 게시글
 ALTER TABLE gh_board
   ADD CONSTRAINT FK_gh_board_type_TO_gh_board -- 게시판유형 -> 게시글
   FOREIGN KEY (

@@ -38,6 +38,8 @@ public class AuthController {
 
     member = memberService.get(email, password);
 
+    //    System.out.println(member);
+
     if (member != null) {
       session.setAttribute("loginUser", member);
       //      System.out.println(session);

@@ -11,6 +11,40 @@ function HModal(props) {
   const [image, setImage] = useState('img/heart.png');
   const [prevImage, setPrevImage] = useState('');
 
+
+  function insert() {
+
+    axios
+    .post(
+      "http://localhost/web/replys",
+      {},
+      {
+        params: {
+          boardNo: 1,
+          content: "35545542es",
+        },
+      }
+    )
+		.then(response => {
+      console.log(response);
+			return response;
+		})
+		.then(result => {
+			console.log(result);
+			if (result.status == '200') {
+        window.location.href='./';
+			} else if (result.errorCode == '401') {
+			} else {
+				alert('입력 실패!');
+			}
+		})
+		.catch(exception => {
+			alert("입력 오류!");
+			console.log(exception);
+		});
+  
+	}
+
   function handleClick() {
     if (image === 'img/heart.png') {
       setPrevImage('img/heart.png');
@@ -162,10 +196,10 @@ function HModal(props) {
                     <div className='hmodal-view-footer-f-text'>댓글</div>
                     <div className='hmodal-view-footer-f-view'></div>
                   </div>
-                  <div className='hmodal-view-footer-s'>
+                  <form className='hmodal-view-footer-s' method='post'>
                     <input type='text' className='comment-text'></input>
-                    <button type='button' className='comment-btn'>입력</button>
-                  </div>
+                    <button type='submit' className='comment-btn' onClick={insert}>입력</button>
+                  </form>
                 </div>
 
                 <div className='hmodal-view-btn'>
