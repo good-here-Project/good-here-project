@@ -81,7 +81,7 @@ function Login() {
           </div>
           <div className="login-other">
             <FacebookLogin
-              appId="606943251328930"
+              appId="126327150409089"
               initParams={{
                 cookie: true,
                 xfbml: true,
@@ -94,6 +94,7 @@ function Login() {
                 padding: '12px 24px',
                 border: 'none',
                 borderRadius: '4px',
+                cursor: 'pointer'
               }}
               onSuccess={(response) => {
                 console.log('Login Success!');
