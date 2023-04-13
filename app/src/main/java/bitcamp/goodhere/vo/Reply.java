@@ -1,6 +1,6 @@
 package bitcamp.goodhere.vo;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import lombok.Data;
@@ -18,6 +18,6 @@ public class Reply {
 
   @JsonFormat(
       shape = Shape.STRING,
-      pattern = "yyyy-MM-dd")
-  private Date createdDate;
+      pattern = "yyyy-MM-dd@HH:mm:ss", timezone = "Asia/Seoul")
+  private LocalDateTime createdDate;
 }

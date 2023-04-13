@@ -34,7 +34,7 @@ function HModal(props) {
 			return response;
 		})
 		.then(result => {
-			console.log(result);
+			// console.log(result);
 			if (result.status == '200') {
         window.location.href='./';
 			} else if (result.errorCode == '401') {
@@ -64,6 +64,7 @@ function HModal(props) {
     )
       .then((response) => setData(response.data.data))
       .catch((error) => console.error(error));
+
   }, [isNo]);
 
 
@@ -77,7 +78,7 @@ function HModal(props) {
     }
   }
 
-  console.log(isNo);
+  // console.log(isNo);
 
   if (!isOpen) {
     return null;
@@ -186,6 +187,36 @@ function HModal(props) {
             console.log(error);
           });
       }
+
+      function isWithin24Hours(dateString) {
+        const createdDate = new Date(dateString);
+        const timeDiff = Date.now() - createdDate.getTime();
+        return timeDiff < 24 * 60 * 60 * 1000;
+      }
+
+      function formatDate(dateString, format) {
+        const date = new Date(dateString);
+        const options = {
+          hour12: false,
+          timeZone: 'Asia/Seoul'
+        };
+        const parts = new Intl.DateTimeFormat('ko-KR', options).formatToParts(date);
+        const year = date.getFullYear();
+        const month = padZero(date.getMonth() + 1);
+        const day = padZero(date.getDate());
+        const hour = padZero(date.getHours());
+        const minute = padZero(date.getMinutes());
+      
+        if (isWithin24Hours(dateString)) {
+          return `${hour}:${minute}`;
+        } else {
+          return `${year}-${month}-${day}`;
+        }
+      
+        function padZero(num) {
+          return String(num).padStart(2, '0');
+        }
+      }
   
 
   return (
@@ -241,12 +272,17 @@ function HModal(props) {
                           if (item.boardNo === isNo) {
                             return (
                               <li key={item.no}>
-                                <div>
+                                <div className='comment-header'>
                                   <div>작성자: {item.writer.nickname}</div>
-                                  <div>{item.createdDate}</div>
+                                  <div>{item.content ? item.content : "내용없음"}</div>
+                                  
                                 </div>
-                                <div>{item.content ? item.content : "제목없음"}</div>
-                                <button id='comment-delete' type='button' onClick={() => commentDelete(item.no)}>X</button>
+                                <div className='comment-footer'>
+                                  <div>
+                                    {formatDate(item.createdDate)}
+                                  </div>
+                                  <button id='comment-delete' className='comment-delete' type='button' onClick={() => commentDelete(item.no)}>X</button>
+                                </div>
                               </li>
                             );
                           } else {

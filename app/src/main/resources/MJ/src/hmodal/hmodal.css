@@ -157,6 +157,30 @@
 	overflow-y: scroll;
 }
 
+.hmodal-view-footer-f-view ul li {
+	list-style: none;
+	display: grid;
+	grid-template-columns: 50% 50%;
+	margin-bottom: 10px;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+/* .comment-delete {
+	display: none;
+} */
+
+#comment-delete {
+	margin-left: 10px;
+	cursor: pointer;
+	border: none;
+	background-color: lightgray;
+}
+
+.comment-footer {
+	margin-left: 70px;
+}
+
 .heartbox {
 	margin-right: 20px;
 	margin-top: 25px;
