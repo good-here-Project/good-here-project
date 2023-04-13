@@ -101,13 +101,15 @@ public class AuthController {
     Member user = memberService.get(email);
     if (user == null) {
       // 페이스북에서 받은 최소 정보를 가지고 회원 가입을 위한 객체를 준비한다.
-      Member s = new Member();
-      s.setEmail(email);
-      s.setName(name);
-      s.setPassword("bitcamp-nopassword");
+      Member m = new Member();
+      m.setEmail(email);
+      m.setName(name);
+      m.setPassword("bitcamp-nopassword");
+      m.setTel("010-0000-0000");
+      m.setNickname("페이스북로그인");
 
       // 회원 가입을 수행한다.
-      memberService.add(s);
+      memberService.add(m);
     }
     user = memberService.get(email);
 

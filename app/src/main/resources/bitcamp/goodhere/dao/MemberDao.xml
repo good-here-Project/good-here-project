@@ -105,6 +105,26 @@
   <select id="nickCheck" parameterType="string" resultType="int">
     select count(nickname) from gh_member where nickname=#{nickname}
   </select>
+  
+  <!-- 페이스북 -->
+  <select id="findByEmail" parameterType="string" resultMap="memberMap">
+    select 
+      member_id, 
+      email, 
+      name, 
+      tel, 
+      nickname, 
+      introduce, 
+      photo, 
+      created_date, 
+      state, 
+      auth 
+    from 
+      gh_member
+    where 
+      email = #{email}
+  </select>
+  
 </mapper>
 
 

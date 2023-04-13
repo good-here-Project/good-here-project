@@ -2,6 +2,7 @@ import React from 'react';
 import './sign.css';
 import { useState } from 'react';
 
+
 //----------------------------------회원가입--------------------------------------------
 function Sign() {
   const signUp = function() {
@@ -213,16 +214,7 @@ function Sign() {
           <div>
             <button type="submit" className="btn btn-primary" id="btn-insert" onClick={signUp}>생성하기</button>
           </div>
-
-          <div className="under-line">
-            <p className="line1"></p>
-            <p className="line2">Or</p>
-            <p className="line3"></p>
-          </div>
-          <div className="login-other">
-            <button type="submit" className="btn-facebook">Continue with Facebook</button>
-            <button type="submit" className="btn-google">Continue with Google</button>
-          </div>
+          
         </form>
       </div>
     </div>
