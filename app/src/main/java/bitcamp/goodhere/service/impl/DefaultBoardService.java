@@ -58,7 +58,7 @@ public class DefaultBoardService implements BoardService {
   @Transactional
   @Override
   public void delete(int no) {
-    replyDao.delete(no);
+    replyDao.deleteOfBoard(no);
     boardFileDao.deleteOfBoard(no);
     if (boardDao.delete(no) == 0) {
       throw new RuntimeException("게시글이 존재하지 않습니다!");

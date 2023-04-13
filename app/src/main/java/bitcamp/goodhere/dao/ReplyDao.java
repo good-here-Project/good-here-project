@@ -10,4 +10,5 @@ public interface ReplyDao {
   List<Reply> findAll();
   Reply findByNo(int no);
   int delete(int no);
+  int deleteOfBoard(int boardNo);
 }

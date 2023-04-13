@@ -55,6 +55,10 @@
     where comment_id=#{no}
   </delete>
 
+  <delete id="deleteOfBoard" parameterType="int">
+    delete from gh_comment 
+    where board_id=#{no}
+  </delete>
 </mapper>
 
 
