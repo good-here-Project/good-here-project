@@ -69,7 +69,11 @@ const Board = () => {
             posts.data.map((post) => (
               <tr key={post.no}>
                 <td>{post.no}</td>
-                <Link to={`/view/${post.no}`}>
+                <Link
+                  className="board-body-link"
+                  to={`/view/${post.no}`}
+                  style={{ textDecoration: "none" }}
+                >
                   <td style={{ textAlign: "left" }}>{post.title}</td>
                 </Link>
                 <td>{post.writer.nickname}</td>

@@ -6,13 +6,20 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { useMemo, useRef, useState } from "react";
 
 const FormComm = () => {
   const navigate = useNavigate();
+  const [content, setContent] = useState("");
+  const quillRef = useRef(null);
 
   const handleInsert = () => {
     const form = document.querySelector("#board-form");
+    console.log(form);
     const formData = new FormData(form);
+    formData.append("content", content);
     console.log(formData);
 
     const baseUrl = "http://localhost";
@@ -51,8 +58,32 @@ const FormComm = () => {
     navigate("/board");
   };
 
+  const modules = useMemo(() => {
+    return {
+      toolbar: {
+        container: [
+          [{ header: [1, 2, 3, false] }],
+          ["bold", "italic", "underline", "strike", "blockquote"],
+        ],
+      },
+    };
+  }, []);
+
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "image",
+  ];
+
   return (
-    <div className="form-body">
+    <div className="form-body" style={{ height: "1080px" }}>
       <div className="wrapper">
         <div className="form-box">
           <h2>글쓰기</h2>
@@ -79,7 +110,7 @@ const FormComm = () => {
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridCity">
-                  <Form.Label>제목</Form.Label>
+                  <Form.Label>제목: </Form.Label>
                   <Form.Control name="title" style={{ width: "700px" }} />
                 </Form.Group>
 
@@ -92,11 +123,20 @@ const FormComm = () => {
                   className="mb-3"
                   controlId="exampleForm.ControlTextarea1"
                 >
-                  <Form.Label>내용</Form.Label>
-                  <Form.Control
+                  {/* <Form.Label>내용</Form.Label> */}
+                  {/* <Form.Control
                     name="content"
                     as="textarea"
                     style={{ height: "280px" }}
+                  /> */}
+                  <ReactQuill
+                    id="content"
+                    style={{ height: "240px" }}
+                    value={content}
+                    onChange={setContent}
+                    ref={quillRef}
+                    modules={modules}
+                    formats={formats}
                   />
                 </Form.Group>
               </Row>
@@ -115,7 +155,6 @@ const FormComm = () => {
                   variant="danger"
                   type="cancel"
                   style={{ width: "150px" }}
-                  onClick={handleCancel}
                 >
                   이전
                 </Button>

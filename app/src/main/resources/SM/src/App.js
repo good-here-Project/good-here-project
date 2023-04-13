@@ -11,6 +11,7 @@ import Form from "./Form/Form";
 import FormComm from "./FormComm/FormComm";
 import FormUpdate from "./FormUpdate/FormUpdate";
 import View from "./View/View";
+import Test from "./test";
 
 function App() {
   // const [file, setFile] = useState(null);
@@ -21,6 +22,7 @@ function App() {
         <Header />
 
         <Routes>
+          <Route path="/test" element={<Test />} />
           <Route path="/" element={<Main />} />
           <Route path="/Main" element={<Main />} />
           <Route path="/Login" element={<Login />} />

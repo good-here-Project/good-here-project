@@ -40,8 +40,17 @@ table {
 }
 
 .board-body td {
+  padding: 5px;
   height: 24px;
   text-align: center;
+}
+
+.board-body td:link {
+  color: #000000;
+}
+
+.board-body-link:visited {
+  color: #b5b5c3;
 }
 
 ._1-iJ {

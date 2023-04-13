@@ -3,8 +3,10 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-import { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useState, useRef, useEffect, useMemo } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const FormUpdate = (props) => {
   const baseUrl = "http://localhost";
@@ -17,7 +19,32 @@ const FormUpdate = (props) => {
   const prevNoRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [fileList, setFileList] = useState([]);
+  const quillRef = React.useRef();
   // const { file, setFile } = props;
+
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "image",
+  ];
+
+  const modules = useMemo(() => {
+    return {
+      toolbar: {
+        container: [
+          [{ header: [1, 2, 3, false] }],
+          ["bold", "italic", "underline", "strike", "blockquote"],
+        ],
+      },
+    };
+  }, []);
 
   const handleTitleChange = (event) => {
     setContent((prevState) => ({
@@ -27,6 +54,7 @@ const FormUpdate = (props) => {
         title: event.target.value,
       },
     }));
+    console.log(setContent);
   };
 
   const handleBoardTypeIdChange = (event) => {
@@ -39,12 +67,11 @@ const FormUpdate = (props) => {
     }));
   };
 
-  const handleContentChange = (event) => {
+  const handleContentChange = (value) => {
     setContent((prevState) => ({
-      ...prevState,
       data: {
         ...prevState.data,
-        content: event.target.value,
+        content: value,
       },
     }));
   };
@@ -63,6 +90,10 @@ const FormUpdate = (props) => {
     const newFileList = [...fileList];
     newFileList.splice(index, 1);
     setFileList(newFileList);
+
+    const li = document.getElementById(`li-${index}`);
+    const form = document.getElementById("form-f-flies");
+    form && form.removeChild(li);
   };
 
   useEffect(() => {
@@ -116,7 +147,7 @@ const FormUpdate = (props) => {
         }
       })
       .catch((error) => {
-        alert("파일 삭제 중 오류 발생!");
+        // alert("파일 삭제 중 오류 발생!");
         console.error(error);
       });
   }
@@ -127,6 +158,11 @@ const FormUpdate = (props) => {
 
     const form = document.querySelector("#board-form");
     const formData = new FormData(form);
+
+    console.log(content.data?.content);
+
+    formData.append("content", content.data?.content);
+    // console.log(formData);
     axios({
       method: "PUT",
       url: baseUrl + `/web/boards/${no}`,
@@ -237,12 +273,22 @@ const FormUpdate = (props) => {
                   controlId="exampleForm.ControlTextarea1"
                 >
                   <Form.Label>내용</Form.Label>
-                  <Form.Control
+                  {/* <Form.Control
                     name="content"
                     as="textarea"
                     onChange={handleContentChange}
-                    value={content.data?.content}
+                    defaultValue={content.data?.content}
+                    // value={content.data?.content}
                     style={{ height: "280px" }}
+                  /> */}
+                  <ReactQuill
+                    name="content"
+                    ref={quillRef}
+                    value={content.data.content}
+                    style={{ height: "240px" }}
+                    onChange={handleContentChange}
+                    modules={modules}
+                    formats={formats}
                   />
                 </Form.Group>
               </Row>

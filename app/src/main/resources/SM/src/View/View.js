@@ -33,7 +33,10 @@ const View = () => {
 
   // 이미지 파일 URL 생성 함수
   const getImageUrl = (filepath) => {
-    return `${filepath}`;
+    // console.log(filepath);
+    return `http://htqaklgqrvoj16814214.cdn.ntruss.com/board/${filepath.substr(
+      filepath.lastIndexOf("/") + 1
+    )}?type=m&w=1280&h=720&ttype=jpg`;
   };
 
   useEffect(() => {
@@ -46,7 +49,7 @@ const View = () => {
         withCredentials: true,
       })
         .then((response) => {
-          console.log(response);
+          console.log(response.data);
           setContent(response.data);
           setIsLoading(false);
         })
@@ -60,7 +63,7 @@ const View = () => {
     }
   }, [no]);
 
-  console.log(content.data);
+  console.log(content);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -131,14 +134,18 @@ const View = () => {
                     }
                     return null;
                   })}
-                {content.data?.content.split("\n").map((line, index) => {
+                {/* {content.data?.content.split("\n").map((line, index) => {
                   return (
                     <React.Fragment key={index}>
                       <span style={{ fontSize: "20px" }}>{line}</span>
                       <br />
                     </React.Fragment>
                   );
-                })}
+                })} */}
+                {/* <span dangerouslySetInnerHTML=({_html : contents }}</span> */}
+                <div
+                  dangerouslySetInnerHTML={{ __html: content.data?.content }}
+                />
               </div>
             </div>
           </div>
