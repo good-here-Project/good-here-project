@@ -12,6 +12,8 @@ function HModal(props) {
   const [image, setImage] = useState('img/heart.png');
   const [prevImage, setPrevImage] = useState('');
 
+  const [data, setData] = React.useState([]);
+
   const handleKeyDown = (event) => {
     if (event.keyCode === 13) {
       event.preventDefault(); // 이벤트의 기본 동작을 막음
@@ -55,8 +57,6 @@ function HModal(props) {
 		});
   
 	}
-
-  const [data, setData] = React.useState([]);
 
   React.useEffect(() => {
     axios

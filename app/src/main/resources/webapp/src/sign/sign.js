@@ -2,12 +2,13 @@ import React from 'react';
 import './sign.css';
 import { useState } from 'react';
 
+
 //----------------------------------회원가입--------------------------------------------
 function Sign() {
   const signUp = function() {
     const form = document.querySelector("#member-form");
     const formData = new FormData(form);
-    
+
     // 폼 데이터의 각 필드가 비어있는지 확인
     let isEmpty = false;
     for (const value of formData.values()) {
@@ -114,6 +115,24 @@ function Sign() {
     }
   }
 
+  //----------------------------------비밀번호 재확인--------------------------------------------
+  function checkPW2() {
+    var p1 = document.getElementById('f-password').value;
+    var p2 = document.getElementById('f-password2').value;
+    if (p1 && p2) {
+      if (p1 != p2) {
+        alert("비밀번호가 일치 하지 않습니다. 다시 입력해주세요.");
+        document.getElementById('f-password').value = '';
+        document.getElementById('f-password2').value = '';
+        document.querySelector('.password_ok').style.display = 'none';
+        document.querySelector('.password_ok2').style.display = 'none';
+      } else {
+        document.querySelector('.password_ok2').style.display = 'inline-block';
+        return true;
+      }
+    }
+  }
+
   //----------------------------------닉네임체크--------------------------------------------
   function checkNickname() {
     const nickname = document.querySelector('#f-nickname').value;
@@ -188,8 +207,14 @@ function Sign() {
               </tr>
               <tr>
                 <th className="password-th">Password</th>
-                <td><input id="f-password" type="password" name="password" className="password" placeholder="특수문자, 영문, 숫자 포함 6~18자리 입력해주세요." onBlur={checkPW} />
+                <td><input id="f-password" type="password" name="password" className="password" placeholder="특수문자, 영문, 숫자 포함 6~18자리" onBlur={checkPW} />
                   <span className="password_ok">사용 가능한 비밀번호입니다.</span>
+                </td>
+              </tr>
+              <tr>
+                <th className="password-th">Confirm Password</th>
+                <td><input id="f-password2" type="password" className="password" placeholder="패스워드 재확인" onBlur={checkPW2} />
+                  <span className="password_ok2">패스워드가 일치합니다.</span>
                 </td>
               </tr>
               <tr>
@@ -211,18 +236,9 @@ function Sign() {
           </table>
 
           <div>
-            <button type="submit" className="btn btn-primary" id="btn-insert" onClick={signUp}>생성하기</button>
+            <button type="submit" className="btn btn-primary" id="btn-insert" onClick={signUp}>가입하기</button>
           </div>
 
-          <div className="under-line">
-            <p className="line1"></p>
-            <p className="line2">Or</p>
-            <p className="line3"></p>
-          </div>
-          <div className="login-other">
-            <button type="submit" className="btn-facebook">Continue with Facebook</button>
-            <button type="submit" className="btn-google">Continue with Google</button>
-          </div>
         </form>
       </div>
     </div>
