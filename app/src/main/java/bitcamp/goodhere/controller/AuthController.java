@@ -106,7 +106,7 @@ public class AuthController {
       m.setName(name);
       m.setPassword("bitcamp-nopassword");
       m.setTel("010-0000-0000");
-      m.setNickname("페이스북로그인");
+      m.setNickname("페이스북");
 
       // 회원 가입을 수행한다.
       memberService.add(m);
