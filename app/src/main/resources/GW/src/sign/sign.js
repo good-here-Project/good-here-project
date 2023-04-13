@@ -235,6 +235,10 @@ function Sign() {
             </tbody>
           </table>
 
+          <div className="under-line">
+            <p className="line4"></p>
+          </div>
+
           <div>
             <button type="submit" className="btn btn-primary" id="btn-insert" onClick={signUp}>가입하기</button>
           </div>

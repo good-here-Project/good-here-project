@@ -71,7 +71,7 @@ function Login() {
 
           <div>
             {/* <input type='checkbox' className='checkbox'>ID 저장</input> */}
-            <button id="btn-login" type="button" className="btn-login" onClick={userLogin}>Login</button>
+            <button id="btn-login" type="button" className="btn-login" onClick={userLogin} >Login</button>
           </div>
 
           <div className="under-line">
@@ -93,7 +93,8 @@ function Login() {
                 fontSize: '16px',
                 padding: '12px 24px',
                 border: 'none',
-                borderRadius: '4px',
+                borderRadius: '5px',
+                cursor: 'pointer'
               }}
               onSuccess={(response) => {
                 console.log('Login Success!');
