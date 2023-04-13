@@ -12,6 +12,13 @@ function HModal(props) {
   const [image, setImage] = useState('img/heart.png');
   const [prevImage, setPrevImage] = useState('');
 
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 13) {
+      event.preventDefault(); // 이벤트의 기본 동작을 막음
+      insert();
+    }
+  };
+
   const handleChange = (event) => {
     setValue(event.target.value);
   };
@@ -36,7 +43,7 @@ function HModal(props) {
 		.then(result => {
 			// console.log(result);
 			if (result.status == '200') {
-        window.location.href='./';
+        window.location.reload();
 			} else if (result.errorCode == '401') {
 			} else {
 				alert('입력 실패!');
@@ -229,7 +236,7 @@ function HModal(props) {
     }}>
       <div className="hmodal-overlay">
         <div className="hmodal">
-          <form id='board-form' action='update' method='post' enctype="multipart/form-data">
+          <form id='board-form' method='post' enctype="multipart/form-data">
             <div className='hmodal-view'>
 
               <div className='hmodal-view-file'>
@@ -295,8 +302,8 @@ function HModal(props) {
 
                   </div>
                   <div className='hmodal-view-footer-s' method='post'>
-                    <input type='text' className='comment-text' value={value} onChange={handleChange}></input>
-                    <button type='submit' className='comment-btn' onClick={insert}>입력</button>
+                    <input type='text' className='comment-text' value={value} onChange={handleChange} onKeyDown={handleKeyDown} />
+                    <button type='submit' className='comment-btn' onClick={(e) => { e.preventDefault(); insert(); }}>입력</button>
                   </div>
                 </div>
 
