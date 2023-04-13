@@ -22,6 +22,38 @@
     insert into gh_comment(board_id, content, writer) 
     values(#{boardNo}, #{content}, #{writer.no})
   </insert>
+  
+  <select id="findAll" resultMap="replyMap">
+    select 
+      c.comment_id,
+      c.board_id, 
+      c.content,
+      c.writer,
+      c.created_date, 
+      m.nickname
+    from 
+      gh_comment c
+      inner join gh_member m on c.writer = m.member_id
+    order by 
+      c.comment_id desc
+  </select>
+  
+  <select id="findByNo" parameterType="int" resultMap="replyMap">
+    select 
+      c.comment_id,
+      c.content, 
+      c.writer, 
+      c.created_date
+    from 
+      gh_comment c
+    where 
+      c.comment_id=#{no}
+  </select>
+  
+  <delete id="delete" parameterType="int">
+    delete from gh_comment
+    where comment_id=#{no}
+  </delete>
 
 </mapper>
 

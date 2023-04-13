@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import bitcamp.goodhere.dao.BoardDao;
 import bitcamp.goodhere.dao.BoardFileDao;
+import bitcamp.goodhere.dao.ReplyDao;
 import bitcamp.goodhere.service.BoardService;
 import bitcamp.goodhere.vo.Board;
 import bitcamp.goodhere.vo.BoardFile;
@@ -15,6 +16,7 @@ public class DefaultBoardService implements BoardService {
 
   @Autowired private BoardDao boardDao;
   @Autowired private BoardFileDao boardFileDao;
+  @Autowired private ReplyDao replyDao;
 
   @Transactional
   @Override
@@ -56,6 +58,7 @@ public class DefaultBoardService implements BoardService {
   @Transactional
   @Override
   public void delete(int no) {
+    replyDao.delete(no);
     boardFileDao.deleteOfBoard(no);
     if (boardDao.delete(no) == 0) {
       throw new RuntimeException("게시글이 존재하지 않습니다!");

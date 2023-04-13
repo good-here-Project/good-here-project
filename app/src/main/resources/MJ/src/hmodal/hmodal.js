@@ -30,13 +30,13 @@ function HModal(props) {
       }
     )
 		.then(response => {
-      console.log(response);
+      // console.log(response);
 			return response;
 		})
 		.then(result => {
 			console.log(result);
 			if (result.status == '200') {
-        window.location.href='/';
+        window.location.href='./';
 			} else if (result.errorCode == '401') {
 			} else {
 				alert('입력 실패!');
@@ -48,6 +48,24 @@ function HModal(props) {
 		});
   
 	}
+
+  const [data, setData] = React.useState([]);
+
+  React.useEffect(() => {
+    axios
+    .get(
+      "http://localhost/web/replys",
+      {},
+      {
+        params: {
+          boardNo: isNo,
+        },
+      }
+    )
+      .then((response) => setData(response.data.data))
+      .catch((error) => console.error(error));
+  }, [isNo]);
+
 
   function handleClick() {
     if (image === 'img/heart.png') {
@@ -151,6 +169,23 @@ function HModal(props) {
         console.log(error);
         });
       }
+
+      function commentDelete(commentNo) {
+        axios
+          .delete(`http://localhost/web/replys/${commentNo}`)
+          .then((response) => {
+            console.log(response.data);
+            if (response.data.status === "success") {
+              window.location.href = "./";
+            } else {
+              alert("삭제 실패!");
+            }
+          })
+          .catch((error) => {
+            alert("삭제 중 오류 발생!");
+            console.log(error);
+          });
+      }
   
 
   return (
@@ -165,9 +200,10 @@ function HModal(props) {
         <div className="hmodal">
           <form id='board-form' action='update' method='post' enctype="multipart/form-data">
             <div className='hmodal-view'>
-              <div className='hmodal-view-file'>
 
+              <div className='hmodal-view-file'>
               </div>
+
               <div className='hmodal-view-text'>
                 <div className='hmodal-view-header'>
                   <div>
@@ -198,7 +234,28 @@ function HModal(props) {
                 <div className='hmodal-view-footer'>
                   <div className='hmodal-view-footer-f'>
                     <div className='hmodal-view-footer-f-text'>댓글</div>
-                    <div className='hmodal-view-footer-f-view'></div>
+
+                    <div className='hmodal-view-footer-f-view'>
+                      <ul>
+                        {data.map((item) => {
+                          if (item.boardNo === isNo) {
+                            return (
+                              <li key={item.no}>
+                                <div>
+                                  <div>작성자: {item.writer.nickname}</div>
+                                  <div>{item.createdDate}</div>
+                                </div>
+                                <div>{item.content ? item.content : "제목없음"}</div>
+                                <button id='comment-delete' type='button' onClick={() => commentDelete(item.no)}>X</button>
+                              </li>
+                            );
+                          } else {
+                            return null; // 같은 게시글이 아닌 경우에는 댓글을 보여주지 않음
+                          }
+                        })}
+                      </ul>
+                    </div>
+
                   </div>
                   <div className='hmodal-view-footer-s' method='post'>
                     <input type='text' className='comment-text' value={value} onChange={handleChange}></input>
