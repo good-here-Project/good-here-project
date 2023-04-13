@@ -179,7 +179,7 @@ function Sign() {
           <table>
             <tbody>
               <tr>
-                <th className="email-th">아이디</th>
+                <th className="email-th">Email</th>
                 <td><input id="f-email" type="email" name="email" className="email" placeholder="email 형식으로 입력해주세요." onInput={checkEmail} />
                   <span className="email_ok">사용 가능한 아이디입니다.</span>
                   <span className="email_already">누군가 이 아이디를 사용하고 있어요.</span>
@@ -187,24 +187,24 @@ function Sign() {
                 </td>
               </tr>
               <tr>
-                <th className="password-th">비밀번호</th>
+                <th className="password-th">Password</th>
                 <td><input id="f-password" type="password" name="password" className="password" placeholder="특수문자, 영문, 숫자 포함 6~18자리 입력해주세요." onBlur={checkPW} />
                   <span className="password_ok">사용 가능한 비밀번호입니다.</span>
                 </td>
               </tr>
               <tr>
-                <th className="name-th">성함</th>
+                <th className="name-th">Name</th>
                 <td><input type="name" name="name" className="name" placeholder="이름을 알려주세요." /></td>
               </tr>
               <tr>
-                <th className="nickname-th">닉네임</th>
+                <th className="nickname-th">NickName</th>
                 <td><input id="f-nickname" type="nickname" name="nickname" className="nickname" placeholder="닉네임을 입력해주세요." onBlur={checkNickname} />
                   <span className="nickname_ok">사용 가능한 닉네임입니다.</span>
                   <span className="nickname_already">누군가 이 닉네임을 사용하고 있어요.</span>
                 </td>
               </tr>
               <tr>
-                <th className="tel-th">휴대폰번호</th>
+                <th className="tel-th">Tel</th>
                 <td><input type="tel" name="tel" className="tel" maxLength="13" placeholder="휴대폰번호를 입력해주세요." onChange={handleTelChange} value={tel} /></td>
               </tr>
             </tbody>
