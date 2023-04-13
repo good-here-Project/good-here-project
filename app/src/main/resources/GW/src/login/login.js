@@ -24,7 +24,6 @@ function Login() {
         alert('로그인 오류!');
         console.log(error);
       });
-
   };
 
   // ---------------------------------페이스북 로그인-----------------------------------
@@ -38,6 +37,7 @@ function Login() {
         console.log(response);
         if (response.data.status === 'success') {
           window.location.href = '/';
+          alert('페이스북 로그인 성공!');
         } else {
           alert('페이스북 로그인 실패!');
         }
@@ -113,10 +113,6 @@ function Login() {
             <button type="submit" className="btn-google">Continue with Google</button>
           </div>
         </form>
-
-        {/* <fb:login-button 
-            scope="public_profile,email"
-            onlogin="checkLoginState()"></fb:login-button> */}
       </div>
     </div>
   );
