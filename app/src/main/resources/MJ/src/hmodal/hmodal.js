@@ -256,6 +256,7 @@ function HModal(props) {
                       </ul>
                     </div>
 
+
                   </div>
                   <div className='hmodal-view-footer-s' method='post'>
                     <input type='text' className='comment-text' value={value} onChange={handleChange}></input>
