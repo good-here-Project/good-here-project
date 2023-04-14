@@ -1,6 +1,7 @@
 import React from "react";
 import "./login.css";
 import axios from "axios";
+import FacebookLogin from "@greatsumini/react-facebook-login";
 axios.defaults.withCredentials = true;
 
 function Login() {
@@ -24,7 +25,28 @@ function Login() {
       });
   };
 
-  //
+  // ---------------------------------페이스북 로그인-----------------------------------
+  function facebookLogin(accessToken) {
+    const data = {
+      accessToken: accessToken,
+    };
+
+    axios
+      .post("http://localhost/web/auth/facebookLogin", data)
+      .then((response) => {
+        console.log(response);
+        if (response.data.status === "success") {
+          window.location.href = "/";
+          alert("페이스북 로그인 성공!");
+        } else {
+          alert("페이스북 로그인 실패!");
+        }
+      })
+      .catch((exception) => {
+        alert("페이스북 로그인 오류!");
+        console.log(exception);
+      });
+  }
 
   return (
     <div className="loginB">
@@ -39,7 +61,7 @@ function Login() {
           className="login-form"
         >
           <h2>로그인</h2>
-          <table>
+          <table className="login-form-table">
             <tr>
               <th className="email-th">Email</th>
               <td>
@@ -56,16 +78,6 @@ function Login() {
                 ></input>
               </td>
             </tr>
-            {/* <tr>
-              <th className="usertype-th">type</th>
-              <td>
-                <input
-                  type="password"
-                  className="usertype"
-                  name="usertype"
-                ></input>
-              </td>
-            </tr> */}
           </table>
 
           <div>
@@ -86,18 +98,42 @@ function Login() {
             <p className="line3"></p>
           </div>
           <div className="login-other">
-            <button type="submit" className="btn-facebook">
-              Continue with Facebook
-            </button>
+            <FacebookLogin
+              appId="606943251328930"
+              initParams={{
+                cookie: true,
+                xfbml: true,
+                version: "v16.0",
+              }}
+              style={{
+                backgroundColor: "#4267b2",
+                color: "#fff",
+                fontSize: "16px",
+                padding: "12px 24px",
+                border: "none",
+                borderRadius: "5px",
+                cursor: "pointer",
+              }}
+              onSuccess={(response) => {
+                console.log("Login Success!");
+                console.log(response);
+                facebookLogin(response.accessToken);
+              }}
+              onFail={(error) => {
+                console.log("Login Failed!");
+                console.log("status: ", error.status);
+              }}
+              onProfileSuccess={(response) => {
+                console.log("Get Profile Success!");
+                console.log("name: ", response.name);
+                console.log(response);
+              }}
+            />
             <button type="submit" className="btn-google">
               Continue with Google
             </button>
           </div>
         </form>
-
-        {/* <fb:login-button 
-            scope="public_profile,email"
-            onlogin="checkLoginState()"></fb:login-button> */}
       </div>
     </div>
   );

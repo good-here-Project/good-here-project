@@ -13,6 +13,7 @@ import { useMemo, useRef, useState } from "react";
 const FormComm = () => {
   const navigate = useNavigate();
   const [content, setContent] = useState("");
+  const [status, setStatus] = useState("");
   const quillRef = useRef(null);
 
   const handleInsert = () => {
@@ -35,20 +36,23 @@ const FormComm = () => {
     })
       .then((response) => {
         console.log(response.data);
-        return response.json();
-      })
-      .then((result) => {
-        console.log(result.status);
-        if (result.status === "success") {
-          navigate("/board");
-          console.log("success");
-        } else if (result.errorCode === "401") {
-          navigate("/Login");
-          console.log("401");
-        } else {
-          alert("입력 실패!");
+        setStatus(response.data);
+        if (response.data.errorCode === "601") {
+          window.location.href = "/Login";
         }
       })
+      // .then((result) => {
+      //   console.log(result.status);
+      //   if (result.status === "200") {
+      //     // navigate("/Board");
+      //     console.log("success");
+      //   } else if (result.errorCode === "401") {
+      //     navigate("/Login");
+      //     console.log("401");
+      //   } else {
+      //     alert("입력 실패!");
+      //   }
+      // })
       .catch((error) => {
         console.log(error);
       });

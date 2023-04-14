@@ -28,9 +28,9 @@ const Board = () => {
     <div className="board-main">
       <div className="cate">
         <ul className="list">
-          <Link to="/Form" style={{ textDecoration: "none" }}>
-            <li className="hot-place">HOT 플레이스</li>
-          </Link>
+          {/* <Link to="/Form" style={{ textDecoration: "none" }}> */}
+          <li className="hot-place">HOT 플레이스</li>
+          {/* </Link> */}
           <Link to="/Board" style={{ textDecoration: "none" }}>
             <li className="board">커뮤니티</li>
           </Link>
