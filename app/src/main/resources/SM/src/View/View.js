@@ -5,8 +5,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./view.css";
 
-// const navigate = useNavigate();
-
 const View = () => {
   const baseUrl = "http://localhost";
   const { no } = useParams();
@@ -134,15 +132,6 @@ const View = () => {
                     }
                     return null;
                   })}
-                {/* {content.data?.content.split("\n").map((line, index) => {
-                  return (
-                    <React.Fragment key={index}>
-                      <span style={{ fontSize: "20px" }}>{line}</span>
-                      <br />
-                    </React.Fragment>
-                  );
-                })} */}
-                {/* <span dangerouslySetInnerHTML=({_html : contents }}</span> */}
                 <div
                   dangerouslySetInnerHTML={{ __html: content.data?.content }}
                 />
@@ -155,6 +144,15 @@ const View = () => {
               <button>수정</button>
             </Link>
             <button onClick={handleBoard}>목록</button>
+          </div>
+          <div className="view-comment-list"></div>
+          <div className="view-comment-main">
+            <div className="view-comment-nickname">닉네임</div>
+            <textarea
+              className="view-comment-content"
+              placeholder="댓글을 남겨보세요"
+            ></textarea>
+            <button className="view-comment-insert">등록</button>
           </div>
         </header>
       </section>
