@@ -498,3 +498,21 @@ ALTER TABLE gh_follow
   REFERENCES gh_member ( -- 회원
   member_id -- 회원번호
   );
+  
+  insert into gh_board_type(board_type_id, name) 
+    values(0, '핫플게시판');
+
+	insert into gh_board_type(board_type_id, name) 
+	    values(1, '자유게시판');
+	
+	insert into gh_board_type(board_type_id, name) 
+	    values(2, 'QnA');
+	
+	insert into gh_board_type(board_type_id, name) 
+	    values(3, '맛집&이색카페');
+	
+	insert into gh_board_type(board_type_id, name) 
+	    values(4, '여행정보');
+	
+	insert into gh_board_type(board_type_id, name) 
+	    values(5, '여행동행');
