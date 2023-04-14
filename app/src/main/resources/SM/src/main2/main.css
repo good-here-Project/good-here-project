@@ -47,8 +47,6 @@
 	justify-content: center;
 	display: grid;
 	grid-template-columns: 300px 300px 300px 300px;
-	overflow-y: scroll;
-	height: 660px;
 }
 
 .mbox img {
