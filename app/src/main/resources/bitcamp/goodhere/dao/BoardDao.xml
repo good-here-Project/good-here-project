@@ -36,6 +36,7 @@
   <select id="findAll" resultMap="boardMap" parameterType="string">
     select 
       b.board_id, 
+      b.board_type_id,
       b.title, 
       b.writer,
       b.created_date, 

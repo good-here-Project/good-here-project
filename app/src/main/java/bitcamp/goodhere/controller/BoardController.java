@@ -80,7 +80,7 @@ public class BoardController {
         .setStatus(RestStatus.SUCCESS);
   }
 
-  @GetMapping
+  @GetMapping()
   public Object list(String keyword) {
     log.debug("BoardController.list() 호출됨!");
 

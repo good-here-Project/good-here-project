@@ -14,9 +14,12 @@ function Main() {
 
     React.useEffect(() => {
         axios.get('http://localhost/web/boards')
-            .then((response) => setData(response.data.data))
-            .catch((error) => console.error(error));
-    }, []);
+        .then((response) => {
+        console.log(response.data.data);
+        setData(response.data.data);
+        })
+        .catch((error) => console.error(error));
+        }, []);
     
     return (
         <div className="main">
@@ -31,21 +34,21 @@ function Main() {
                     </ul>
                 </div>
                 <div>
-                    <ul className="mbox">
-                        {data.map((item) => (
-                            <li key={item.no} onClick={() => setSelectedNo(item.no)}>
-                                <div>
-                                    <div>번호: {item.no}</div>
-                                    <div>작성자: {item.writer.name}</div>
-                                    <div>작성일: {item.createdDate}</div>
-                                    <div>조회수: {item.viewCount}</div>
-                                </div>
-                                <div>
-                                    {item.title ? item.title : '제목없음'}
-                                </div>
-                            </li>
+                <ul className="mbox">
+                    {data
+                        .filter((item) => item.boardTypeId === 0)
+                        .map((item) => (
+                        <li key={item.no} onClick={() => setSelectedNo(item.no)}>
+                            <div>
+                            <div>번호: {item.no}</div>
+                            <div>작성자: {item.writer.name}</div>
+                            <div>작성일: {item.createdDate}</div>
+                            <div>조회수: {item.viewCount}</div>
+                            </div>
+                            <div>{item.title ? item.title : "제목없음"}</div>
+                        </li>
                         ))}
-                    </ul>
+                </ul>
                 </div>
             </div>
             {selectedNo !== null && <HModal isOpen={true} onClose={handleModalClose} isNo={selectedNo} />}
