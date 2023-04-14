@@ -9,6 +9,7 @@ const View = () => {
   const baseUrl = "http://localhost";
   const { no } = useParams();
   const [content, setContent] = useState({ data: null });
+  const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -39,7 +40,6 @@ const View = () => {
 
   useEffect(() => {
     if (prevNoRef.current !== no) {
-      // 현재 no와 이전 no가 다를 경우에만 API 요청을 보냅니다.
       axios({
         method: "GET",
         url: `${baseUrl}/web/boards/${no}`,
@@ -61,7 +61,24 @@ const View = () => {
     }
   }, [no]);
 
-  // console.log(content);
+  useEffect(() => {
+    axios({
+      method: "GET",
+      url: `${baseUrl}/web/auth/user`,
+      withCredentials: true,
+    })
+      .then((response) => {
+        console.log(response.data);
+        setUser(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        setError(error);
+      });
+  }, []);
+
+  console.log(user);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -147,7 +164,7 @@ const View = () => {
           </div>
           <div className="view-comment-list"></div>
           <div className="view-comment-main">
-            <div className="view-comment-nickname">닉네임</div>
+            <div className="view-comment-nickname">{user.data.nickname}</div>
             <textarea
               className="view-comment-content"
               placeholder="댓글을 남겨보세요"
@@ -161,3 +178,28 @@ const View = () => {
 };
 
 export default View;
+
+// 병렬 요청
+// useEffect(() => {
+//   const fetchContent = axios.get(`${baseUrl}/web/boards/${no}`, {
+//     cache: true,
+//     withCredentials: true,
+//   });
+
+//   const fetchUser = axios.get(`${baseUrl}/web/users/current`, {
+//     withCredentials: true,
+//   });
+
+//   Promise.all([fetchContent, fetchUser])
+//     .then((responses) => {
+//       const contentResponse = responses[0];
+//       const userResponse = responses[1];
+//       setContent(contentResponse.data);
+//       setUser(userResponse.data);
+//       setIsLoading(false);
+//     })
+//     .catch((error) => {
+//       setIsLoading(false);
+//       setError(error);
+//     });
+// }, [no]);
