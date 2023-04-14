@@ -1,0 +1,90 @@
+.view-main {
+  width: 1280px;
+  height: auto;
+  border-bottom: 1px solid lightgray;
+}
+
+.view-head-cate {
+  border-bottom: solid 1px black;
+  height: 60px;
+  font-size: 42px;
+  padding: 20px 0 10px 0;
+}
+
+.view-content-wrap {
+  /* border: 1px solid red; */
+  min-height: 560px;
+}
+
+.view-content-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  flex-direction: row; /* 수정 */
+  border-bottom: 1px solid gray;
+}
+.view-content-title {
+  margin: 0;
+  width: 100%;
+  flex-basis: auto;
+  padding: 10px 0 0 0;
+}
+
+.view-content-nickname {
+  padding-right: 10px;
+  border-right: 1px solid lightgray;
+}
+
+.view-content-count {
+  padding-right: 10px;
+  border-right: 1px solid lightgray;
+}
+
+.view-content-info {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  padding: 0 0 10px 0;
+}
+.view-content-etc {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-left: auto;
+  padding: 0 0 10px 0;
+}
+.view-content-info > * + *,
+.view-content-etc > * + * {
+  margin-left: 10px;
+}
+
+.view-content-body {
+  height: auto;
+}
+
+.view-content-write {
+  min-height: 560px;
+  height: auto;
+  /* border: 1px solid red; */
+}
+
+.view-content-write p {
+  text-align: left;
+}
+
+.view-content-bottom {
+  border-top: 3px solid black;
+  height: 60px;
+}
+
+.view-content-bottom button {
+  margin: 10px 5px 10px 0;
+  border: none;
+  float: right;
+  width: 80px;
+  height: 40px;
+}
+
+.view-content-bottom button:hover {
+  background-color: darkgray;
+}
