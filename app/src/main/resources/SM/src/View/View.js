@@ -63,7 +63,7 @@ const View = () => {
     }
   }, [no]);
 
-  console.log(content);
+  // console.log(content);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -79,15 +79,15 @@ const View = () => {
 
   const boardTypeValue = () => {
     switch (content.data?.boardTypeId) {
-      case 0:
-        return "자유";
       case 1:
-        return "Q & A";
+        return "자유";
       case 2:
-        return "맛집&이색카페";
+        return "Q & A";
       case 3:
-        return "여행 정보";
+        return "맛집&이색카페";
       case 4:
+        return "여행 정보";
+      case 5:
         return "여행 동행";
 
       default:

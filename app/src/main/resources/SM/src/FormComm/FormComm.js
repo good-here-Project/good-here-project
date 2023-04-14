@@ -21,6 +21,7 @@ const FormComm = () => {
     console.log(form);
     const formData = new FormData(form);
     formData.append("content", content);
+    console.log(content);
     console.log(formData);
 
     const baseUrl = "http://localhost";
@@ -36,10 +37,10 @@ const FormComm = () => {
     })
       .then((response) => {
         console.log(response.data);
-        setStatus(response.data);
-        if (response.data.errorCode === "601") {
-          window.location.href = "/Login";
-        }
+        //setStatus(response.data);
+        // if (response.data.errorCode === "601") {
+        //   window.location.href = "/Login";
+        // }
       })
       // .then((result) => {
       //   console.log(result.status);
@@ -148,7 +149,7 @@ const FormComm = () => {
                 <Button
                   id="btn-insert"
                   variant="danger"
-                  type="submit"
+                  type="button"
                   style={{ width: "150px" }}
                   onClick={handleInsert}
                 >

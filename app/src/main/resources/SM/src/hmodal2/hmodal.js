@@ -195,6 +195,12 @@ function HModal(props) {
           });
       }
 
+      function isWithin24Hours(dateString) {
+        const createdDate = new Date(dateString);
+        const timeDiff = Date.now() - createdDate.getTime();
+        return timeDiff < 24 * 60 * 60 * 1000;
+      }
+
       function formatDate(dateString, format) {
         const date = new Date(dateString);
         const options = {
@@ -209,26 +215,9 @@ function HModal(props) {
         const minute = padZero(date.getMinutes());
       
         if (isWithin24Hours(dateString)) {
-          // 작성 시간이 현재 시간으로부터 24시간 이내인 경우
-          if (new Date().getDate() === date.getDate()) {
-            // 작성일이 오늘이라면 시간과 분 포맷을 반환
-            return `${hour}:${minute}`;
-          } else {
-            // 작성일이 오늘이 아니라면 년 월 일 포맷을 반환
-            return `${year}-${month}-${day}`;
-          }
-        } else if (new Date().getDate() === date.getDate() + 1) {
-          // 작성일이 오늘이 아니고, 작성일의 다음 날이 오늘이라면
-          return `어제`;
+          return `${hour}:${minute}`;
         } else {
-          // 작성 시간이 현재 시간으로부터 2일 이상인 경우
           return `${year}-${month}-${day}`;
-        }
-      
-        function isWithin24Hours(dateString) {
-          const createdDate = new Date(dateString);
-          const timeDiff = Date.now() - createdDate.getTime();
-          return timeDiff < 24 * 60 * 60 * 1000;
         }
       
         function padZero(num) {
