@@ -51,7 +51,7 @@
 	border: none;
 }
 
-tr {
+.member-form-table tr {
 	display: grid;
 	grid-template-rows: auto;
 	margin-top: 15px;

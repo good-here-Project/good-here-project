@@ -1,0 +1,92 @@
+.wrapper {
+  width: auto;
+  height: 640px;
+  padding: 20px;
+
+  background: transparent;
+  border: 2px solid rgba(175, 172, 172, 0.5);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 30px rgba(116, 114, 114, 0.5);
+}
+
+.form-b {
+  align-items: center;
+
+  justify-content: center;
+}
+
+.formButton {
+  display: inline-block;
+}
+
+.formTitle {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.form-box {
+  margin: 0 50px 50px 50px;
+  height: 540px;
+}
+
+.form-box h2 {
+  font-size: 2em;
+  color: #162938;
+  text-align: center;
+}
+
+.form-box-input-form {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.form-box-input-box {
+  margin: 50px 20px 0 20px;
+  width: 500px;
+  height: 400px;
+  background: transparent;
+  border: 2px solid rgba(175, 172, 172, 0.5);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 10px rgba(116, 114, 114, 0.5);
+}
+
+.form-box-input-box2 {
+  margin: 50px 20px 0 20px;
+  width: 500px;
+  height: 400px;
+  background: transparent;
+  border: 2px solid rgba(175, 172, 172, 0.5);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 10px rgba(116, 114, 114, 0.5);
+}
+
+.inputBoxLabel {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  font-size: 1em;
+  color: #162938;
+  font-weight: 500;
+  pointer-events: none;
+  transition: 0.5s;
+}
+
+.input-box input {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 1em;
+  color: #162938;
+  font-weight: 600;
+}
+
+.justify-content-center {
+  margin-top: 50px;
+}

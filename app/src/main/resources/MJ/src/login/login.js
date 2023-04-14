@@ -58,7 +58,7 @@ function Login() {
         </div>
         <form id="login-form" action="login" method="post" className="login-form">
           <h2>로그인</h2>
-          <table>
+          <table className='login-form-table'>
             <tr>
               <th className="email-th">Email</th>
               <td><input type='email' className='email' name='email'></input></td>
