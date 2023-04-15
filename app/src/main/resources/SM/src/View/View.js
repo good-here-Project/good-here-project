@@ -14,6 +14,7 @@ const View = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const prevNoRef = useRef(null);
+  const commentInputRef = useRef();
 
   const handleDelete = () => {
     axios({
@@ -110,6 +111,34 @@ const View = () => {
     }
   };
 
+  const handleComment = () => {
+    // console.log("호출");
+    const enteredContent = commentInputRef.current.value;
+    console.log(enteredContent);
+    const data = {
+      boardNo: content.data.no,
+      nickname: user.data.nickname,
+      content: enteredContent,
+    };
+    console.log(data);
+
+    axios({
+      method: "POST",
+      url: baseUrl + `/web/replys`,
+      params: {
+        boardNo: content.data.no,
+        content: enteredContent,
+      },
+      withCredentials: true,
+    })
+      .then((response) => {
+        console.log(response); // 성공적으로 요청이 완료되면 응답 결과를 출력
+      })
+      .catch((error) => {
+        console.log(error); // 요청이 실패하면 에러를 출력
+      });
+  };
+
   return (
     <div className="view-main">
       <section>
@@ -167,9 +196,16 @@ const View = () => {
             <div className="view-comment-nickname">{user.data.nickname}</div>
             <textarea
               className="view-comment-content"
+              ref={commentInputRef}
               placeholder="댓글을 남겨보세요"
             ></textarea>
-            <button className="view-comment-insert">등록</button>
+            <button
+              className="view-comment-insert"
+              type="button"
+              onClick={handleComment}
+            >
+              등록
+            </button>
           </div>
         </header>
       </section>
