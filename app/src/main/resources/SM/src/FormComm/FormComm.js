@@ -173,21 +173,3 @@ const FormComm = () => {
 };
 
 export default FormComm;
-
-// const baseUrl = "http://localhost";
-// const [posts, setPosts] = useState([]);
-
-// useEffect(() => {
-//   axios({
-//     method: "GET",
-//     url: baseUrl + "/web/boards",
-//     withCredentials: true,
-//   })
-//     .then((response) => {
-//       setPosts(response.data);
-//       // console.log(response.data);
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// }, []);

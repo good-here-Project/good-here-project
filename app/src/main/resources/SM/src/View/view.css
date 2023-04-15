@@ -89,13 +89,6 @@
   background-color: darkgray;
 }
 
-.view-comment-list {
-  margin-top: 20px;
-  /* border: 1px solid red; */
-  min-width: none;
-  height: auto;
-}
-
 .view-comment-main {
   border: 0.5px solid rgb(235, 234, 234);
   border-radius: 10px;
@@ -119,5 +112,50 @@
 }
 
 .view-comment-insert {
+  float: right;
+}
+
+.view-comment-list {
+  margin-top: 20px;
+  list-style-type: none;
+  /* border: 1px solid red; */
+  min-width: none;
+  height: auto;
+}
+
+.comment {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.comment .comment-meta {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.comment .comment-meta .comment-author {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.comment .comment-meta .comment-date {
+  color: #999;
+}
+
+.comment .comment-content {
+  margin-left: 20px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.comment-profile {
+  display: flex;
+  justify-content: space-between;
+}
+
+.comment-profile-date {
   float: right;
 }

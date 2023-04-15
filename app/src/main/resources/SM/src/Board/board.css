@@ -45,6 +45,10 @@ table {
   text-align: center;
 }
 
+.board-body-type {
+  border-right: 0.5px solid #dedede;
+}
+
 .board-body td:link {
   color: #000000;
 }

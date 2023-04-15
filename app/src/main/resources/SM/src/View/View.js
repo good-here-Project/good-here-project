@@ -9,6 +9,7 @@ const View = () => {
   const baseUrl = "http://localhost";
   const { no } = useParams();
   const [content, setContent] = useState({ data: null });
+  const [comments, setComments] = useState([]);
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -56,6 +57,21 @@ const View = () => {
           setIsLoading(false);
           setError(error);
         });
+
+      axios({
+        method: "GET",
+        url: `${baseUrl}/web/replys/${no}`,
+        cache: true,
+        withCredentials: true,
+      })
+        .then((response) => {
+          console.log(response.data);
+          setComments(response.data);
+        })
+        .catch((error) => {
+          setError(error);
+        });
+
       prevNoRef.current = no; // 현재 no를 이전 no로 저장합니다.
     } else {
       setIsLoading(false); // 현재 no와 이전 no가 동일하다면 로딩을 종료합니다.
@@ -78,6 +94,23 @@ const View = () => {
         setError(error);
       });
   }, []);
+
+  // useEffect(() => {
+  //   axios({
+  //     method: "GET",
+  //     url: `${baseUrl}/web/auth/user`,
+  //     withCredentials: true,
+  //   })
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       setUser(response.data);
+  //       setIsLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       setIsLoading(false);
+  //       setError(error);
+  //     });
+  // }, []);
 
   console.log(user);
 
@@ -191,7 +224,22 @@ const View = () => {
             </Link>
             <button onClick={handleBoard}>목록</button>
           </div>
-          <div className="view-comment-list"></div>
+          <div className="view-comment-list">
+            {comments.map((comment, index) => (
+              <div key={index} className="comment">
+                <div className="comment-profile">
+                  {/* <img className="comment-profile-image" src={comment.writer.profileImageUrl} alt={comment.writer.nickname} /> */}
+                  <span className="comment-profile-nickname">
+                    {comment.writer.nickname}
+                  </span>
+                  <span className="comment-profile-date">
+                    {comment.createdDate}
+                  </span>
+                </div>
+                <div className="comment-content">{comment.content}</div>
+              </div>
+            ))}
+          </div>
           <div className="view-comment-main">
             <div className="view-comment-nickname">{user.data.nickname}</div>
             <textarea
