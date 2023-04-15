@@ -10,6 +10,7 @@ const View = () => {
   const { no } = useParams();
   const [content, setContent] = useState({ data: null });
   const [comments, setComments] = useState([]);
+  const [enteredContent, setEnteredContent] = useState("");
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -95,23 +96,6 @@ const View = () => {
       });
   }, []);
 
-  // useEffect(() => {
-  //   axios({
-  //     method: "GET",
-  //     url: `${baseUrl}/web/auth/user`,
-  //     withCredentials: true,
-  //   })
-  //     .then((response) => {
-  //       console.log(response.data);
-  //       setUser(response.data);
-  //       setIsLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       setIsLoading(false);
-  //       setError(error);
-  //     });
-  // }, []);
-
   console.log(user);
 
   if (isLoading) {
@@ -144,17 +128,13 @@ const View = () => {
     }
   };
 
-  const handleComment = () => {
-    // console.log("호출");
-    const enteredContent = commentInputRef.current.value;
-    console.log(enteredContent);
-    const data = {
-      boardNo: content.data.no,
-      nickname: user.data.nickname,
-      content: enteredContent,
-    };
-    console.log(data);
+  const handleChange = (event) => {
+    setEnteredContent(event.target.value);
 
+    console.log(setEnteredContent);
+  };
+
+  const handleComment = () => {
     axios({
       method: "POST",
       url: baseUrl + `/web/replys`,
@@ -165,10 +145,39 @@ const View = () => {
       withCredentials: true,
     })
       .then((response) => {
-        console.log(response); // 성공적으로 요청이 완료되면 응답 결과를 출력
+        setEnteredContent("");
+        axios({
+          method: "GET",
+          url: `${baseUrl}/web/replys/${no}`,
+          cache: true,
+          withCredentials: true,
+        })
+          .then((response) => {
+            console.log(response.data);
+            setComments(response.data);
+          })
+          .catch((error) => {
+            setError(error);
+          });
       })
       .catch((error) => {
         console.log(error); // 요청이 실패하면 에러를 출력
+      });
+  };
+
+  const handleDeleteComment = (id) => {
+    axios({
+      method: "DELETE",
+      url: `${baseUrl}/web/replys/${id}`,
+      withCredentials: true,
+    })
+      .then(() => {
+        console.log("success");
+        const updatedComments = comments.filter((comment) => comment.no !== id);
+        setComments(updatedComments);
+      })
+      .catch((error) => {
+        setError(error);
       });
   };
 
@@ -225,10 +234,9 @@ const View = () => {
             <button onClick={handleBoard}>목록</button>
           </div>
           <div className="view-comment-list">
-            {comments.map((comment, index) => (
-              <div key={index} className="comment">
+            {comments.map((comment) => (
+              <div key={comment.no} className="comment" comment={comment}>
                 <div className="comment-profile">
-                  {/* <img className="comment-profile-image" src={comment.writer.profileImageUrl} alt={comment.writer.nickname} /> */}
                   <span className="comment-profile-nickname">
                     {comment.writer.nickname}
                   </span>
@@ -237,6 +245,14 @@ const View = () => {
                   </span>
                 </div>
                 <div className="comment-content">{comment.content}</div>
+                <div className="btns">
+                  <a
+                    className="comment-btn_delete"
+                    onClick={() => handleDeleteComment(comment.no)}
+                  >
+                    삭제
+                  </a>
+                </div>
               </div>
             ))}
           </div>
@@ -245,6 +261,8 @@ const View = () => {
             <textarea
               className="view-comment-content"
               ref={commentInputRef}
+              value={enteredContent}
+              onChange={handleChange}
               placeholder="댓글을 남겨보세요"
             ></textarea>
             <button
@@ -287,3 +305,8 @@ export default View;
 //       setError(error);
 //     });
 // }, [no]);
+
+{
+  /* <div className="comment-profile">
+<img className="comment-profile-image" src={comment.writer.profileImageUrl} alt={comment.writer.nickname} /> */
+}

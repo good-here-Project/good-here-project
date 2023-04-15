@@ -147,6 +147,7 @@
 
 .comment .comment-content {
   margin-left: 20px;
+  height: auto;
   font-size: 16px;
   line-height: 1.5;
 }
@@ -156,6 +157,20 @@
   justify-content: space-between;
 }
 
+.comment-profile-nickname {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 10px 0 0 20px;
+}
+
 .comment-profile-date {
+  color: rgb(127, 127, 127);
+  float: right;
+}
+.btns {
+  height: 20px;
+}
+
+.comment-btn_delete {
   float: right;
 }
