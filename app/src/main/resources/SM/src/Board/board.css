@@ -36,7 +36,7 @@ table {
 }
 
 .board-body tr {
-  border: solid 0.5px rgb(230, 225, 225);
+  border-bottom: solid 0.5px rgb(230, 225, 225);
 }
 
 .board-body td {
@@ -46,7 +46,7 @@ table {
 }
 
 .board-body-type {
-  border-right: 0.5px solid #dedede;
+  /* border-right: 0.5px solid #dedede; */
 }
 
 .board-body td:link {
@@ -159,4 +159,33 @@ table {
 .pagination ul li:last-child:hover {
   color: #fff;
   background: #eb1484;
+}
+
+.board-body-type {
+  font-weight: 600;
+}
+
+.board-body tr:hover {
+  background-color: #cccbcb;
+  /* color: #fff; */
+}
+
+.board-body-type.자유 {
+  color: rgb(55, 167, 79);
+}
+
+.board-body-type.질문 {
+  color: red;
+}
+
+.board-body-type.맛집\&카페 {
+  color: burlywood;
+}
+
+.board-body-type.여행\ 정보 {
+  color: purple;
+}
+
+.board-body-type.여행\ 동행 {
+  color: orange;
 }

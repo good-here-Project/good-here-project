@@ -30,7 +30,7 @@ const Board = () => {
       case 1:
         return "자유";
       case 2:
-        return "Q & A";
+        return "질문";
       case 3:
         return "맛집&카페";
       case 4:
@@ -107,7 +107,11 @@ const Board = () => {
         <tbody className="board-body" id="tbody">
           {slicedPosts.map((post) => (
             <tr key={post.no}>
-              <td className="board-body-type">
+              <td
+                className={`board-body-type ${boardTypeValue(
+                  post.boardTypeId
+                ).toLowerCase()}`}
+              >
                 {boardTypeValue(post.boardTypeId)}
               </td>
               <td>

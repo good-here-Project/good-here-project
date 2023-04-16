@@ -165,6 +165,25 @@ const View = () => {
       });
   };
 
+  // const handleUpdateComment = (id) => {
+  //   axios({
+  //     method: "PUT",
+  //     url: `${baseUrl}/web/replys/${id}`,
+  //     withCredentials: true,
+  //     params: {
+  //       content: enteredContent,
+  //     },
+  //   })
+  //     .then(() => {
+  //       console.log("success");
+  //       const updatedComments = comments.filter((comment) => comment.no !== id);
+  //       setComments(updatedComments);
+  //     })
+  //     .catch((error) => {
+  //       setError(error);
+  //     });
+  // };
+
   const handleDeleteComment = (id) => {
     axios({
       method: "DELETE",
@@ -252,27 +271,49 @@ const View = () => {
                   >
                     삭제
                   </a>
+                  <a
+                    className="comment-btn_update"
+                    // onClick={() => handleDeleteComment(comment.no)}
+                  >
+                    수정
+                  </a>
                 </div>
               </div>
             ))}
           </div>
-          <div className="view-comment-main">
-            <div className="view-comment-nickname">{user.data.nickname}</div>
-            <textarea
-              className="view-comment-content"
-              ref={commentInputRef}
-              value={enteredContent}
-              onChange={handleChange}
-              placeholder="댓글을 남겨보세요"
-            ></textarea>
-            <button
-              className="view-comment-insert"
-              type="button"
-              onClick={handleComment}
-            >
-              등록
-            </button>
-          </div>
+          {user.data !== null ? (
+            <div className="view-comment-main">
+              <div className="view-comment-nickname">{user.data.nickname}</div>
+              <textarea
+                className="view-comment-content"
+                ref={commentInputRef}
+                value={enteredContent}
+                onChange={handleChange}
+                placeholder="댓글을 남겨보세요"
+              ></textarea>
+              <button
+                className="view-comment-insert"
+                type="button"
+                onClick={handleComment}
+              >
+                등록
+              </button>
+            </div>
+          ) : (
+            <div className="view-comment-main">
+              <div className="view-comment-nickname">
+                로그인 후 이용 가능합니다
+              </div>
+              <textarea
+                className="view-comment-content"
+                placeholder="로그인후 댓글을 남겨보세요!"
+                onClick={() => {
+                  navigate("/Login");
+                }}
+                readOnly
+              ></textarea>
+            </div>
+          )}
         </header>
       </section>
     </div>

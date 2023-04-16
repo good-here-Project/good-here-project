@@ -171,6 +171,8 @@
   height: 20px;
 }
 
-.comment-btn_delete {
+.comment-btn_delete,
+.comment-btn_update {
+  padding-left: 20px;
   float: right;
 }
