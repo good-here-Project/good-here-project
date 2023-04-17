@@ -17,6 +17,7 @@ const View = () => {
   const navigate = useNavigate();
   const prevNoRef = useRef(null);
   const commentInputRef = useRef();
+  const [editingComment, setEditingComment] = useState(null);
 
   const handleDelete = () => {
     axios({
@@ -96,8 +97,6 @@ const View = () => {
       });
   }, []);
 
-  console.log(user);
-
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -165,24 +164,32 @@ const View = () => {
       });
   };
 
-  // const handleUpdateComment = (id) => {
-  //   axios({
-  //     method: "PUT",
-  //     url: `${baseUrl}/web/replys/${id}`,
-  //     withCredentials: true,
-  //     params: {
-  //       content: enteredContent,
-  //     },
-  //   })
-  //     .then(() => {
-  //       console.log("success");
-  //       const updatedComments = comments.filter((comment) => comment.no !== id);
-  //       setComments(updatedComments);
-  //     })
-  //     .catch((error) => {
-  //       setError(error);
-  //     });
-  // };
+  // 댓글 수정
+  const handleUpdateComment = (id) => {
+    axios({
+      method: "PUT",
+      url: `${baseUrl}/web/replys/${id}`,
+      withCredentials: true,
+      params: {
+        content: editingComment.content,
+      },
+    })
+      .then((response) => {
+        // 댓글 업데이트 성공 시, comments 배열에서 해당 댓글을 찾아 업데이트한다.
+        const updatedComments = comments.map((comment) => {
+          if (comment.no === id) {
+            // 해당 댓글을 찾으면 업데이트한다.
+            return { ...comment, content: editingComment.content };
+          }
+          return comment; // 해당 댓글이 아니면 그대로 반환한다.
+        });
+        setComments(updatedComments); // 변경된 comments 배열을 설정한다.
+        setEditingComment(null); // editingComment를 초기화한다.
+      })
+      .catch((error) => {
+        setError(error);
+      });
+  };
 
   const handleDeleteComment = (id) => {
     axios({
@@ -199,6 +206,9 @@ const View = () => {
         setError(error);
       });
   };
+
+  console.log(content);
+  console.log(user);
 
   return (
     <div className="view-main">
@@ -245,42 +255,82 @@ const View = () => {
               </div>
             </div>
           </div>
-          <div className="view-content-bottom">
-            <button onClick={handleDelete}>삭제</button>
-            <Link to={`/FormUpdate/${content.data?.no}`}>
-              <button>수정</button>
-            </Link>
-            <button onClick={handleBoard}>목록</button>
-          </div>
+          {user.data &&
+          content.data &&
+          user.data.no === content.data.writer.no ? (
+            <div className="view-content-bottom">
+              <button onClick={handleDelete}>삭제</button>
+              <Link to={`/FormUpdate/${content.data?.no}`}>
+                <button>수정</button>
+              </Link>
+              <button onClick={handleBoard}>목록</button>
+            </div>
+          ) : (
+            <div className="view-content-bottom">
+              <button onClick={handleBoard}>목록</button>
+            </div>
+          )}
+
           <div className="view-comment-list">
             {comments.map((comment) => (
               <div key={comment.no} className="comment" comment={comment}>
-                <div className="comment-profile">
-                  <span className="comment-profile-nickname">
-                    {comment.writer.nickname}
-                  </span>
-                  <span className="comment-profile-date">
-                    {comment.createdDate}
-                  </span>
-                </div>
-                <div className="comment-content">{comment.content}</div>
-                <div className="btns">
-                  <a
-                    className="comment-btn_delete"
-                    onClick={() => handleDeleteComment(comment.no)}
-                  >
-                    삭제
-                  </a>
-                  <a
-                    className="comment-btn_update"
-                    // onClick={() => handleDeleteComment(comment.no)}
-                  >
-                    수정
-                  </a>
-                </div>
+                {editingComment && editingComment.no === comment.no ? (
+                  // 수정할 수 있는 입력 폼
+                  <div>
+                    <textarea
+                      value={editingComment.content}
+                      onChange={(e) =>
+                        setEditingComment({
+                          ...editingComment,
+                          content: e.target.value,
+                        })
+                      }
+                    />
+                    <button
+                      type="button"
+                      onClick={() => handleUpdateComment(comment.no)}
+                    >
+                      저장
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditingComment(null)}
+                    >
+                      취소
+                    </button>
+                  </div>
+                ) : (
+                  // 기존 댓글
+                  <div>
+                    <div className="comment-profile">
+                      <span className="comment-profile-nickname">
+                        {comment.writer.nickname}
+                      </span>
+                      <span className="comment-profile-date">
+                        {comment.createdDate}
+                      </span>
+                    </div>
+                    <div className="comment-content">{comment.content}</div>
+                    <div className="btns">
+                      <a
+                        className="comment-btn_delete"
+                        onClick={() => handleDeleteComment(comment.no)}
+                      >
+                        삭제
+                      </a>
+                      <a
+                        className="comment-btn_update"
+                        onClick={() => setEditingComment(comment)}
+                      >
+                        수정
+                      </a>
+                    </div>
+                  </div>
+                )}
               </div>
             ))}
           </div>
+
           {user.data !== null ? (
             <div className="view-comment-main">
               <div className="view-comment-nickname">{user.data.nickname}</div>
