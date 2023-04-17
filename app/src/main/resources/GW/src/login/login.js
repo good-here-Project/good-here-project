@@ -51,14 +51,14 @@ function Login() {
       });
   }
 
- // ---------------------------------페이스북 로그인-----------------------------------
+  // ---------------------------------구글 로그인-----------------------------------
   function googleLogin(credential) {
     const data = {
-      "accessToken": credential
+      "credential": credential
     }
-    
+
     console.log(credential);
-    /*
+
     axios.post("http://localhost/web/auth/googleLogin", data)
       .then(response => {
         console.log(response);
@@ -73,7 +73,6 @@ function Login() {
         alert("구글 로그인 오류!");
         console.log(exception);
       });
-      */
   }
 
 
@@ -142,10 +141,10 @@ function Login() {
             <button type="submit" className="btn-google">Continue with Google</button>
             <GoogleOAuthProvider clientId="1087840897429-akb84m84c0i06q9p3a81tbglgtqsn28j.apps.googleusercontent.com">
               <GoogleLogin
-              scope="https://www.googleapis.com/auth/userinfo.profile"
+                scope="https://www.googleapis.com/auth/userinfo.profile"
                 onSuccess={(response) => {
-                  console.log(response);
-                  googleLogin(jwtDecode(response.credential));
+                  //console.log(response)
+                  googleLogin(response.credential);
                 }}
                 onFailure={(error) => {
                   console.log(error);
@@ -153,6 +152,7 @@ function Login() {
               />
             </GoogleOAuthProvider>
           </div>
+
         </form>
       </div>
     </div>
