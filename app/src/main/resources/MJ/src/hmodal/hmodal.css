@@ -31,8 +31,10 @@
 .hmodal-view-file {
 	margin: 15px;
 	width: 380px;
-	height: 650px;
-	border: 1px solid;
+	display: flex;
+	margin-bottom: 445px;
+	/* height: 650px; */
+	/* border: 1px solid; */
 }
 
 .hmodal-view-text {

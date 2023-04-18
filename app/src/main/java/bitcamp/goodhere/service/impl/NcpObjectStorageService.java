@@ -39,8 +39,9 @@ public class NcpObjectStorageService implements ObjectStorageService {
       return null;
     }
 
+
     try (InputStream fileIn = file.getInputStream()) {
-      String filename = UUID.randomUUID().toString();
+      String filename = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();;
 
       ObjectMetadata objectMetadata = new ObjectMetadata();
       objectMetadata.setContentType(file.getContentType());

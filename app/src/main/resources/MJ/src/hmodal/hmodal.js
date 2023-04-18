@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import './hmodal.css';
 import axios from 'axios';
+import ReactPlayer from 'react-player';
 
 axios.defaults.withCredentials = true;
 
@@ -13,6 +14,7 @@ function HModal(props) {
   const [prevImage, setPrevImage] = useState('');
 
   const [data, setData] = React.useState([]);
+  const [url, setUrl] = useState('');
 
   const handleKeyDown = (event) => {
     if (event.keyCode === 13) {
@@ -39,11 +41,9 @@ function HModal(props) {
       }
     )
 		.then(response => {
-      // console.log(response);
 			return response;
 		})
 		.then(result => {
-			// console.log(result);
 			if (result.status == '200') {
         window.location.reload();
 			} else if (result.errorCode == '401') {
@@ -85,8 +85,6 @@ function HModal(props) {
     }
   }
 
-  // console.log(isNo);
-
   if (!isOpen) {
     return null;
   }
@@ -94,30 +92,31 @@ function HModal(props) {
   axios.get(`http://localhost/web/boards/${isNo}`)
   .then(response => {
     const result = response.data;
+
     if (result.status === 'failure') {
       alert('게시글을 조회할 수 없습니다.');
-      // location.href = "list.html";
       return;
     }
     
     const board = result.data;
-    //console.log(board);
-    // document.querySelector("input[name='no']").value = board.no;
+
     document.querySelector("input[name='title']").value = board.title;
     document.querySelector("#f-created-date").innerHTML = board.createdDate;
     document.querySelector("#f-writer-name").innerHTML = board.writer.nickname;
     document.querySelector("textarea[name='content']").value = board.content;
-    // document.querySelector("#f-view-count").innerHTML = board.viewCount;
-    
+
+
     let ul = "";
     board.attachedFiles.forEach(file => {
       // console.log(file);
       if (file.no == 0) return;
       let html = `
-        <li id="li-${file.no}">
-          <a href="https://kr.object.ncloudstorage.com/bitcamp-bucket28/board/${file.filepath}">${file.originalFilename}</a>
-          [<a href="#" onclick="deleteFile(${board.no}, ${file.no}); return false;">삭제</a>] 
-        </li>`;
+      <li id="li-${file.no}">
+        <a href="https://kr.object.ncloudstorage.com/bitcamp-bucket22/board/${file.filepath}">${file.originalFilename}</a>
+        [<a href="#" onClick="deleteFile(${board.no}, ${file.no}); return false;">삭제</a>] 
+      </li>`;
+        setUrl(`${file.filepath}`);
+        console.log(url);
       ul += html;
     });
     document.querySelector("#f-files").innerHTML = ul;
@@ -235,7 +234,30 @@ function HModal(props) {
           return String(num).padStart(2, '0');
         }
       }
-  
+
+      function deleteFile(boardNo, fileNo) {
+        fetch("https://localhost/web/boards/" + boardNo + "/files/" + fileNo, {
+          method: "DELETE"
+        })
+        .then(response => {
+          return response.json();
+        })
+        .then(result => {
+          if (result.status == 'success') {
+            let li = document.querySelector('#li-' + fileNo);
+            document.querySelector("#f-files").removeChild(li);
+      
+            // 파일이 삭제되었으므로 url도 초기화합니다.
+            setUrl("");
+          } else {
+            alert('파일 삭제 실패!');
+          }
+        })
+        .catch(exception => {
+          alert('파일 삭제 중 오류 발생!');
+          console.log(exception);
+        });
+      }
 
   return (
     <div className="hmodal-background" onClick={e => {
@@ -250,8 +272,14 @@ function HModal(props) {
           <form id='board-form' method='post' enctype="multipart/form-data">
             <div className='hmodal-view'>
 
-              <div className='hmodal-view-file'>
-              </div>
+            <div className='hmodal-view-file'>
+            <ReactPlayer
+              url={url}
+              controls={true}
+              width='380px'
+              height='100%'
+            />
+            </div>
 
               <div className='hmodal-view-text'>
                 <div className='hmodal-view-header'>
