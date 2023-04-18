@@ -10,6 +10,7 @@ const View = () => {
   const { no } = useParams();
   const [content, setContent] = useState({ data: null });
   const [comments, setComments] = useState([]);
+  // const [parentComments, setParentComments] = useState([]);
   const [enteredContent, setEnteredContent] = useState("");
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -18,6 +19,8 @@ const View = () => {
   const prevNoRef = useRef(null);
   const commentInputRef = useRef();
   const [editingComment, setEditingComment] = useState(null);
+  const [editingReComment, setEditingReComment] = useState(null);
+  const [reComments, setReComments] = useState([]);
 
   const handleDelete = () => {
     axios({
@@ -51,7 +54,7 @@ const View = () => {
         withCredentials: true,
       })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           setContent(response.data);
           setIsLoading(false);
         })
@@ -67,8 +70,19 @@ const View = () => {
         withCredentials: true,
       })
         .then((response) => {
-          console.log(response.data);
+          let allReComments = []; // 모든 자식 댓글을 저장할 배열
+
+          // response.data의 객체들을 순회하며 각 객체의 reComments 프로퍼티를 추출하여 allReComments 배열에 추가
+          response.data.forEach((comment) => {
+            allReComments = allReComments.concat(comment.reComments);
+          });
+
+          console.log("----------");
+          // console.log(response.data?.reComments);
           setComments(response.data);
+          // setParentComments(response.data);
+          setReComments(allReComments);
+          console.log("성공");
         })
         .catch((error) => {
           setError(error);
@@ -87,7 +101,7 @@ const View = () => {
       withCredentials: true,
     })
       .then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         setUser(response.data);
         setIsLoading(false);
       })
@@ -207,8 +221,43 @@ const View = () => {
       });
   };
 
-  console.log(content);
-  console.log(user);
+  const handleReComment = () => {
+    // 부모 댓글 no
+    console.log(editingReComment.no);
+    console.log(user.data.nickname);
+
+    axios({
+      method: "POST",
+      url: baseUrl + `/web/replys/child`,
+      params: {
+        parentCommentNo: editingReComment.no,
+        content: editingReComment.content,
+      },
+      withCredentials: true,
+    })
+      .then((response) => {
+        console.log("대댓글 성공");
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  // console.log(comments.writer.no);
+  // console.log(user.data);
+  console.log(
+    comments.map((comment) => {
+      comment.reComments.map((rec) => {
+        console.log(rec);
+      });
+    })
+  );
+  console.log(
+    reComments.map((recomment) => {
+      console.log(recomment.no);
+    })
+  );
 
   return (
     <div className="view-main">
@@ -271,13 +320,17 @@ const View = () => {
             </div>
           )}
 
-          <div className="view-comment-list">
+          {/* <div className="view-comment-list">
             {comments.map((comment) => (
               <div key={comment.no} className="comment" comment={comment}>
                 {editingComment && editingComment.no === comment.no ? (
                   // 수정할 수 있는 입력 폼
-                  <div>
+                  <div className="comment-update">
+                    <div className="view-comment-nickname">
+                      {user.data.nickname}
+                    </div>
                     <textarea
+                      className="comment-update-text"
                       value={editingComment.content}
                       onChange={(e) =>
                         setEditingComment({
@@ -286,18 +339,23 @@ const View = () => {
                         })
                       }
                     />
-                    <button
-                      type="button"
-                      onClick={() => handleUpdateComment(comment.no)}
-                    >
-                      저장
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setEditingComment(null)}
-                    >
-                      취소
-                    </button>
+
+                    <div className="comment-update-btns">
+                      <button
+                        className="comment-update-cancel-btn"
+                        type="button"
+                        onClick={() => setEditingComment(null)}
+                      >
+                        취소
+                      </button>
+                      <button
+                        className="comment-update-btn"
+                        type="button"
+                        onClick={() => handleUpdateComment(comment.no)}
+                      >
+                        수정
+                      </button>
+                    </div>
                   </div>
                 ) : (
                   // 기존 댓글
@@ -311,20 +369,251 @@ const View = () => {
                       </span>
                     </div>
                     <div className="comment-content">{comment.content}</div>
-                    <div className="btns">
-                      <a
-                        className="comment-btn_delete"
-                        onClick={() => handleDeleteComment(comment.no)}
-                      >
-                        삭제
-                      </a>
-                      <a
-                        className="comment-btn_update"
-                        onClick={() => setEditingComment(comment)}
-                      >
-                        수정
-                      </a>
+                    {user.data &&
+                    comment.writer &&
+                    user.data.no === comment.writer.no ? (
+                      <div className="btns">
+                        <button
+                          className="comment-btn_delete"
+                          onClick={() => handleDeleteComment(comment.no)}
+                        >
+                          삭제
+                        </button>
+                        <button
+                          className="comment-btn_update"
+                          onClick={() => setEditingComment(comment)}
+                        >
+                          수정
+                        </button>
+                        <button
+                          className="comment-btn_re-comment"
+                          // onClick={() => setEditingComment(comment)}
+                        >
+                          답글
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="btns">
+                        <button
+                          className="comment-btn_re-comment"
+                          // onClick={() => setEditingComment(comment)}
+                        >
+                          답글
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div> */}
+
+          <div className="view-comment-list">
+            {comments.map((comment) => (
+              <div key={comment.no} className="comment" comment={comment}>
+                {editingComment && editingComment.no === comment.no ? (
+                  <div className="comment-reply">
+                    <div className="comment-profile">
+                      <span className="comment-profile-nickname">
+                        {user.data.nickname}
+                      </span>
                     </div>
+                    <textarea
+                      className="comment-reply-text"
+                      defaultValue={""}
+                      // value={editingReComment.content && ""}
+                      onChange={(e) =>
+                        setEditingReComment({
+                          ...editingReComment,
+                          content: e.target.value,
+                        })
+                      }
+                    />
+                    <div className="comment-reply-btns">
+                      <button
+                        className="comment-reply-cancel-btn"
+                        type="button"
+                        onClick={() => setEditingReComment(null)}
+                      >
+                        취소
+                      </button>
+                      <button
+                        className="comment-reply-btn"
+                        type="button"
+                        onClick={() => handleReComment(comment.no)}
+                      >
+                        등록
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="comment-profile">
+                      <span className="comment-profile-nickname">
+                        {comment.writer.nickname}
+                      </span>
+                      <span className="comment-profile-date">
+                        {comment.createdDate}
+                      </span>
+                    </div>
+                    <div className="comment-content">{comment.content}</div>
+                    {user.data &&
+                    comment.writer &&
+                    user.data.no === comment.writer.no ? (
+                      <div className="btns">
+                        <button
+                          className="comment-btn_delete"
+                          onClick={() => handleDeleteComment(comment.no)}
+                        >
+                          삭제
+                        </button>
+                        <button
+                          className="comment-btn_update"
+                          onClick={() => setEditingComment(comment)}
+                        >
+                          수정
+                        </button>
+                        <button
+                          className="comment-btn_re-comment"
+                          onClick={() => setEditingReComment(comment)}
+                        >
+                          답글
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="btns">
+                        <button
+                          className="comment-btn_re-comment"
+                          onClick={() => setEditingReComment(comment)}
+                        >
+                          답글
+                        </button>
+                      </div>
+                    )}
+                    {editingReComment && editingReComment.no === comment.no ? (
+                      // 답글 입력 폼
+                      <div className="comment-reply">
+                        <div className="comment-profile">
+                          <span className="comment-profile-nickname">
+                            {user.data.nickname}
+                          </span>
+                        </div>
+                        <textarea
+                          className="comment-reply-text"
+                          defaultValue={""}
+                          // value={editingReComment.content && ""}
+                          onChange={(e) =>
+                            setEditingReComment({
+                              ...editingReComment,
+                              content: e.target.value,
+                            })
+                          }
+                        />
+                        <div className="comment-reply-btns">
+                          <button
+                            className="comment-reply-cancel-btn"
+                            type="button"
+                            onClick={() => setEditingReComment(null)}
+                          >
+                            취소
+                          </button>
+                          <button
+                            className="comment-reply-btn"
+                            type="button"
+                            onClick={() => handleReComment()}
+                          >
+                            등록
+                          </button>
+                        </div>
+                      </div>
+                    ) : null}
+
+                    {/* {reComments &&
+                      reComments.map((reComment) => {
+                        <div
+                          key={reComment.no}
+                          className="re-comment"
+                          reComment={reComment}
+                        >
+                          <div className="comment-profile">
+                            <span className="comment-profile-nickname">
+                              {reComment.writer.nickname}
+                            </span>
+                            <span className="comment-profile-date">
+                              {reComment.createdDate}
+                            </span>
+                          </div>
+                          <div className="comment-content">
+                            {reComment.content}
+                          </div>
+                          {user.data && user.data.no === reComment.writer.no ? (
+                            <div className="btns">
+                              <button
+                                className="comment-btn_delete"
+                                // onClick={() =>
+                                //   handleDeleteReComment(comment.no, reComment.no)
+                                // }
+                              >
+                                삭제
+                              </button>
+                              <button
+                                className="comment-btn_update"
+                                onClick={() => setEditingReComment(reComment)}
+                              >
+                                수정
+                              </button>
+                            </div>
+                          ) : null}
+                        </div>;
+                      })} */}
+
+                    {reComments &&
+                      reComments
+                        .filter((reComment) =>
+                          comment.reComments.some(
+                            (rec) => reComment.no === rec.no
+                          )
+                        )
+                        .map((reComment) => (
+                          <div
+                            key={reComment.no}
+                            className="re-comment"
+                            reComment={reComment}
+                          >
+                            <div className="comment-profile">
+                              <span className="comment-profile-nickname">
+                                {reComment.writer.nickname}
+                              </span>
+                              <span className="comment-profile-date">
+                                {reComment.createdDate}
+                              </span>
+                            </div>
+                            <div className="comment-content">
+                              {reComment.content}
+                            </div>
+                            {user.data &&
+                              user.data.no === reComment.writer.no && (
+                                <div className="btns">
+                                  <button
+                                    className="comment-btn_delete"
+                                    // onClick={() =>
+                                    //   handleDeleteReComment(comment.no, reComment.no)
+                                    // }
+                                  >
+                                    삭제
+                                  </button>
+                                  <button
+                                    className="comment-btn_update"
+                                    onClick={() =>
+                                      setEditingReComment(reComment)
+                                    }
+                                  >
+                                    수정
+                                  </button>
+                                </div>
+                              )}
+                          </div>
+                        ))}
                   </div>
                 )}
               </div>
@@ -400,4 +689,56 @@ export default View;
 {
   /* <div className="comment-profile">
 <img className="comment-profile-image" src={comment.writer.profileImageUrl} alt={comment.writer.nickname} /> */
+}
+
+{
+  /* {reComments &&
+                          reComments.map((reComment) => (
+                            <div key={reComment.no} className="re-comment">
+                              <div className="re-comment-content">
+                                {reComment.content}
+                              </div>
+                            </div>
+                          ))} */
+}
+
+{
+  /* {reComments &&
+                      reComments.map((reComment) => (
+                        <div
+                          key={reComment.no}
+                          className="re-comment"
+                          reComment={reComment}
+                        >
+                          <div className="comment-profile">
+                            <span className="comment-profile-nickname">
+                              {reComment.writer.nickname}
+                            </span>
+                            <span className="comment-profile-date">
+                              {reComment.createdDate}
+                            </span>
+                          </div>
+                          <div className="comment-content">
+                            {reComment.content}
+                          </div>
+                          {user.data && user.data.no === reComment.writer.no ? (
+                            <div className="btns">
+                              <button
+                                className="comment-btn_delete"
+                                // onClick={() =>
+                                //   handleDeleteReComment(comment.no, reComment.no)
+                                // }
+                              >
+                                삭제
+                              </button>
+                              <button
+                                className="comment-btn_update"
+                                onClick={() => setEditingReComment(reComment)}
+                              >
+                                수정
+                              </button>
+                            </div>
+                          ) : null}
+                        </div>
+                      ))} */
 }

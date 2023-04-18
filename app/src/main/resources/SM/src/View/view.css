@@ -172,8 +172,28 @@
   height: 20px;
 }
 
+.comment-update {
+  padding: 0 10px 0 10px;
+}
+
+.comment-update-btns {
+  height: 20px;
+}
+
 .comment-btn_delete,
-.comment-btn_update {
+.comment-btn_update,
+.comment-btn_re-comment {
   padding-left: 20px;
+  float: right;
+}
+
+.comment-update-text {
+  border-radius: 10px;
+  width: 99.7%;
+  height: 50px;
+}
+
+.comment-update-btn,
+.comment-update-cancel-btn {
   float: right;
 }
