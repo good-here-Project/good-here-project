@@ -1,0 +1,36 @@
+/* sidebar.css */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -200px;
+    /* 사이드바가 숨겨진 초기 위치 */
+    width: 200px;
+    height: 100vh;
+    background-color: #f0f0f0;
+    transition: left 0.3s ease-in-out;
+    z-index: 999;
+}
+
+.sidebar.open {
+    left: 0;
+    /* 사이드바가 나타나는 위치 */
+}
+
+.sidebar img {
+    cursor: pointer;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.sidebar li:hover {
+    background-color: #e0e0e0;
+}

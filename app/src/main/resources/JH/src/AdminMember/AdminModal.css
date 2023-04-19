@@ -1,0 +1,10 @@
+.Amodal-board {
+	cursor: pointer;
+	width: 270px;
+	height: 270px;
+	border: 1px solid lightgray;
+	border-radius: 10px;
+	margin: 40px;
+	font-size: 19px;
+	font-weight: bold;
+}
