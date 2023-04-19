@@ -1,39 +1,15 @@
-import React, { useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Link 컴포넌트 import 추가
+import React from 'react';
 import './Sidebar.css';
+import { NavLink } from 'react-router-dom';
 
-function Sidebar({ isOpen, setIsOpen }) {
-    const outside = useRef();
-
-    useEffect(() => {
-        document.addEventListener('mousedown', handlerOutside);
-        return () => {
-            document.removeEventListener('mousedown', handlerOutside);
-        };
-    }, []);
-
-    const handlerOutside = (e) => {
-        if (!outside.current.contains(e.target)) {
-            toggleSide();
-        }
-    };
-
-    const toggleSide = () => {
-        setIsOpen(false);
-    };
-
+function Sidebar() {
     return (
-        <div
-            id="sidebar"
-            ref={outside}
-            className={`sidebar ${isOpen ? 'open' : ''}`}
-        >
-            <img src="/img/close.png" alt="close" onClick={toggleSide} onKeyDown={toggleSide} />
-            <ul>
-                <Link to='/AdminMember' style={{ textDecoration: "none" }}><li className="adminmember" id="adminmember">회원관리</li></Link>
-                <li>메뉴2</li>
-                <li>메뉴3</li>
-            </ul>
+        <div className="sidebar">
+            <NavLink exact to="/" activeClassName="active">홈</NavLink>
+            <NavLink to="/AdminMember" activeClassName="active">회원 관리</NavLink>
+            <NavLink to="/board" activeClassName="active">게시물 관리</NavLink>
+            <NavLink to="/customer-support" activeClassName="active">고객 지원</NavLink>
+            <NavLink to="/contact" activeClassName="active">문의하기</NavLink>
         </div>
     );
 }

@@ -4,6 +4,8 @@ import axios from "axios";
 import "./AdminMember.css";
 import AdminModal from "./AdminModal"; // Modal 컴포넌트 import
 import "./AdminMember.css";
+import Sidebar from '../Sidebar/Sidebar';
+
 
 
 function AdminMember() {
@@ -59,11 +61,8 @@ function AdminMember() {
     return (
         <div className="adminMember">
             <div className="adminMember-header">
-                <h2>
-                    <Link to="/AdminMember" className="adminMember-link">
-                        회원 관리
-                    </Link>
-                </h2>
+                <Sidebar />
+                <h2>회원 관리</h2>
                 <input
                     id="searchMember"
                     type="text"

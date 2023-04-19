@@ -24,15 +24,14 @@
 
 .adminMember-input {
     flex: 0 0 auto;
-    /* 수정: flex-grow를 0으로 설정하여 더 이상 확장되지 않도록 함 */
     margin-left: auto;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 3px;
     outline: none;
     font-size: 16px;
-    max-width: 300px;
-    /* 수정: 최대 너비를 300px로 제한하여 크기를 줄임 */
+    max-width: unset;
+    /* 수정 */
 }
 
 .adminMember-table {

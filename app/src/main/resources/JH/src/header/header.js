@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Modal from "../modal/modal";
 import UPModal from "../upmodal/upmodal";
-import Sidebar from "../Sidebar/Sidebar";
+
 
 axios.defaults.withCredentials = true;
 
@@ -101,12 +101,7 @@ function Header() {
           </li>
         </ul>
       </div>
-      <div className="side-menu">
-        <button className="menu-btn" role="button" onClick={toggleSide}>
-          <img className="menu-img" src="/img/menu.png" alt="Menu" />
-        </button>
-        <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
-      </div>
+
 
       <Modal isOpen={isModalOpen} onClose={handleModalClose}>
         <div className="modal-main">

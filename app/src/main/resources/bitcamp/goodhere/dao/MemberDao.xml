@@ -80,7 +80,6 @@
   <update id="update" parameterType="member">
     update gh_member set
       email=#{email}, 
-      pwd=#{password}, 
       name=#{name}, 
       tel=#{tel}, 
       nickname=#{nickname}, 
