@@ -180,6 +180,7 @@ const View = () => {
 
   // 댓글 수정
   const handleUpdateComment = (id) => {
+    console.log("댓글 수정 클릭 ");
     axios({
       method: "PUT",
       url: `${baseUrl}/web/replys/${id}`,
@@ -190,6 +191,7 @@ const View = () => {
     })
       .then((response) => {
         // 댓글 업데이트 성공 시, comments 배열에서 해당 댓글을 찾아 업데이트한다.
+        console.log("댓글 수정 성공");
         const updatedComments = comments.map((comment) => {
           if (comment.no === id) {
             // 해당 댓글을 찾으면 업데이트한다.
@@ -199,6 +201,36 @@ const View = () => {
         });
         setComments(updatedComments); // 변경된 comments 배열을 설정한다.
         setEditingComment(null); // editingComment를 초기화한다.
+      })
+      .catch((error) => {
+        setError(error);
+      });
+  };
+
+  const handleUpdateReComment = (no) => {
+    console.log(no);
+    console.log(editingReComment.content);
+
+    axios({
+      method: "PUT",
+      url: `${baseUrl}/web/replys/child/${no}`,
+      withCredentials: true,
+      params: {
+        content: editingReComment.content,
+      },
+    })
+      .then((response) => {
+        // 댓글 업데이트 성공 시, comments 배열에서 해당 댓글을 찾아 업데이트한다.
+        console.log("대댓글 수정 성공");
+        const updatedComments = reComments.map((recomment) => {
+          if (recomment.no === no) {
+            // 해당 댓글을 찾으면 업데이트한다.
+            return { ...recomment, content: editingReComment.content };
+          }
+          return recomment; // 해당 댓글이 아니면 그대로 반환한다.
+        });
+        setReComments(updatedComments); // 변경된 comments 배열을 설정한다.
+        setEditingReComment(null); // editingComment를 초기화한다.
       })
       .catch((error) => {
         setError(error);
@@ -365,94 +397,6 @@ const View = () => {
             </div>
           )}
 
-          {/* <div className="view-comment-list">
-            {comments.map((comment) => (
-              <div key={comment.no} className="comment" comment={comment}>
-                {editingComment && editingComment.no === comment.no ? (
-                  // 수정할 수 있는 입력 폼
-                  <div className="comment-update">
-                    <div className="view-comment-nickname">
-                      {user.data.nickname}
-                    </div>
-                    <textarea
-                      className="comment-update-text"
-                      value={editingComment.content}
-                      onChange={(e) =>
-                        setEditingComment({
-                          ...editingComment,
-                          content: e.target.value,
-                        })
-                      }
-                    />
-
-                    <div className="comment-update-btns">
-                      <button
-                        className="comment-update-cancel-btn"
-                        type="button"
-                        onClick={() => setEditingComment(null)}
-                      >
-                        취소
-                      </button>
-                      <button
-                        className="comment-update-btn"
-                        type="button"
-                        onClick={() => handleUpdateComment(comment.no)}
-                      >
-                        수정
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  // 기존 댓글
-                  <div>
-                    <div className="comment-profile">
-                      <span className="comment-profile-nickname">
-                        {comment.writer.nickname}
-                      </span>
-                      <span className="comment-profile-date">
-                        {comment.createdDate}
-                      </span>
-                    </div>
-                    <div className="comment-content">{comment.content}</div>
-                    {user.data &&
-                    comment.writer &&
-                    user.data.no === comment.writer.no ? (
-                      <div className="btns">
-                        <button
-                          className="comment-btn_delete"
-                          onClick={() => handleDeleteComment(comment.no)}
-                        >
-                          삭제
-                        </button>
-                        <button
-                          className="comment-btn_update"
-                          onClick={() => setEditingComment(comment)}
-                        >
-                          수정
-                        </button>
-                        <button
-                          className="comment-btn_re-comment"
-                          // onClick={() => setEditingComment(comment)}
-                        >
-                          답글
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="btns">
-                        <button
-                          className="comment-btn_re-comment"
-                          // onClick={() => setEditingComment(comment)}
-                        >
-                          답글
-                        </button>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            ))}
-          </div> */}
-
           <div className="view-comment-list">
             {comments.map((comment) => (
               <div key={comment.no} className="comment" comment={comment}>
@@ -468,8 +412,8 @@ const View = () => {
                       defaultValue={""}
                       // value={editingReComment.content && ""}
                       onChange={(e) =>
-                        setEditingReComment({
-                          ...editingReComment,
+                        setEditingComment({
+                          ...editingComment,
                           content: e.target.value,
                         })
                       }
@@ -478,16 +422,16 @@ const View = () => {
                       <button
                         className="comment-reply-cancel-btn"
                         type="button"
-                        onClick={() => setEditingReComment(null)}
+                        onClick={() => setEditingComment(null)}
                       >
                         취소
                       </button>
                       <button
                         className="comment-reply-btn"
                         type="button"
-                        onClick={() => handleReComment(comment.no)}
+                        onClick={() => handleUpdateComment(comment.no)}
                       >
-                        등록
+                        변경
                       </button>
                     </div>
                   </div>
@@ -573,45 +517,6 @@ const View = () => {
                       </div>
                     ) : null}
 
-                    {/* {reComments &&
-                      reComments.map((reComment) => {
-                        <div
-                          key={reComment.no}
-                          className="re-comment"
-                          reComment={reComment}
-                        >
-                          <div className="comment-profile">
-                            <span className="comment-profile-nickname">
-                              {reComment.writer.nickname}
-                            </span>
-                            <span className="comment-profile-date">
-                              {reComment.createdDate}
-                            </span>
-                          </div>
-                          <div className="comment-content">
-                            {reComment.content}
-                          </div>
-                          {user.data && user.data.no === reComment.writer.no ? (
-                            <div className="btns">
-                              <button
-                                className="comment-btn_delete"
-                                // onClick={() =>
-                                //   handleDeleteReComment(comment.no, reComment.no)
-                                // }
-                              >
-                                삭제
-                              </button>
-                              <button
-                                className="comment-btn_update"
-                                onClick={() => setEditingReComment(reComment)}
-                              >
-                                수정
-                              </button>
-                            </div>
-                          ) : null}
-                        </div>;
-                      })} */}
-
                     {reComments &&
                       reComments
                         .filter((reComment) =>
@@ -625,41 +530,74 @@ const View = () => {
                             className="re-comment"
                             reComment={reComment}
                           >
-                            <div className="comment-profile">
-                              <span className="comment-profile-nickname">
-                                {reComment.writer.nickname}
-                              </span>
-                              <span className="comment-profile-date">
-                                {reComment.createdDate}
-                              </span>
-                            </div>
-                            <div className="comment-content">
-                              {reComment.content}
-                            </div>
-                            {user.data &&
-                              user.data.no === reComment.writer.no && (
-                                <div className="btns">
-                                  <button
-                                    className="comment-btn_delete"
-                                    onClick={() =>
-                                      handleDeleteReComment(
-                                        // comment.no,
-                                        reComment.no
-                                      )
+                            {editingReComment &&
+                            editingReComment.no === reComment.no ? (
+                              <div className="re-comment-update">
+                                <form>
+                                  <textarea
+                                    defaultValue={reComment.content}
+                                    onChange={(e) =>
+                                      setEditingReComment({
+                                        ...editingReComment,
+                                        content: e.target.value,
+                                      })
                                     }
+                                    className="comment-update-textarea"
+                                  />
+                                  <button
+                                    type="button"
+                                    className="comment-update-btn"
+                                    onClick={() => {
+                                      handleUpdateReComment(reComment.no);
+                                    }}
                                   >
-                                    삭제
+                                    변경
                                   </button>
                                   <button
-                                    className="comment-btn_update"
-                                    onClick={() =>
-                                      setEditingReComment(reComment)
-                                    }
+                                    type="button"
+                                    className="comment-cancel-btn"
+                                    onClick={() => setEditingReComment(null)}
                                   >
-                                    수정
+                                    취소
                                   </button>
+                                </form>
+                              </div>
+                            ) : (
+                              <>
+                                <div className="comment-profile">
+                                  <span className="comment-profile-nickname">
+                                    {reComment.writer.nickname}
+                                  </span>
+                                  <span className="comment-profile-date">
+                                    {reComment.createdDate}
+                                  </span>
                                 </div>
-                              )}
+                                <div className="comment-content">
+                                  {reComment.content}
+                                </div>
+                                {user.data &&
+                                  user.data.no === reComment.writer.no && (
+                                    <div className="btns">
+                                      <button
+                                        className="comment-btn_delete"
+                                        onClick={() =>
+                                          handleDeleteReComment(reComment.no)
+                                        }
+                                      >
+                                        삭제
+                                      </button>
+                                      <button
+                                        className="comment-btn_update"
+                                        onClick={() =>
+                                          setEditingReComment(reComment)
+                                        }
+                                      >
+                                        수정
+                                      </button>
+                                    </div>
+                                  )}
+                              </>
+                            )}
                           </div>
                         ))}
                   </div>
