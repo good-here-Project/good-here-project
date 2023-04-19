@@ -238,26 +238,71 @@ const View = () => {
       .then((response) => {
         console.log("대댓글 성공");
         console.log(response);
+        axios({
+          method: "GET",
+          url: `${baseUrl}/web/replys/${no}`,
+          cache: true,
+          withCredentials: true,
+        })
+          .then((response) => {
+            setEditingReComment(null);
+            let allReComments = []; // 모든 자식 댓글을 저장할 배열
+
+            // response.data의 객체들을 순회하며 각 객체의 reComments 프로퍼티를 추출하여 allReComments 배열에 추가
+            response.data.forEach((comment) => {
+              allReComments = allReComments.concat(comment.reComments);
+            });
+
+            console.log("----------");
+            // console.log(response.data?.reComments);
+            setComments(response.data);
+            // setParentComments(response.data);
+            setReComments(allReComments);
+            console.log("성공");
+          })
+          .catch((error) => {
+            setError(error);
+          });
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  const handleDeleteReComment = (no) => {
+    console.log(no);
+    axios({
+      method: "DELETE",
+      url: `${baseUrl}/web/replys/child/${no}`,
+      withCredentials: true,
+    })
+      .then(() => {
+        console.log("success");
+        const updatedComments = reComments.filter(
+          (recomment) => recomment.no !== no
+        );
+        console.log(updatedComments);
+        setReComments(updatedComments);
+      })
+      .catch((error) => {
+        setError(error);
+      });
+  };
+
   // console.log(comments.writer.no);
   // console.log(user.data);
-  console.log(
-    comments.map((comment) => {
-      comment.reComments.map((rec) => {
-        console.log(rec);
-      });
-    })
-  );
-  console.log(
-    reComments.map((recomment) => {
-      console.log(recomment.no);
-    })
-  );
+  // console.log(
+  //   comments.map((comment) => {
+  //     comment.reComments.map((rec) => {
+  //       console.log(rec);
+  //     });
+  //   })
+  // );
+  // console.log(
+  //   reComments.map((recomment) => {
+  //     console.log(recomment.no);
+  //   })
+  // );
 
   return (
     <div className="view-main">
@@ -596,9 +641,12 @@ const View = () => {
                                 <div className="btns">
                                   <button
                                     className="comment-btn_delete"
-                                    // onClick={() =>
-                                    //   handleDeleteReComment(comment.no, reComment.no)
-                                    // }
+                                    onClick={() =>
+                                      handleDeleteReComment(
+                                        // comment.no,
+                                        reComment.no
+                                      )
+                                    }
                                   >
                                     삭제
                                   </button>
