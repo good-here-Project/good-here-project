@@ -410,7 +410,6 @@ const View = () => {
                     <textarea
                       className="comment-reply-text"
                       defaultValue={""}
-                      // value={editingReComment.content && ""}
                       onChange={(e) =>
                         setEditingComment({
                           ...editingComment,
@@ -577,7 +576,7 @@ const View = () => {
                                 </div>
                                 {user.data &&
                                   user.data.no === reComment.writer.no && (
-                                    <div className="btns">
+                                    <div className="re-btns">
                                       <button
                                         className="comment-btn_delete"
                                         onClick={() =>
