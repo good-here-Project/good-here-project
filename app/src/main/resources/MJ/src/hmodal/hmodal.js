@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import './hmodal.css';
 import axios from 'axios';
 import ReactPlayer from 'react-player';
@@ -105,7 +104,6 @@ function HModal(props) {
     document.querySelector("#f-writer-name").innerHTML = board.writer.nickname;
     document.querySelector("textarea[name='content']").value = board.content;
 
-
     let ul = "";
     board.attachedFiles.forEach(file => {
       // console.log(file);
@@ -116,10 +114,10 @@ function HModal(props) {
         [<a href="#" onClick="deleteFile(${board.no}, ${file.no}); return false;">삭제</a>] 
       </li>`;
         setUrl(`${file.filepath}`);
-        console.log(url);
+        // console.log(url);
       ul += html;
     });
-    document.querySelector("#f-files").innerHTML = ul;
+    // document.querySelector("#f-files").innerHTML = ul;
     
     checkOwner(board.writer.no);
   })
@@ -162,20 +160,22 @@ function HModal(props) {
       }
 
     function deleteBtn() {
-      axios.delete("http://localhost/web/boards/" + isNo)
-        .then(response => {
-        // console.log(response.data);
-        if (response.data.status === 'success') {
-        window.location.href='./';
-        } else {
-        alert('삭제 실패!');
+        if (window.confirm('정말로 삭제하시겠습니까?')) {
+          axios.delete("http://localhost/web/boards/" + isNo)
+          .then(response => {
+            const result = response.data;
+            if (result.status === 'success') {
+              alert('게시글이 삭제되었습니다.');
+              window.location.reload();
+            } else {
+              alert('게시글 삭제 실패!');
+            }
+          })
+          .catch(error => console.error(error));
         }
-        })
-        .catch(error => {
-        alert('삭제 중 오류 발생!');
-        console.log(error);
-        });
       }
+
+      
 
       function commentDelete(commentNo) {
         axios
@@ -235,29 +235,29 @@ function HModal(props) {
         }
       }
 
-      function deleteFile(boardNo, fileNo) {
-        fetch("https://localhost/web/boards/" + boardNo + "/files/" + fileNo, {
-          method: "DELETE"
-        })
-        .then(response => {
-          return response.json();
-        })
-        .then(result => {
-          if (result.status == 'success') {
-            let li = document.querySelector('#li-' + fileNo);
-            document.querySelector("#f-files").removeChild(li);
+      // function deleteFile(boardNo, fileNo) {
+      //   fetch("https://localhost/web/boards/" + boardNo + "/files/" + fileNo, {
+      //     method: "DELETE"
+      //   })
+      //   .then(response => {
+      //     return response.json();
+      //   })
+      //   .then(result => {
+      //     if (result.status == 'success') {
+      //       let li = document.querySelector('#li-' + fileNo);
+      //       document.querySelector("#f-files").removeChild(li);
       
-            // 파일이 삭제되었으므로 url도 초기화합니다.
-            setUrl("");
-          } else {
-            alert('파일 삭제 실패!');
-          }
-        })
-        .catch(exception => {
-          alert('파일 삭제 중 오류 발생!');
-          console.log(exception);
-        });
-      }
+      //       // 파일이 삭제되었으므로 url도 초기화합니다.
+      //       setUrl("");
+      //     } else {
+      //       alert('파일 삭제 실패!');
+      //     }
+      //   })
+      //   .catch(exception => {
+      //     alert('파일 삭제 중 오류 발생!');
+      //     console.log(exception);
+      //   });
+      // }
 
   return (
     <div className="hmodal-background" onClick={e => {
@@ -276,7 +276,7 @@ function HModal(props) {
             <ReactPlayer
               url={url}
               controls={true}
-              width='380px'
+              width='100%'
               height='100%'
             />
             </div>
@@ -288,7 +288,7 @@ function HModal(props) {
                       <input type='text' name='title' className='title-text'/>
                     </div>
                     <div>
-                      <span>From</span>
+                      <span className='f-created-date'>From</span>
                       <span id="f-created-date"></span>
                     </div>
                   </div>
@@ -299,11 +299,11 @@ function HModal(props) {
 
                 <div className='hmodal-view-body'>
                   <div className='hmodal-view-body-head'>
-                    <span id="f-writer-name"></span>
+                    작성자 : <span id="f-writer-name"></span>
                   </div>
                   <div className='hmodal-view-body-body'>
                     <textarea name='content' rows='10' cols='51' className='content-text'></textarea>
-                    <input type="file" name='files' multiple/>
+                    <input type="file" name='files' multiple className="file-input"/>
                     <ul id="f-files"></ul>
                   </div>
                 </div>
@@ -319,12 +319,12 @@ function HModal(props) {
                             return (
                               <li key={item.no}>
                                 <div className='comment-header'>
-                                  <div>작성자: {item.writer.nickname}</div>
-                                  <div>{item.content ? item.content : "내용없음"}</div>
+                                  <div className="comment-header-writer">작성자 : {item.writer.nickname}</div>
+                                  <div className="comment-header-content">{item.content ? item.content : "내용없음"}</div>
                                   
                                 </div>
                                 <div className='comment-footer'>
-                                  <div>
+                                  <div className="comment-footer-createDate">
                                     {formatDate(item.createdDate)}
                                   </div>
                                   <button id='comment-delete' className='comment-delete' type='button' onClick={() => commentDelete(item.no)}>X</button>

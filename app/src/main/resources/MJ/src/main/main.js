@@ -9,9 +9,22 @@ function Main() {
   const [selectedNo, setSelectedNo] = useState(null);
   const navigate = useNavigate();
 
+  const [image, setImage] = useState('img/heart.png');
+  const [prevImage, setPrevImage] = useState('');
+
   const handleModalClose = () => {
     setSelectedNo(null);
   };
+
+  function handleClick() {
+    if (image === 'img/heart.png') {
+      setPrevImage('img/heart.png');
+      setImage('img/colorheart.png');
+    } else {
+      setImage(prevImage);
+      setPrevImage('');
+    }
+  }
 
   React.useEffect(() => {
     axios
@@ -43,14 +56,18 @@ function Main() {
               {data
                   .filter((item) => item.boardTypeId === 0)
                   .map((item) => (
-                  <li key={item.no} onClick={() => setSelectedNo(item.no)}>
-                      <div>
-                      <div>번호: {item.no}</div>
-                      <div>작성자: {item.writer.name}</div>
-                      <div>작성일: {item.createdDate}</div>
-                      <div>조회수: {item.viewCount}</div>
+                  <li key={item.no}>
+                      <div className="mbox-div">
+                        <div className="mbox-div-img" onClick={() => setSelectedNo(item.no)}>
+                          <img src="http://qocrfenoqdxa16854260.cdn.ntruss.com/thumbnail/vod-category/b3aedee9-345e-45c8-a32f-887c718077c6-airplane-129744_01.jpg?type=f&w=240&h=250&ttype=jpg"></img>
+                        </div>
+                        <div className="mbox-footer">
+                          <div className="mbox-title">{item.title ? item.title : "제목없음"}</div>
+                          <div className="mbox-heart">
+                            <img src={image} className="heart" onClick={handleClick}></img>
+                          </div>
+                        </div>
                       </div>
-                      <div>{item.title ? item.title : "제목없음"}</div>
                   </li>
                   ))}
           </ul>
