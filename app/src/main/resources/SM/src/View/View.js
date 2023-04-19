@@ -21,6 +21,8 @@ const View = () => {
   const [editingComment, setEditingComment] = useState(null);
   const [editingReComment, setEditingReComment] = useState(null);
   const [reComments, setReComments] = useState([]);
+  const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState(null);
 
   const handleDelete = () => {
     axios({
@@ -54,8 +56,10 @@ const View = () => {
         withCredentials: true,
       })
         .then((response) => {
-          // console.log(response.data);
+          console.log("리스폰 데이터");
+          console.log(response.data.data.likes);
           setContent(response.data);
+          setLikes(response.data.data.likes);
           setIsLoading(false);
         })
         .catch((error) => {
@@ -321,7 +325,50 @@ const View = () => {
       });
   };
 
-  // console.log(comments.writer.no);
+  const handleLike = () => {
+    console.log(content.data.no);
+    console.log(user.data.no);
+
+    if (liked) {
+      setLiked(false);
+      setLikes(likes - 1);
+      axios({
+        method: "POST",
+        url: `${baseUrl}/web/like/delete`,
+        withCredentials: true,
+        params: {
+          boardNo: content.data.no,
+          memberNo: user.data.no,
+        },
+      })
+        .then((response) => {
+          console.log("추천 취소 성공");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setLiked(true);
+      setLikes(likes + 1);
+      axios({
+        method: "POST",
+        url: `${baseUrl}/web/like`,
+        withCredentials: true,
+        params: {
+          boardNo: content.data.no,
+          memberNo: user.data.no,
+        },
+      })
+        .then((response) => {
+          console.log("추천 성공");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  console.log(likes);
   // console.log(user.data);
   // console.log(
   //   comments.map((comment) => {
@@ -335,6 +382,8 @@ const View = () => {
   //     console.log(recomment.no);
   //   })
   // );
+
+  console.log(content.data);
 
   return (
     <div className="view-main">
@@ -378,6 +427,14 @@ const View = () => {
                 <div
                   dangerouslySetInnerHTML={{ __html: content.data?.content }}
                 />
+              </div>
+              <div className="view-content-like">
+                <div className="view-content-like-main">
+                  <button type="button" onClick={handleLike}>
+                    {liked ? "추천 취소" : "좋아요"}
+                  </button>
+                  :{likes}
+                </div>
               </div>
             </div>
           </div>
