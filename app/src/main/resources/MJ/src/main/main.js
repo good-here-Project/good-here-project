@@ -4,6 +4,8 @@ import "./main.css";
 import HModal from "../hmodal/hmodal";
 import { useNavigate } from "react-router-dom";
 
+axios.defaults.withCredentials = true;
+
 function Main() {
   const [data, setData] = React.useState([]);
   const [selectedNo, setSelectedNo] = useState(null);
@@ -18,8 +20,13 @@ function Main() {
 
   function handleClick() {
     if (image === 'img/heart.png') {
+      axios.post("http://localhost/web/likes")
+      .then((response) => setData(response.data.data))
+      .catch((error) => console.error(error));
+  
       setPrevImage('img/heart.png');
       setImage('img/colorheart.png');
+  
     } else {
       setImage(prevImage);
       setPrevImage('');
@@ -53,23 +60,23 @@ function Main() {
         </div>
         <div>
           <ul className="mbox">
-              {data
-                  .filter((item) => item.boardTypeId === 0)
-                  .map((item) => (
-                  <li key={item.no}>
-                      <div className="mbox-div">
-                        <div className="mbox-div-img" onClick={() => setSelectedNo(item.no)}>
-                          <img src="http://qocrfenoqdxa16854260.cdn.ntruss.com/thumbnail/vod-category/b3aedee9-345e-45c8-a32f-887c718077c6-airplane-129744_01.jpg?type=f&w=240&h=250&ttype=jpg"></img>
-                        </div>
-                        <div className="mbox-footer">
-                          <div className="mbox-title">{item.title ? item.title : "제목없음"}</div>
-                          <div className="mbox-heart">
-                            <img src={image} className="heart" onClick={handleClick}></img>
-                          </div>
-                        </div>
-                      </div>
-                  </li>
-                  ))}
+          {data
+          .filter((item) => item.boardTypeId === 0)
+          .map((item) => (
+            <li key={item.no}>
+              <div className="mbox-div">
+                <div className="mbox-div-img" onClick={() => setSelectedNo(item.no)}>
+                  <img src="http://qocrfenoqdxa16854260.cdn.ntruss.com/thumbnail/vod-category/b3aedee9-345e-45c8-a32f-887c718077c6-airplane-129744_01.jpg?type=f&w=240&h=250&ttype=jpg"></img>
+                </div>
+                <div className="mbox-footer">
+                  <div className="mbox-title">{item.title ? item.title : "제목없음"}</div>
+                  <div className="mbox-heart">
+                    <img src={image} className="heart" onClick={() => handleClick(item.no)}></img>
+                  </div>
+                </div>
+              </div>
+            </li>
+          ))}
           </ul>
         </div>
       </div>

@@ -107,6 +107,7 @@ CREATE TABLE gh_board (
   content       LONGTEXT     NOT NULL COMMENT '게시글내용', -- 게시글내용
   created_date  DATETIME     NOT NULL DEFAULT now() COMMENT '등록일', -- 등록일
   view_cnt      INTEGER      NOT NULL DEFAULT 0 COMMENT '조회수', -- 조회수
+  like_cnt      INTEGER      NOT NULL DEFAULT 0 COMMENT '좋아요수',
   location      TEXT         NULL     COMMENT '위치' -- 위치
 )
 COMMENT '게시글';
@@ -207,6 +208,7 @@ ALTER TABLE gh_inquiry
 
 -- 좋아요
 CREATE TABLE gh_like (
+  like_id   INTEGER NOT NULL COMMENT '좋아요번호',
   board_id  INTEGER NOT NULL COMMENT '게시글번호', -- 게시글번호
   member_id INTEGER NOT NULL COMMENT '회원번호' -- 회원번호
 )
@@ -216,9 +218,11 @@ COMMENT '좋아요';
 ALTER TABLE gh_like
   ADD CONSTRAINT PK_gh_like -- 좋아요 기본키
   PRIMARY KEY (
-  board_id,  -- 게시글번호
-  member_id  -- 회원번호
+  like_id  -- 좋아요번호
   );
+  
+ALTER TABLE gh_like
+  MODIFY COLUMN like_id INTEGER NOT NULL AUTO_INCREMENT COMMENT '좋아요번호';
 
 -- 첨부파일
 CREATE TABLE gh_boardfile (
