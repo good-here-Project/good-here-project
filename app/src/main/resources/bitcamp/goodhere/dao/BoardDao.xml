@@ -36,6 +36,7 @@
   <select id="findAll" resultMap="boardMap" parameterType="string">
     select 
       b.board_id, 
+      b.board_type_id,
       b.title, 
       b.writer,
       b.created_date, 
@@ -60,7 +61,7 @@
       b.title, 
       b.content,
       b.writer, 
-      (select nickname from gh_member where member_id = b.writer) nickname, 
+      (select name from gh_member where member_id = b.writer) name, 
       b.created_date, 
       b.view_cnt,
       bf.boardfile_id,
@@ -92,8 +93,3 @@
     where board_id=#{no}
   </delete>
 </mapper>
-
-
-
-
-

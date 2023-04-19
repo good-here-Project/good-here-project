@@ -2,6 +2,9 @@ import React from 'react';
 import './login.css';
 import axios from 'axios';
 import FacebookLogin from '@greatsumini/react-facebook-login';
+import { GoogleLogin } from "@react-oauth/google";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+import jwtDecode from "jwt-decode";
 axios.defaults.withCredentials = true;
 
 function Login() {
@@ -44,6 +47,30 @@ function Login() {
       })
       .catch(exception => {
         alert("페이스북 로그인 오류!");
+        console.log(exception);
+      });
+  }
+
+  // ---------------------------------구글 로그인-----------------------------------
+  function googleLogin(credential) {
+    const data = {
+      "credential": credential
+    }
+
+    console.log(credential);
+
+    axios.post("http://localhost/web/auth/googleLogin", data)
+      .then(response => {
+        console.log(response);
+        if (response.data.status === 'success') {
+          window.location.href = '/';
+          alert('구글 로그인 성공!');
+        } else {
+          alert('구글 로그인 실패!');
+        }
+      })
+      .catch(exception => {
+        alert("구글 로그인 오류!");
         console.log(exception);
       });
   }
@@ -112,7 +139,20 @@ function Login() {
               }}
             />
             <button type="submit" className="btn-google">Continue with Google</button>
+            <GoogleOAuthProvider clientId="1087840897429-akb84m84c0i06q9p3a81tbglgtqsn28j.apps.googleusercontent.com">
+              <GoogleLogin
+                scope="https://www.googleapis.com/auth/userinfo.profile"
+                onSuccess={(response) => {
+                  //console.log(response)
+                  googleLogin(response.credential);
+                }}
+                onFailure={(error) => {
+                  console.log(error);
+                }}
+              />
+            </GoogleOAuthProvider>
           </div>
+
         </form>
       </div>
     </div>

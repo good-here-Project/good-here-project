@@ -58,7 +58,7 @@ function Login() {
         </div>
         <form id="login-form" action="login" method="post" className="login-form">
           <h2>로그인</h2>
-          <table>
+          <table className='login-form-table'>
             <tr>
               <th className="email-th">Email</th>
               <td><input type='email' className='email' name='email'></input></td>
@@ -81,7 +81,7 @@ function Login() {
           </div>
           <div className="login-other">
             <FacebookLogin
-              appId="606943251328930"
+              appId="126327150409089"
               initParams={{
                 cookie: true,
                 xfbml: true,
@@ -94,6 +94,7 @@ function Login() {
                 padding: '12px 24px',
                 border: 'none',
                 borderRadius: '4px',
+                cursor: 'pointer'
               }}
               onSuccess={(response) => {
                 console.log('Login Success!');

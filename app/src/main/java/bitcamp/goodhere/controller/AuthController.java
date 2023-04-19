@@ -1,5 +1,6 @@
 package bitcamp.goodhere.controller;
 
+import java.util.Collections;
 import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
 import bitcamp.goodhere.service.MemberService;
 import bitcamp.goodhere.vo.Member;
 import bitcamp.util.RestResult;
@@ -120,6 +125,53 @@ public class AuthController {
         .setStatus(RestStatus.SUCCESS);
   }
 
+
+  @PostMapping("googleLogin")
+  public Object googleLogin(
+      @RequestBody Map<String,String> jsonData,
+      HttpSession session) throws Exception {
+    String idToken = jsonData.get("credential");
+
+    // GoogleIdTokenVerifier 인스턴스 생성
+    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
+        .setAudience(Collections.singletonList("1087840897429-akb84m84c0i06q9p3a81tbglgtqsn28j.apps.googleusercontent.com"))
+        .build();
+
+    // ID Token을 검증
+    GoogleIdToken googleIdToken = verifier.verify(idToken);
+    if (googleIdToken != null) {
+      // ID Token에서 정보 추출
+      GoogleIdToken.Payload payload = googleIdToken.getPayload();
+      String email = payload.getEmail();
+      String name = (String) payload.get("name");
+
+      // 기존 회원 정보 가져오기
+      Member user = memberService.get(email);
+      if (user == null) {
+        // 구글에서 받은 최소 정보를 가지고 회원 가입을 위한 객체를 준비한다.
+        Member m = new Member();
+        m.setEmail(email);
+        m.setName(name);
+        m.setPassword("bitcamp-nopassword");
+        m.setTel("010-0000-0000");
+        m.setNickname("구글");
+
+        // 회원 가입을 수행한다.
+        memberService.add(m);
+      }
+      user = memberService.get(email);
+
+      // 세션에 로그인 사용자 정보 보관
+      session.setAttribute("loginUser", user);
+
+      return new RestResult()
+          .setStatus(RestStatus.SUCCESS);
+    } else {
+      // ID Token이 검증되지 않은 경우
+      return new RestResult()
+          .setStatus(RestStatus.FAILURE);
+    }
+  }
 }
 
 

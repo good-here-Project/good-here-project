@@ -13,6 +13,7 @@ import { useMemo, useRef, useState } from "react";
 const FormComm = () => {
   const navigate = useNavigate();
   const [content, setContent] = useState("");
+  const [status, setStatus] = useState("");
   const quillRef = useRef(null);
 
   const handleInsert = () => {
@@ -20,6 +21,7 @@ const FormComm = () => {
     console.log(form);
     const formData = new FormData(form);
     formData.append("content", content);
+    console.log(content);
     console.log(formData);
 
     const baseUrl = "http://localhost";
@@ -35,20 +37,23 @@ const FormComm = () => {
     })
       .then((response) => {
         console.log(response.data);
-        return response.json();
+        //setStatus(response.data);
+        // if (response.data.errorCode === "601") {
+        //   window.location.href = "/Login";
+        // }
       })
-      .then((result) => {
-        console.log(result.status);
-        if (result.status === "success") {
-          navigate("/board");
-          console.log("success");
-        } else if (result.errorCode === "401") {
-          navigate("/Login");
-          console.log("401");
-        } else {
-          alert("입력 실패!");
-        }
-      })
+      // .then((result) => {
+      //   console.log(result.status);
+      //   if (result.status === "200") {
+      //     // navigate("/Board");
+      //     console.log("success");
+      //   } else if (result.errorCode === "401") {
+      //     navigate("/Login");
+      //     console.log("401");
+      //   } else {
+      //     alert("입력 실패!");
+      //   }
+      // })
       .catch((error) => {
         console.log(error);
       });
@@ -144,7 +149,7 @@ const FormComm = () => {
                 <Button
                   id="btn-insert"
                   variant="danger"
-                  type="submit"
+                  type="button"
                   style={{ width: "150px" }}
                   onClick={handleInsert}
                 >
@@ -168,21 +173,3 @@ const FormComm = () => {
 };
 
 export default FormComm;
-
-// const baseUrl = "http://localhost";
-// const [posts, setPosts] = useState([]);
-
-// useEffect(() => {
-//   axios({
-//     method: "GET",
-//     url: baseUrl + "/web/boards",
-//     withCredentials: true,
-//   })
-//     .then((response) => {
-//       setPosts(response.data);
-//       // console.log(response.data);
-//     })
-//     .catch((error) => {
-//       console.log(error);
-//     });
-// }, []);
