@@ -4,7 +4,7 @@ import axios from 'axios';
 import FacebookLogin from '@greatsumini/react-facebook-login';
 import { GoogleLogin } from "@react-oauth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import jwtDecode from "jwt-decode";
+import NaverLogin from 'react-login-by-naver';
 axios.defaults.withCredentials = true;
 
 function Login() {
@@ -75,6 +75,10 @@ function Login() {
       });
   }
 
+  //--------
+
+
+
 
 
   return (
@@ -138,7 +142,6 @@ function Login() {
                 console.log(response);
               }}
             />
-            <button type="submit" className="btn-google">Continue with Google</button>
             <GoogleOAuthProvider clientId="1087840897429-akb84m84c0i06q9p3a81tbglgtqsn28j.apps.googleusercontent.com">
               <GoogleLogin
                 scope="https://www.googleapis.com/auth/userinfo.profile"
@@ -151,6 +154,13 @@ function Login() {
                 }}
               />
             </GoogleOAuthProvider>
+            <NaverLogin
+              clientId="3tcMgqH1HbnbC0Jln_f4"
+              callbackUrl="http://localhost:3000"
+              render={(props) => <div onClick={props.onClick}>Naver Login</div>}
+              onSuccess={(parameter) => console.log(parameter)}
+              onFailure={(result) => console.error(result)}
+            />
           </div>
 
         </form>
