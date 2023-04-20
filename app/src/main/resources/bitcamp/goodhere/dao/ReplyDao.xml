@@ -19,7 +19,7 @@
 
   <insert id="insert" parameterType="reply" 
           useGeneratedKeys="true" keyColumn="comment_id" keyProperty="no">
-    insert into gh_comment(board_id, content, writer) 
+    insert into gh_comment (board_id, content, writer) 
     values(#{boardNo}, #{content}, #{writer.no})
   </insert>
   
@@ -50,6 +50,49 @@
       c.comment_id=#{no}
   </select>
   
+    <select id="findList" parameterType="int" resultMap="replyMap">
+    select
+    c.comment_id,
+    c.content,
+    c.board_id,
+    c.writer,
+    c.created_date,
+    m.nickname,
+    rc.comment_id as re_comment_id,
+    rc.content as re_comment_content,
+    rc.parent_comment_id as parent_id,
+    rc.writer as re_comment_writer,
+    rc.created_date as re_comment_created_date,
+    rm.nickname as re_comment_nickname
+    from 
+      gh_comment c
+      left join gh_re_comment rc on c.comment_id = rc.parent_comment_id
+      inner join gh_member m on c.writer = m.member_id
+      left join gh_member rm on rc.writer = rm.member_id
+    where 
+      board_id=#{no}
+  </select>
+  
+  <select id="findReList" parameterType="int" resultMap="replyMap">
+  select
+    c.comment_id,
+    c.content,
+    c.writer,
+    c.created_date,
+    m.nickname
+  from 
+    gh_re_comment c
+    inner join gh_member m on c.writer = m.member_id
+  where 
+    parent_comment_id=#{parentCommentId}
+</select>
+  
+    <update id="update" parameterType="board">
+    update gh_comment set 
+      content=#{content} 
+    where comment_id=#{no}
+  </update>
+  
   <delete id="delete" parameterType="int">
     delete from gh_comment
     where comment_id=#{no}
@@ -60,8 +103,3 @@
     where board_id=#{no}
   </delete>
 </mapper>
-
-
-
-
-

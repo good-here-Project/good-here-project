@@ -27,8 +27,25 @@ public class DefaultReplyService implements ReplyService {
   @Override
   public Reply get(int no) {
     Reply r = replyDao.findByNo(no);
-
     return r;
+  }
+
+  @Override
+  public List<Reply> getList(Reply reply) {
+    List<Reply> parentComments = replyDao.findList(reply);
+    for (Reply parentComment : parentComments) {
+      List<Reply> childComments = replyDao.findReList(parentComment.getNo());
+      parentComment.setReComments(childComments);
+    }
+    return parentComments;
+  }
+
+  @Transactional
+  @Override
+  public void update(Reply reply) {
+    if (replyDao.update(reply) == 0) {
+      throw new RuntimeException("댓글이 존재하지 않습니다!");
+    }
   }
 
   @Transactional

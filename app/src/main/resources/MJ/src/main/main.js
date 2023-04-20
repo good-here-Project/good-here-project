@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./main.css";
 import HModal from "../hmodal/hmodal";
@@ -9,6 +9,7 @@ axios.defaults.withCredentials = true;
 function Main() {
   const [data, setData] = React.useState([]);
   const [selectedNo, setSelectedNo] = useState(null);
+  const [selectedUserNo, setSelectedUserNo] = useState(null);
   const navigate = useNavigate();
 
   const [image, setImage] = useState('img/heart.png');
@@ -18,11 +19,26 @@ function Main() {
     setSelectedNo(null);
   };
 
+  useEffect(() => {
+    axios
+      .get("http://localhost/web/auth/user")
+      .then((response) => {
+        return response.data;
+      })
+      .then((result) => {
+        if (result.status === "success") {
+          // console.log(result.data.no);
+          setSelectedUserNo(result.data.no);
+        } else {
+
+        }
+      })
+      .catch((error) => {
+      });
+  }, []);
+
   function handleClick() {
     if (image === 'img/heart.png') {
-      axios.post("http://localhost/web/likes")
-      .then((response) => setData(response.data.data))
-      .catch((error) => console.error(error));
   
       setPrevImage('img/heart.png');
       setImage('img/colorheart.png');
@@ -36,7 +52,10 @@ function Main() {
   React.useEffect(() => {
     axios
       .get("http://localhost/web/boards")
-      .then((response) => setData(response.data.data))
+      .then((response) => {
+        setData(response.data.data);
+        console.log(response.data.data);
+      })
       .catch((error) => console.error(error));
   }, []);
 
@@ -81,7 +100,7 @@ function Main() {
         </div>
       </div>
       {selectedNo !== null && (
-        <HModal isOpen={true} onClose={handleModalClose} isNo={selectedNo} />
+        <HModal isOpen={true} onClose={handleModalClose} isNo={selectedNo} userNo={selectedUserNo} />
       )}
     </div>
   );

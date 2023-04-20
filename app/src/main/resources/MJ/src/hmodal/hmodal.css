@@ -218,9 +218,9 @@
 	color: gray;
 }
 
-/* .comment-delete {
+.comment-delete {
 	display: none;
-} */
+}
 
 #comment-delete {
 	cursor: pointer;
