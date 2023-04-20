@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./header.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -9,7 +9,6 @@ axios.defaults.withCredentials = true;
 
 function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [isUpModalOpen, setIsUpModalOpen] = useState(false);
 
   const handleModalOpen = () => {
@@ -32,27 +31,29 @@ function Header() {
     window.location.href = "/FormComm";
   };
 
-  axios
-    .get("http://localhost/web/auth/user")
-    .then((response) => {
-      // console.log(response.data);
-      return response.data;
-    })
-    .then((result) => {
-      // console.log(result.status);
-      if (result.status === "success") {
-        document.querySelector("#nickname").innerHTML = result.data.nickname;
-        document.querySelector(".upload").classList.remove("upload");
-        document.querySelector(".logout").classList.remove("logout");
-      } else {
-        document.querySelector(".login").classList.remove("login");
-        document.querySelector(".signup").classList.remove("signup");
-      }
-    })
-    .catch((error) => {
-      // console.log(error);
-      // alert("로그인 사용자 정보 조회 오류!");
-    });
+  useEffect(() => {
+    axios
+      .get("http://localhost/web/auth/user")
+      .then((response) => {
+        // console.log(response.data);
+        return response.data;
+      })
+      .then((result) => {
+        // console.log(result.status);
+        if (result.status === "success") {
+          document.querySelector("#nickname").innerHTML = result.data.nickname;
+          document.querySelector(".upload").classList.remove("upload");
+          document.querySelector(".logout").classList.remove("logout");
+        } else {
+          document.querySelector(".login").classList.remove("login");
+          document.querySelector(".signup").classList.remove("signup");
+        }
+      })
+      .catch((error) => {
+        // console.log(error);
+        // alert("로그인 사용자 정보 조회 오류!");
+      });
+  }, []);
 
   function logout() {
     axios("http://localhost/web/auth/logout")
