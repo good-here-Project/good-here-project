@@ -7,6 +7,7 @@ import Footer from './footer/footer';
 import Sign from './sign/sign';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AdminMember from './AdminMember/AdminMember';
+import AdminBoard from './AdminBoard/AdminBoard';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/Sign" element={<Sign />} />
           <Route path="/AdminMember" element={<AdminMember />} />
+          <Route path="/AdminBoard" element={<AdminBoard />} />
         </Routes>
 
         <Footer />

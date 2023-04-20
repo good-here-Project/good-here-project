@@ -83,7 +83,7 @@
       name=#{name}, 
       tel=#{tel}, 
       nickname=#{nickname}, 
-      introduce=#{introduce}, 
+      introduce=#{introduce},
       photo=#{photo}, 
       state=#{state}, 
       auth=#{auth} 

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import "./AdminModal.css";
+import "./AdminMemberModal.css";
 
-const AdminUpdate = ({ member, onUpdate, onClose }) => {
+const AdminMemberUpdate = ({ member, onUpdate, onClose }) => {
     const [updatedMember, setUpdatedMember] = useState(null);
 
     useEffect(() => {
@@ -35,7 +35,7 @@ const AdminUpdate = ({ member, onUpdate, onClose }) => {
     }
 
     return (
-        <div className="AdminUpdate">
+        <div className="AdminMemberUpdate">
             <form onSubmit={handleSubmit}>
                 <h3>회원정보</h3>
                 <div className="form-group">
@@ -121,10 +121,10 @@ const AdminUpdate = ({ member, onUpdate, onClose }) => {
     );
 };
 
-AdminUpdate.propTypes = {
+AdminMemberUpdate.propTypes = {
     member: PropTypes.object.isRequired,
     onUpdate: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
 };
 
-export default AdminUpdate;
+export default AdminMemberUpdate;

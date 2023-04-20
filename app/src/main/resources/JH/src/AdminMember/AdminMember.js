@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import axios from "axios";
 import "./AdminMember.css";
-import AdminModal from "./AdminModal"; // Modal 컴포넌트 import
+import AdminMemberModal from "./AdminMemberModal"; // Modal 컴포넌트 import
 import "./AdminMember.css";
 import Sidebar from '../Sidebar/Sidebar';
 
@@ -114,7 +114,7 @@ function AdminMember() {
             </table>
             {/* Modal 컴포넌트 */}
             {isModalOpen && (
-                <AdminModal
+                <AdminMemberModal
                     isOpen={isModalOpen}
                     onClose={handleCloseModal}
                     selectedMember={selectedMember}

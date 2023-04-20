@@ -39,6 +39,7 @@
       b.board_type_id,
       b.title, 
       b.writer,
+      b.content,
       b.created_date, 
       b.view_cnt,
       m.nickname 

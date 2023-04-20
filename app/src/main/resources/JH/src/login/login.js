@@ -6,10 +6,11 @@ axios.defaults.withCredentials = true;
 
 function Login() {
 
-  const userLogin = function() {
+  const userLogin = function () {
 
     const form = document.querySelector('#login-form');
     const formData = new FormData(form);
+
 
     axios.post('http://localhost/web/auth/login', formData)
       .then(response => {

@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./AdminModal.css";
-import AdminUpdate from "./AdminUpdate";
-import AdminDelete from "./AdminDelete";
+import "./AdminMemberModal.css";
+import AdminMemberUpdate from "./AdminMemberUpdate";
+import AdminMemberDelete from "./AdminMemberDelete";
 
-const AdminModal = ({ isOpen, onClose, selectedMember, onDelete }) => {
+const AdminMemberModal = ({ isOpen, onClose, selectedMember, onDelete }) => {
   const handleUpdateMember = (updatedMember) => {
     console.log("Updated member:", updatedMember);
     onClose();
@@ -18,23 +18,23 @@ const AdminModal = ({ isOpen, onClose, selectedMember, onDelete }) => {
     <div className={`Amodal ${isOpen ? "open" : ""}`}>
       <div className="Amodal-content">
         <div className="Amodal-actions">
-          <AdminUpdate member={selectedMember}
+          <AdminMemberUpdate member={selectedMember}
             onUpdate={handleUpdateMember}
             onClose={handleCloseModal}
             key={selectedMember.no}
           />
-          <AdminDelete member={selectedMember} onDelete={onDelete} />
+          <AdminMemberDelete member={selectedMember} onDelete={onDelete} />
         </div>
       </div>
     </div>
   );
 };
 
-AdminModal.propTypes = {
+AdminMemberModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   selectedMember: PropTypes.object.isRequired,
   onDelete: PropTypes.func.isRequired,
 };
 
-export default AdminModal;
+export default AdminMemberModal;
