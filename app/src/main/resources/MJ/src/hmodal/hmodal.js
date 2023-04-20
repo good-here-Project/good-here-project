@@ -6,7 +6,7 @@ import ReactPlayer from 'react-player';
 axios.defaults.withCredentials = true;
 
 function HModal(props) {
-  const { isOpen, onClose, isNo } = props;
+  const { isOpen, onClose, isNo, userNo } = props;
   const [value, setValue] = useState('');
   
   const [image, setImage] = useState('img/heart.png');
@@ -21,6 +21,29 @@ function HModal(props) {
       insert();
     }
   };
+
+  // console.log(isNo);
+  // console.log(userNo);
+
+  axios.get("http://localhost/web/like/" + isNo)
+  .then(response => {
+    const result = response.data;
+
+    const data = result.data;
+    // console.log(result.data);
+    if (data === 'false') {
+      // 좋아요를 누르지 않은 상태
+      setImage('img/heart.png');
+    } else if (data === 'true') {
+      // 이미 좋아요를 누른 상태
+      setImage('img/colorheart.png');
+    }
+
+  })
+  .catch(exception => {
+    alert("입력 오류!");
+    console.log(exception);
+  });
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -59,26 +82,86 @@ function HModal(props) {
 
   React.useEffect(() => {
     axios
-    .get(
-      "http://localhost/web/replys",
-      {},
-      {
-        params: {
-          boardNo: isNo,
-        },
-      }
-    )
-      .then((response) => setData(response.data.data))
+      .get(
+        "http://localhost/web/replys",
+        {},
+        {
+          params: {
+            boardNo: isNo,
+          },
+        }
+      )
+      .then((response) => {
+        setData(response.data.data);
+        const result = response.data;
+        // console.log(result);
+        // checkOwner2(response.data.data.writerNo);
+      })
       .catch((error) => console.error(error));
 
   }, [isNo]);
 
-
   function handleClick() {
     if (image === 'img/heart.png') {
+      
+      axios
+      .post(
+        "http://localhost/web/like",
+        {},
+        {
+          params: {
+            boardNo: isNo,
+            memberNo: userNo,
+          },
+        }
+      )
+      .then(response => {
+        console.log(response);
+        return response;
+      })
+      .then(result => {
+        if (result.status == '200') {
+        } else if (result.errorCode == '401') {
+        } else {
+          alert('입력 실패!');
+        }
+      })
+      .catch(exception => {
+        alert("입력 오류!");
+        console.log(exception);
+      });
+
       setPrevImage('img/heart.png');
       setImage('img/colorheart.png');
     } else {
+
+      axios
+      .post(
+        "http://localhost/web/like/delete",
+        {},
+        {
+          params: {
+            boardNo: isNo,
+            memberNo: userNo,
+          },
+        }
+      )
+      .then(response => {
+        return response;
+      })
+      .then(result => {
+        if (result.status == '200') {
+          console.log(result);
+        } else if (result.errorCode == '401') {
+        } else {
+          alert('입력 실패!');
+        }
+      })
+      .catch(exception => {
+        alert("입력 오류!");
+        console.log(exception);
+      });
+
       setImage(prevImage);
       setPrevImage('');
     }
@@ -118,7 +201,6 @@ function HModal(props) {
       ul += html;
     });
     // document.querySelector("#f-files").innerHTML = ul;
-    
     checkOwner(board.writer.no);
   })
   .catch(error => console.error(error));
@@ -131,6 +213,22 @@ function HModal(props) {
           if (response.data.data.no === writerNo) {
             document.querySelector('#btn-update').classList.remove('guest');
             document.querySelector('#btn-delete').classList.remove('guest');
+          }
+        }
+      })
+      .catch(error => {
+        alert("로그인 사용자 정보 조회 중 오류 발생!");
+        console.log(error);
+      });
+    }
+
+    function checkOwner2(writerNo) {
+      axios.get("http://localhost/web/auth/user")
+      .then(response => {
+        // console.log(response.data);
+        if (response.data.status === 'success') {
+          if (response.data.data.no === writerNo) {
+            document.querySelector('#comment-delete').classList.remove('comment-delete');
           }
         }
       })
@@ -235,30 +333,6 @@ function HModal(props) {
         }
       }
 
-      // function deleteFile(boardNo, fileNo) {
-      //   fetch("https://localhost/web/boards/" + boardNo + "/files/" + fileNo, {
-      //     method: "DELETE"
-      //   })
-      //   .then(response => {
-      //     return response.json();
-      //   })
-      //   .then(result => {
-      //     if (result.status == 'success') {
-      //       let li = document.querySelector('#li-' + fileNo);
-      //       document.querySelector("#f-files").removeChild(li);
-      
-      //       // 파일이 삭제되었으므로 url도 초기화합니다.
-      //       setUrl("");
-      //     } else {
-      //       alert('파일 삭제 실패!');
-      //     }
-      //   })
-      //   .catch(exception => {
-      //     alert('파일 삭제 중 오류 발생!');
-      //     console.log(exception);
-      //   });
-      // }
-
   return (
     <div className="hmodal-background" onClick={e => {
       // 모달 내부를 클릭한 경우에는 모달이 닫히지 않도록 합니다.
@@ -294,6 +368,7 @@ function HModal(props) {
                   </div>
                   <div className='heartbox'>
                     <img src={image} className="heart" onClick={handleClick}></img>
+                    <div></div>
                   </div>
                 </div>
 

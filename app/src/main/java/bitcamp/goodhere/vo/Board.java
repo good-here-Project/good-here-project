@@ -13,6 +13,7 @@ public class Board {
   private String content;
   private int boardTypeId;
   private int password;
+  private int like;
 
 
   @JsonFormat(

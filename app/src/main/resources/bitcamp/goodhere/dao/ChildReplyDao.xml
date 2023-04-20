@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.goodhere.dao.ChildReplyDao">
+
+  <resultMap type="ChildReply" id="ChildReplyMap">
+    <id column="comment_id" property="no"/>
+    <result column="content" property="content"/>
+    <result column="parent_comment_id" property="parentCommentNo"/>    
+    <result column="created_date" property="createdDate"/>
+    
+    <association property="writer" javaType="member">
+      <id column="writer" property="no"/>
+      <result column="nickname" property="nickname"/>
+    </association>
+
+  </resultMap>
+<insert id="insert" parameterType="ChildReply" 
+       useGeneratedKeys="true" keyColumn="comment_id" keyProperty="no">
+insert into gh_re_comment (parent_comment_id, content, writer)
+values(#{parentCommentNo}, #{content}, #{writer.no})
+</insert>
+
+<select id="findByNo" parameterType="int" resultMap="ChildReplyMap">
+  select
+    c.comment_id,
+    c.parent_comment_id,
+    c.content, 
+    c.writer
+  from 
+    gh_re_comment c
+  where 
+    c.comment_id=#{no}
+</select>
+
+  <select id="findAll" resultMap="ChildReplyMap">
+    select 
+      c.comment_id,
+      c.parent_comment_id, 
+      c.content,
+      c.writer,
+      c.created_date, 
+      m.nickname
+    from 
+      gh_re_comment c
+      inner join gh_member m on c.writer = m.member_id
+    order by 
+      c.comment_id desc
+  </select>
+
+  
+  <select id="findList" parameterType="int" resultMap="ChildReplyMap">
+  select
+    c.comment_id,
+    c.content,
+    c.writer,
+    m.nickname,
+    c.created_date
+  from 
+  gh_re_comment c
+  inner join gh_member m on c.writer = m.member_id
+where 
+  parent_comment_id=#{no}
+  </select>
+  
+  <update id="update" parameterType="ChildReply">
+  update gh_re_comment set 
+    content=#{content} 
+  where comment_id=#{no}
+    </update>
+    
+  <delete id="delete" parameterType="int">
+    delete from gh_re_comment
+    where comment_id=#{no}
+  </delete>
+  
+  <delete id="deleteOfChildReply" parameterType="int">
+    delete from gh_re_comment 
+    where parent_comment_id=#{no}
+  </delete>
+</mapper>

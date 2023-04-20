@@ -9,7 +9,7 @@
     <result column="board_type_id" property="boardTypeId"/>
     <result column="title" property="title"/>
     <result column="content" property="content"/>
-    <result column="pwd" property="password"/>
+    <result column="likes" property="like"/>
     <result column="created_date" property="createdDate"/>
     <result column="view_cnt" property="viewCount"/>
     
@@ -61,6 +61,7 @@
       b.board_type_id, 
       b.title, 
       b.content,
+      b.likes,
       b.writer, 
       (select name from gh_member where member_id = b.writer) name,
       (select nickname from gh_member where member_id = b.writer) nickname,

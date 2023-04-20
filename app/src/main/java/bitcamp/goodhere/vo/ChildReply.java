@@ -1,24 +1,20 @@
 package bitcamp.goodhere.vo;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import lombok.Data;
 
 @Data
-public class Reply {
+public class ChildReply {
   private int no;
-  private String content;
-  private int boardNo;
+  private int parentCommentNo;
   private Member writer;
-  private int writerNo;
   private String writerName;
+  private String content;
 
   @JsonFormat(
       shape = Shape.STRING,
       pattern = "yyyy-MM-dd@HH:mm:ss", timezone = "Asia/Seoul")
   private LocalDateTime createdDate;
-
-  List<Reply> reComments;
 }
