@@ -7,59 +7,28 @@
   <resultMap type="BoardLike" id="boardlikeMap">
     <id column="board_id" property="boardNo"/>
     <id column="member_id" property="memberNo"/>
-    <result column="likes" property="boardLike"/>
   </resultMap>
   
   <insert id="insert" parameterType="BoardLike">
     insert into gh_like(board_id, member_id) 
     values(#{boardNo}, #{memberNo})
   </insert>
-  
-  <!-- select 쿼리 예시 -->
-<select id="selectByBoardAndMember" resultMap="boardlikeMap">
-  select *
-  from gh_like
-  where board_id = #{boardNo} and member_id = #{memberNo}
-</select>
 
-<select id="selectCountByBoardNo" resultType="int" parameterType="int">
-  SELECT COUNT(*) FROM gh_like WHERE board_id = #{boardNo}
-</select>
+	<!-- delete 쿼리 예시 -->
+	<delete id="delete" parameterType="BoardLike">
+	  delete from gh_like
+	  where board_id = #{boardNo} and member_id = #{memberNo}
+	</delete>
 
-<select id="selectCountByBoardNoAndMemberNo" resultType="int" parameterType="map">
-  SELECT COUNT(*) FROM gh_like
-  WHERE board_id = #{boardNo}
-  AND member_id = #{memberNo}
-</select>
+  <select id="checkState" parameterType="BoardLike" resultType="int">
+  select 
+    count(board_id)
+  from 
+    gh_like
+  where 
+    board_id=#{boardNo} and member_id=#{memberNo}    
+  </select>
 
-<!-- update 쿼리 예시 -->
-<update id="update" parameterType="int">
-  update gh_board b
-  inner join (
-    select board_id, count(*) as like_cnt 
-    from gh_like 
-    group by board_id
-  ) l on b.board_id = l.board_id
-  set b.likes = l.like_cnt
-</update>
-
-<update id="updateLikesToZero" parameterType="int">
-  update gh_board
-  set likes = 0
-  where board_id = #{boardNo}
-</update>
-
-<!-- delete 쿼리 예시 -->
-<delete id="delete" parameterType="BoardLike">
-  delete from gh_like
-  where board_id = #{boardNo} and member_id = #{memberNo}
-</delete>
-
-<delete id="deleteOfBoardNo" parameterType="int">
-  DELETE FROM gh_like 
-  WHERE 
-    board_id = #{boardNo}
-</delete>
 </mapper>
 
 

@@ -8,47 +8,22 @@ import bitcamp.goodhere.vo.BoardLike;
 
 @Service
 public class DefaultBoardLikeService implements BoardLikeService {
+
   @Autowired private BoardLikeDao boardLikeDao;
 
   @Override
-  public void add(BoardLike boardLike) {
-    BoardLike result = boardLikeDao.selectByBoardAndMember(boardLike);
-    if (result == null) {
-      boardLikeDao.insert(boardLike);
-      boardLikeDao.update(boardLike);
-    } else {
-      boardLikeDao.update(boardLike);
-    }
+  public void add(BoardLike boardlike) {
+    boardLikeDao.insert(boardlike);
   }
 
   @Override
-  public void delete(BoardLike boardLike) {
-    boardLikeDao.delete(boardLike);
-    boardLikeDao.update(boardLike);
-    if (boardLikeDao.selectCountByBoardNo(boardLike.getBoardNo()) == 0) {
-      boardLikeDao.updateLikesToZero(boardLike.getBoardNo());
-    }
+  public void delete(BoardLike boardlike) {
+    boardLikeDao.delete(boardlike);
   }
 
   @Override
-  public void deleteOfBoardNo(int boardNo) {
-    boardLikeDao.deleteOfBoardNo(boardNo);
-  }
-
-
-  @Override
-  public boolean isExist(BoardLike boardLike) {
-    BoardLike result = boardLikeDao.selectByBoardAndMember(boardLike);
-    return result != null;
-  }
-
-  @Override
-  public int getCountByBoardNo(int boardNo) {
-    return boardLikeDao.selectCountByBoardNo(boardNo);
-  }
-
-  @Override
-  public int getCountByBoardNoAndMemberNo(int boardNo, int memberNo) {
-    return boardLikeDao.selectCountByBoardNoAndMemberNo(boardNo, memberNo);
+  public boolean checkState(BoardLike boardlike) {
+    if (boardLikeDao.checkState(boardlike) == 1) { return true; }
+    return false;
   }
 }

@@ -15,14 +15,35 @@ function HModal(props) {
   const [data, setData] = React.useState([]);
   const [url, setUrl] = useState('');
 
-  const [memberNo, setMemberNo] = useState('');
-
   const handleKeyDown = (event) => {
     if (event.keyCode === 13) {
       event.preventDefault(); // 이벤트의 기본 동작을 막음
       insert();
     }
   };
+
+  // console.log(isNo);
+  // console.log(userNo);
+
+  axios.get("http://localhost/web/like/" + isNo)
+  .then(response => {
+    const result = response.data;
+
+    const data = result.data;
+    // console.log(result.data);
+    if (data === 'false') {
+      // 좋아요를 누르지 않은 상태
+      setImage('img/heart.png');
+    } else if (data === 'true') {
+      // 이미 좋아요를 누른 상태
+      setImage('img/colorheart.png');
+    }
+
+  })
+  .catch(exception => {
+    alert("입력 오류!");
+    console.log(exception);
+  });
 
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -73,13 +94,12 @@ function HModal(props) {
       .then((response) => {
         setData(response.data.data);
         const result = response.data;
-        console.log(result);
+        // console.log(result);
         // checkOwner2(response.data.data.writerNo);
       })
       .catch((error) => console.error(error));
 
   }, [isNo]);
-
 
   function handleClick() {
     if (image === 'img/heart.png') {
@@ -96,6 +116,7 @@ function HModal(props) {
         }
       )
       .then(response => {
+        console.log(response);
         return response;
       })
       .then(result => {
@@ -130,6 +151,7 @@ function HModal(props) {
       })
       .then(result => {
         if (result.status == '200') {
+          console.log(result);
         } else if (result.errorCode == '401') {
         } else {
           alert('입력 실패!');

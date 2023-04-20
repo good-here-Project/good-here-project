@@ -52,7 +52,10 @@ function Main() {
   React.useEffect(() => {
     axios
       .get("http://localhost/web/boards")
-      .then((response) => setData(response.data.data))
+      .then((response) => {
+        setData(response.data.data);
+        console.log(response.data.data);
+      })
       .catch((error) => console.error(error));
   }, []);
 
