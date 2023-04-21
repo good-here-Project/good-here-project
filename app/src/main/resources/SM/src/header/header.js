@@ -4,13 +4,14 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Modal from "../modal/modal";
 import UPModal from "../upmodal/upmodal";
+import BoardUpModal from "../BoardUpModal/BoardUpModal";
 
 axios.defaults.withCredentials = true;
 
 function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [isUpModalOpen, setIsUpModalOpen] = useState(false);
+  const [isBoardUpModalOpen, setIsBoardUpModalOpen] = useState(false);
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -26,6 +27,16 @@ function Header() {
 
   const handleUpModalClose = () => {
     setIsUpModalOpen(false);
+  };
+
+  //
+
+  const handleBoardUpModalOpen = () => {
+    setIsBoardUpModalOpen(true);
+  };
+
+  const handleBoardUpModalClose = () => {
+    setIsBoardUpModalOpen(false);
   };
 
   const handleUploadComm = () => {
@@ -124,7 +135,7 @@ function Header() {
             <img src="img/hotplace.png"></img>
             <p>Hot 플레이스 업로드</p>
           </div>
-          <div className="modal-board" onClick={handleUploadComm}>
+          <div className="modal-board" onClick={handleBoardUpModalOpen}>
             <img src="img/board.png"></img>
             <p>커뮤니티 업로드</p>
           </div>
@@ -139,6 +150,12 @@ function Header() {
       <UPModal isOpen={isUpModalOpen} onClose={handleUpModalClose}>
         <div className="upmoal-main"></div>
       </UPModal>
+      <BoardUpModal
+        isOpen={isBoardUpModalOpen}
+        onClose={handleBoardUpModalClose}
+      >
+        <div className="upmoal-main"></div>
+      </BoardUpModal>
     </div>
   );
 }
