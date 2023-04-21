@@ -15,6 +15,8 @@ function HModal(props) {
   const [data, setData] = React.useState([]);
   const [url, setUrl] = useState('');
 
+  const [likeCnt, setLikeCnt] = useState();
+
   const handleKeyDown = (event) => {
     if (event.keyCode === 13) {
       event.preventDefault(); // 이벤트의 기본 동작을 막음
@@ -24,6 +26,19 @@ function HModal(props) {
 
   // console.log(isNo);
   // console.log(userNo);
+
+
+
+  axios.get("http://localhost/web/like/cnt/" + isNo)
+    .then(response => {
+      const result = response.data;
+      setLikeCnt(result);
+      // console.log(result);
+    })
+    .catch(exception => {
+
+    });
+
 
   axios.get("http://localhost/web/like/" + isNo)
   .then(response => {
@@ -38,6 +53,7 @@ function HModal(props) {
       // 이미 좋아요를 누른 상태
       setImage('img/colorheart.png');
     }
+    // console.log(result);
 
   })
   .catch(exception => {
@@ -368,7 +384,7 @@ function HModal(props) {
                   </div>
                   <div className='heartbox'>
                     <img src={image} className="heart" onClick={handleClick}></img>
-                    <div></div>
+                    <div className="likeCntText">{likeCnt}</div>
                   </div>
                 </div>
 

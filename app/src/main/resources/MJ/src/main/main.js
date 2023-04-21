@@ -10,10 +10,31 @@ function Main() {
   const [data, setData] = React.useState([]);
   const [selectedNo, setSelectedNo] = useState(null);
   const [selectedUserNo, setSelectedUserNo] = useState(null);
+  const [boardNo, setBoardNo] = useState(null);
   const navigate = useNavigate();
 
   const [image, setImage] = useState('img/heart.png');
-  const [prevImage, setPrevImage] = useState('');
+
+  axios.get("http://localhost/web/like/" + boardNo)
+  .then(response => {
+    const result = response.data;
+
+    const data = result.data;
+    console.log(result.data);
+    if (data === 'false') {
+      // 좋아요를 누르지 않은 상태
+      setImage('img/heart.png');
+    } else if (data === 'true') {
+      // 이미 좋아요를 누른 상태
+      setImage('img/colorheart.png');
+    }
+    // console.log(result);
+
+  })
+  .catch(exception => {
+    alert("입력 오류!");
+    console.log(exception);
+  });
 
   const handleModalClose = () => {
     setSelectedNo(null);
@@ -37,24 +58,16 @@ function Main() {
       });
   }, []);
 
-  function handleClick() {
-    if (image === 'img/heart.png') {
-  
-      setPrevImage('img/heart.png');
-      setImage('img/colorheart.png');
-  
-    } else {
-      setImage(prevImage);
-      setPrevImage('');
-    }
-  }
-
   React.useEffect(() => {
     axios
       .get("http://localhost/web/boards")
       .then((response) => {
         setData(response.data.data);
-        console.log(response.data.data);
+        response.data.data.forEach(item => {
+          // console.log(item.no);
+          setBoardNo(item.no);
+        });
+        // console.log(response.data.data);
       })
       .catch((error) => console.error(error));
   }, []);
@@ -90,7 +103,7 @@ function Main() {
                 <div className="mbox-footer">
                   <div className="mbox-title">{item.title ? item.title : "제목없음"}</div>
                   <div className="mbox-heart">
-                    <img src={image} className="heart" onClick={() => handleClick(item.no)}></img>
+                    <img src={image} className="heart"></img>
                   </div>
                 </div>
               </div>

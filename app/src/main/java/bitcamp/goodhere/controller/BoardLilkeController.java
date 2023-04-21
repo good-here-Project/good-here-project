@@ -81,6 +81,7 @@ public class BoardLilkeController {
     boardlike.setBoardNo(no);
     boardlike.setMemberNo(loginUser.getNo());
 
+
     //    System.out.println(boardlike);
 
     if(!boardLikeService.checkState(boardlike)) {
@@ -92,6 +93,13 @@ public class BoardLilkeController {
     return new RestResult()
         .setStatus(RestStatus.SUCCESS)
         .setData("true");
+  }
+
+  @GetMapping("cnt/{no}")
+  public Object likeCnt(@PathVariable int no) {
+    BoardLike boardlike = new BoardLike();
+
+    return boardLikeService.likeCnt(no);
   }
 
 }

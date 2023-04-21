@@ -26,4 +26,14 @@ public class DefaultBoardLikeService implements BoardLikeService {
     if (boardLikeDao.checkState(boardlike) == 1) { return true; }
     return false;
   }
+
+  @Override
+  public int likeCnt(int boardNo) {
+    return boardLikeDao.likeCnt(boardNo);
+  }
+
+  @Override
+  public int countLikerAllContnet(int memberNo) {
+    return boardLikeDao.countLikerAll(memberNo)+boardLikeDao.countLikerAll(memberNo);
+  }
 }

@@ -29,6 +29,23 @@
     board_id=#{boardNo} and member_id=#{memberNo}    
   </select>
 
+  <select id="likeCnt" parameterType="int" resultType="int">
+  select 
+    count(member_id)
+  from 
+    gh_like
+  where 
+    board_id=#{boardNo}    
+  </select>
+  
+  <select id="countLikerAll" parameterType="int" resultType="int">
+  select 
+    count(member_id) 
+  from 
+    gh_like
+  where 
+    board_id in (select board_id from gh_board where member_id=#{memberNo});
+  </select>
 </mapper>
 
 

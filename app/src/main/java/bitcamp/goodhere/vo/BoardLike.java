@@ -6,5 +6,4 @@ import lombok.Data;
 public class BoardLike {
   private int boardNo;
   private int memberNo;
-  private int boardLike;
 }
