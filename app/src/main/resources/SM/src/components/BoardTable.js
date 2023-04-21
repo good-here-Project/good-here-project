@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const BoardTable = ({ posts, boardTypeValue, filteredPosts, slicedPosts }) => {
+const BoardTable = ({ boardTypeValue, slicedPosts }) => {
   return (
     <table
       className="table table-bordered table-hover dt-responsive"
