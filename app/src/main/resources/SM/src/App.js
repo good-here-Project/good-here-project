@@ -11,10 +11,11 @@ import Form from "./Form/Form";
 import FormComm from "./FormComm/FormComm";
 import FormUpdate from "./FormUpdate/FormUpdate";
 import View from "./View/View";
-import Test from "./test";
+// import Test from "./test";
 
 function App() {
   // const [file, setFile] = useState(null);
+  const [user, setUser] = useState(null);
 
   return (
     <BrowserRouter>
@@ -22,7 +23,7 @@ function App() {
         <Header />
 
         <Routes>
-          <Route path="/test" element={<Test />} />
+          {/* <Route path="/test" element={<Test />} /> */}
           <Route path="/" element={<Main />} />
           <Route path="/Main" element={<Main />} />
           <Route path="/Login" element={<Login />} />
@@ -30,7 +31,10 @@ function App() {
           <Route path="/Board" element={<Board />} />
           <Route path="/Form" element={<Form />} />
           <Route path="/FormComm" element={<FormComm />} />
-          <Route path="/View/:no" element={<View />} />
+          <Route
+            path="/View/:no"
+            element={<View user={user} setUser={setUser} />}
+          />
           <Route
             path="/FormUpdate/:no"
             element={<FormUpdate />}

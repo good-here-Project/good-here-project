@@ -42,18 +42,19 @@ const FormComm = () => {
         //   window.location.href = "/Login";
         // }
       })
-      // .then((result) => {
-      //   console.log(result.status);
-      //   if (result.status === "200") {
-      //     // navigate("/Board");
-      //     console.log("success");
-      //   } else if (result.errorCode === "401") {
-      //     navigate("/Login");
-      //     console.log("401");
-      //   } else {
-      //     alert("입력 실패!");
-      //   }
-      // })
+      .then((result) => {
+        //   console.log(result.status);
+        //   if (result.status === "200") {
+        //     // navigate("/Board");
+        //     console.log("success");
+        //   } else if (result.errorCode === "401") {
+        //     navigate("/Login");
+        //     console.log("401");
+        //   } else {
+        //     alert("입력 실패!");
+        //   }
+        window.location.href = baseUrl + ":3000/Board";
+      })
       .catch((error) => {
         console.log(error);
       });

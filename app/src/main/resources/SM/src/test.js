@@ -102,41 +102,84 @@ function CreatePost() {
   console.log(content);
 
   return (
-    <div>
-      <h1>Create Post</h1>
-      <form>
-        <div>
-          <label htmlFor="title">Title:</label>
-          <input
-            id="title"
-            type="text"
-            value={title}
-            onChange={handleTitleChange}
-          />
+    {editingReComment && editingReComment.no === comment.no ? (
+      // 대댓글 입력 폼
+      <div className="comment-reply">
+        <div className="comment-profile">
+          <span className="comment-profile-nickname">
+            {user.data.nickname}
+          </span>
         </div>
-        <div>
-          <label htmlFor="category">Category:</label>
-          <input
-            id="category"
-            type="text"
-            value={category}
-            onChange={handleCategoryChange}
-          />
+        <textarea
+          className="comment-reply-text"
+          defaultValue={""}
+          onChange={(e) =>
+            setEditingReComment({
+              ...editingReComment,
+              content: e.target.value,
+            })
+          }
+        />
+        <div className="comment-reply-btns">
+          <button
+            className="comment-reply-cancel-btn"
+            type="button"
+            onClick={() => setEditingReComment(null)}
+          >
+            취소
+          </button>
+          <button
+            className="comment-reply-btn"
+            type="button"
+            onClick={() => handleReComment()}
+          >
+            등록
+          </button>
         </div>
-        <div>
-          <label htmlFor="content">Content:</label>
-          <ReactQuill
-            id="content"
-            value={content}
-            onChange={setContent}
-            ref={quillRef}
-            modules={modules}
-            formats={formats}
-          />
-        </div>
-        <button onClick={() => console.log(content)}>Value</button>
-      </form>
-    </div>
+      </div>
+    ) : (
+      <div className="btns">
+        <button
+          className="comment-btn_re-comment"
+          onClick={() => setEditingReComment(comment)}
+        >
+          답글
+        </button>
+      </div>
+    )}
+    {reComments &&
+      reComments.map((reComment) => (
+        <div key={reComment.no} className="re-comment" comment={reComment}>
+          <div className="comment-profile">
+            <span className="comment-profile-nickname">
+              {reComment.writer.nickname}
+            </span>
+            <span className="comment-profile-date">
+              {reComment.createdDate}
+            </span>
+          </div>
+          <div className="comment-content">{reComment.content}</div>
+          {user.data && user.data.no === reComment.writer.no ? (
+  <div className="btns">
+    <button
+      className="comment-btn_delete"
+      onClick={() =>
+        handleDeleteReComment(comment.no, reComment.no)
+      }
+    >
+      삭제
+    </button>
+    <button
+      className="comment-btn_update"
+      onClick={() =>
+        handleUpdateReComment(comment.no, reComment.no)
+      }
+    >
+      수정
+    </button>
+  </div>
+) : null}
+
   );
 }
 

@@ -19,24 +19,36 @@ table {
   list-style: none;
   text-align: center;
   align-items: center;
-  padding-top: 20px;
-  padding-left: 50px;
+  justify-content: center;
+  /* padding-top: 20px;*/
+  /* padding-left: 50px; */
+  height: 50px;
 }
 
 .board-list li {
   cursor: pointer;
-  font-size: 16px;
-  font-weight: normal;
-  padding-right: 25px;
+  color: #514347;
+  font-size: 20px;
+  font-weight: 600;
+  /* width: 60px; */
+  padding: 0 10px 0 10px;
+}
+
+.board-list li:hover {
+  background-color: #f5d6f9;
+  border-radius: 15px;
 }
 
 .board-head {
-  color: #b5b5c3;
-  background-color: #f3f6f9;
+  color: #514347;
+  background-color: rgba(235, 20, 132, 0.6);
+  height: 34px;
 }
 
 .board-body tr {
   border-bottom: solid 0.5px rgb(230, 225, 225);
+  color: #514347;
+  height: 26px;
 }
 
 .board-body td {
@@ -105,7 +117,7 @@ table {
 }
 
 /* pagination */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
 
 .pagination {
   margin-top: 50px;
@@ -159,14 +171,14 @@ table {
 .pagination ul li:last-child:hover {
   color: #fff;
   background: #eb1484;
-}
+} */
 
 .board-body-type {
   font-weight: 600;
 }
 
 .board-body tr:hover {
-  background-color: #cccbcb;
+  background-color: rgba(249, 222, 214, 0.5);
   /* color: #fff; */
 }
 
@@ -188,4 +200,26 @@ table {
 
 .board-body-type.여행\ 동행 {
   color: orange;
+}
+
+.board-pagination {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.board-pagination button {
+  width: 50px;
+  height: 26px;
+  color: white;
+  font-size: 16px;
+  border-radius: 15px;
+  background-color: #b90066;
+  margin: 0 10px 0 10px;
+}
+
+.board-pagination button:disabled {
+  color: rgb(189, 187, 187);
+  background-color: #837377;
 }

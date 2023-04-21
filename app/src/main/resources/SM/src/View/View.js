@@ -5,14 +5,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./view.css";
 
-const View = () => {
+const View = (props) => {
   const baseUrl = "http://localhost";
   const { no } = useParams();
   const [content, setContent] = useState({ data: null });
   const [comments, setComments] = useState([]);
   // const [parentComments, setParentComments] = useState([]);
   const [enteredContent, setEnteredContent] = useState("");
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
+  const { user, setUser } = props;
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -326,8 +327,9 @@ const View = () => {
   };
 
   const handleLike = () => {
-    console.log(content.data.no);
-    console.log(user.data.no);
+    // console.log(content.data.no);
+    // console.log(user.data.no);
+    if (user.data.no === null) navigate("/Login");
 
     if (liked) {
       setLiked(false);
@@ -369,21 +371,19 @@ const View = () => {
   };
 
   console.log(likes);
-  // console.log(user.data);
-  // console.log(
-  //   comments.map((comment) => {
-  //     comment.reComments.map((rec) => {
-  //       console.log(rec);
-  //     });
-  //   })
-  // );
-  // console.log(
-  //   reComments.map((recomment) => {
-  //     console.log(recomment.no);
-  //   })
-  // );
+  console.log(user.data);
+  const totalComments = () => {
+    return comments.length + reComments.length;
+  };
 
   console.log(content.data);
+
+  const loginComment = (user) => {
+    if (user !== null) {
+      return user;
+    }
+    navigate("/Login");
+  };
 
   return (
     <div className="view-main">
@@ -395,7 +395,7 @@ const View = () => {
               <h3 className="view-content-title">{content.data?.title}</h3>
               <div className="view-content-info">
                 <span className="view-content-nickname">
-                  {content.data?.nickname ?? "ㅇㅇ"}
+                  {content.data?.writer.nickname}
                 </span>
                 <span className="view-content-date">
                   {content.data?.createdDate}
@@ -405,7 +405,9 @@ const View = () => {
                 <span className="view-content-count">
                   조회 {content.data?.viewCount}
                 </span>
-                <span className="view-content-reply">추천 9</span>
+                <span className="view-content-reply">
+                  댓글 {totalComments()}
+                </span>
               </div>
             </div>
             <div className="view-content-body">
@@ -430,10 +432,9 @@ const View = () => {
               </div>
               <div className="view-content-like">
                 <div className="view-content-like-main">
-                  <button type="button" onClick={handleLike}>
-                    {liked ? "추천 취소" : "좋아요"}
-                  </button>
-                  :{likes}
+                  <a onClick={handleLike}>{liked ? "💔" : "🖤"}</a>
+                  {likes}
+                  <p>개의 추천</p>
                 </div>
               </div>
             </div>
@@ -529,7 +530,12 @@ const View = () => {
                       <div className="btns">
                         <button
                           className="comment-btn_re-comment"
-                          onClick={() => setEditingReComment(comment)}
+                          onClick={() => {
+                            if (user.data === null) {
+                              navigate("/Login");
+                            }
+                            setEditingReComment(comment);
+                          }}
                         >
                           답글
                         </button>
@@ -731,56 +737,4 @@ export default View;
 {
   /* <div className="comment-profile">
 <img className="comment-profile-image" src={comment.writer.profileImageUrl} alt={comment.writer.nickname} /> */
-}
-
-{
-  /* {reComments &&
-                          reComments.map((reComment) => (
-                            <div key={reComment.no} className="re-comment">
-                              <div className="re-comment-content">
-                                {reComment.content}
-                              </div>
-                            </div>
-                          ))} */
-}
-
-{
-  /* {reComments &&
-                      reComments.map((reComment) => (
-                        <div
-                          key={reComment.no}
-                          className="re-comment"
-                          reComment={reComment}
-                        >
-                          <div className="comment-profile">
-                            <span className="comment-profile-nickname">
-                              {reComment.writer.nickname}
-                            </span>
-                            <span className="comment-profile-date">
-                              {reComment.createdDate}
-                            </span>
-                          </div>
-                          <div className="comment-content">
-                            {reComment.content}
-                          </div>
-                          {user.data && user.data.no === reComment.writer.no ? (
-                            <div className="btns">
-                              <button
-                                className="comment-btn_delete"
-                                // onClick={() =>
-                                //   handleDeleteReComment(comment.no, reComment.no)
-                                // }
-                              >
-                                삭제
-                              </button>
-                              <button
-                                className="comment-btn_update"
-                                onClick={() => setEditingReComment(reComment)}
-                              >
-                                수정
-                              </button>
-                            </div>
-                          ) : null}
-                        </div>
-                      ))} */
 }
