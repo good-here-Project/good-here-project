@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
-import "./AdminBoardModal.css";
+//import "./AdminBoardModal.css";
 
 const AdminBoardUpdate = ({ board, onUpdate, onClose }) => {
     const [updatedBoard, setUpdatedBoard] = useState(null);
@@ -59,16 +59,6 @@ const AdminBoardUpdate = ({ board, onUpdate, onClose }) => {
                         name="content"
                         id="content"
                         value={updatedBoard?.content}
-                        onChange={handleChange}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="email">이메일:</label>
-                    <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        value={updatedBoard?.email}
                         onChange={handleChange}
                     />
                 </div>

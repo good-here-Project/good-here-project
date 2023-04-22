@@ -10,20 +10,28 @@ const AdminMemberModal = ({ isOpen, onClose, selectedMember, onDelete }) => {
     onClose();
   };
 
+  const handleDeleteMember = () => {
+    onDelete(selectedMember);
+    onClose();
+  };
+
   const handleCloseModal = () => {
     onClose();
   };
+
+
 
   return (
     <div className={`Amodal ${isOpen ? "open" : ""}`}>
       <div className="Amodal-content">
         <div className="Amodal-actions">
-          <AdminMemberUpdate member={selectedMember}
+          <AdminMemberUpdate
+            member={selectedMember}
             onUpdate={handleUpdateMember}
             onClose={handleCloseModal}
             key={selectedMember.no}
           />
-          <AdminMemberDelete member={selectedMember} onDelete={onDelete} />
+          <AdminMemberDelete member={selectedMember} onDelete={handleDeleteMember} />
         </div>
       </div>
     </div>
