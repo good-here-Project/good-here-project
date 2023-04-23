@@ -220,6 +220,6 @@ table {
 }
 
 .board-pagination button:disabled {
-  color: rgb(65, 65, 65);
-  background-color: #a9a3a4;
+  color: rgb(189, 187, 187);
+  background-color: #837377;
 }

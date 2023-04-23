@@ -97,7 +97,7 @@ public class BoardLilkeController {
 
   @GetMapping("cnt/{no}")
   public Object likeCnt(@PathVariable int no) {
-    BoardLike boardlike = new BoardLike();
+    //    BoardLike boardlike = new BoardLike();
 
     return boardLikeService.likeCnt(no);
   }

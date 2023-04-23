@@ -5,7 +5,7 @@ const Pagination = ({
   maxPage,
 }) => {
   return (
-    <div className="board-pagination">
+    <div className="pagination">
       <button
         className="btn btn-default"
         onClick={handlePrevPage}

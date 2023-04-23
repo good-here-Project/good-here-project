@@ -1,0 +1,166 @@
+.footer {
+  width: 1280px;
+  height: 180px;
+}
+
+.footer-main {
+  height: 130px;
+  margin-top: 10px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid lightgray;
+}
+
+.footer-tail {
+  height: 100px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-main ul {
+  margin-right: 100px;
+}
+
+.footer-main ul li {
+  margin-top: 5px;
+  list-style: none;
+}
+
+.main-f {
+  width: 300px;
+  padding-left: 150px;
+  text-align: left;
+}
+
+.f-f span {
+  cursor: pointer;
+  padding-left: 8px;
+}
+
+.f-f:hover {
+  text-decoration: underline;
+}
+
+.f-f {
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 17px;
+}
+
+.f-s {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.f-s:hover {
+  text-decoration: underline;
+}
+
+.main-ss {
+  width: 150px;
+  padding-right: 150px;
+  text-align: left;
+}
+
+.s-f {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.s-f:hover {
+  text-decoration: underline;
+}
+
+.s-s {
+  cursor: pointer;
+  font-size: 15;
+  font-weight: 400;
+}
+
+.s-s:hover {
+  text-decoration: underline;
+}
+
+.t-f {
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.t-f:hover {
+  text-decoration: underline;
+}
+
+.t-s {
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 15px;
+}
+
+.t-s:hover {
+  text-decoration: underline;
+}
+
+.t-t {
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 15px;
+}
+
+.t-t:hover {
+  text-decoration: underline;
+}
+
+.main-t {
+  width: 150px;
+  text-align: left;
+}
+
+.footer-tail-left {
+  font-weight: bold;
+  font-size: 18px;
+  margin-left: 150px;
+}
+
+.footer-tail-right {
+  margin-right: 100px;
+}
+
+.logo {
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+}
+
+.insta {
+  width: 32px;
+  height: 32px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.twi {
+  width: 32px;
+  height: 32px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.tele {
+  width: 32px;
+  height: 32px;
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.disc {
+  width: 32px;
+  height: 32px;
+  margin-right: 15px;
+  cursor: pointer;
+}

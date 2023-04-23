@@ -16,7 +16,7 @@ const BoardTable = ({ boardTypeValue, slicedPosts }) => {
           <th width="100px">조회수</th>
         </tr>
       </thead>
-      <tbody className="board-body">
+      <tbody>
         {slicedPosts
           .filter((post) => post.boardTypeId !== 0)
           .map((post) => (
