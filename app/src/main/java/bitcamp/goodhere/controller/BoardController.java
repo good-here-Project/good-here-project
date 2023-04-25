@@ -85,6 +85,19 @@ public class BoardController {
         .setData(boardService.list(keyword));
   }
 
+  @GetMapping("/list")
+  public Object boardlist(String keyword) {
+    log.debug("BoardController.list() 호출됨!");
+
+    // MappingJackson2HttpMessageConverter 가 jackson 라이브러리를 이용해
+    // 자바 객체를 JSON 문자열로 변환하여 클라이언트로 보낸다.
+    // 이 컨버터를 사용하면 굳이 UTF-8 변환을 설정할 필요가 없다.
+    // 즉 produces = "application/json;charset=UTF-8" 를 설정하지 않아도 된다.
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS)
+        .setData(boardService.boardlist(keyword));
+  }
+
   @GetMapping("{no}")
   public Object view(@PathVariable int no) {
     Board board = boardService.get(no);

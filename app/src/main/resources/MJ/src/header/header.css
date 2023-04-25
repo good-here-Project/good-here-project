@@ -127,9 +127,9 @@
 	cursor: pointer;
 	border: 1px solid;
 	text-align: center;
-	height: 33px;
-	width: 100px;
-	border-radius: 10px;
+	height: 35px;
+	width: 40px;
+	border-radius: 25px;
 	color: #da18a3;
 	padding-top: 3px;
 }
@@ -137,4 +137,10 @@
 .likeCntText {
 	margin-bottom: 2px;
 	margin-left: 10px;
+}
+
+.nickname-text {
+	display: flex;
+	margin-top: 12px;
+	color: gray;
 }

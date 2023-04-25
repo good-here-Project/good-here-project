@@ -54,6 +54,21 @@
     order by 
       b.board_id desc
   </select>
+  
+  <select id="findListAll" resultMap="boardMap" parameterType="string">
+    select 
+      b.board_id, 
+      b.board_type_id,
+      b.title, 
+      b.writer,
+      b.content,
+      b.created_date, 
+      b.view_cnt,
+      bf.filepath
+    from 
+      gh_board b
+      left outer join gh_boardfile bf on b.board_id = bf.board_id
+  </select>
 
   <select id="findByNo" parameterType="int" resultMap="boardMap">
     select 

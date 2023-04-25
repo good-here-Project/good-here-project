@@ -36,6 +36,12 @@ public class DefaultBoardService implements BoardService {
   }
 
   @Override
+  public List<Board> boardlist(String keyword) {
+    // TODO Auto-generated method stub
+    return boardDao.findListAll(keyword);
+  }
+
+  @Override
   public Board get(int no) {
     Board b = boardDao.findByNo(no);
     if (b != null) {

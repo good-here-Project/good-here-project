@@ -42,7 +42,7 @@ const View = () => {
   // 이미지 파일 URL 생성 함수
   const getImageUrl = (filepath) => {
     // console.log(filepath);
-    return `http://htqaklgqrvoj16814214.cdn.ntruss.com/board/${filepath.substr(
+    return `http://qocrfenoqdxa16854260.cdn.ntruss.com/board/${filepath.substr(
       filepath.lastIndexOf("/") + 1
     )}?type=m&w=1280&h=720&ttype=jpg`;
   };

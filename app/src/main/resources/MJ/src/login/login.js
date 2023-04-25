@@ -2,6 +2,8 @@ import React from 'react';
 import './login.css';
 import axios from 'axios';
 import FacebookLogin from '@greatsumini/react-facebook-login';
+import { GoogleLogin } from "@react-oauth/google";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 axios.defaults.withCredentials = true;
 
 function Login() {
@@ -48,6 +50,40 @@ function Login() {
       });
   }
 
+  // ---------------------------------구글 로그인-----------------------------------
+  function googleLogin(credential) {
+    const data = {
+      "credential": credential
+    }
+
+    console.log(credential);
+
+    axios.post("http://localhost/web/auth/googleLogin", data)
+      .then(response => {
+        console.log(response);
+        if (response.data.status === 'success') {
+          window.location.href = '/';
+          alert('구글 로그인 성공!');
+        } else {
+          alert('구글 로그인 실패!');
+        }
+      })
+      .catch(exception => {
+        alert("구글 로그인 오류!");
+        console.log(exception);
+      });
+  }
+
+  //--------
+
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 13) {
+      event.preventDefault(); // 이벤트의 기본 동작을 막음
+      userLogin();
+    }
+  };
+
+
 
 
   return (
@@ -58,20 +94,20 @@ function Login() {
         </div>
         <form id="login-form" action="login" method="post" className="login-form">
           <h2>로그인</h2>
-          <table className='login-form-table'>
+          <table>
             <tr>
               <th className="email-th">Email</th>
               <td><input type='email' className='email' name='email'></input></td>
             </tr>
             <tr>
               <th className="password-th">password</th>
-              <td><input type='password' className='password' name='password'></input></td>
+              <td><input type='password' className='password' name='password' onKeyDown={handleKeyDown}></input></td>
             </tr>
           </table>
 
           <div>
             {/* <input type='checkbox' className='checkbox'>ID 저장</input> */}
-            <button id="btn-login" type="button" className="btn-login" onClick={userLogin}>Login</button>
+            <button id="btn-login" type="button" className="btn-login" onClick={userLogin} >Login</button>
           </div>
 
           <div className="under-line">
@@ -81,7 +117,7 @@ function Login() {
           </div>
           <div className="login-other">
             <FacebookLogin
-              appId="126327150409089"
+              appId="606943251328930"
               initParams={{
                 cookie: true,
                 xfbml: true,
@@ -93,7 +129,7 @@ function Login() {
                 fontSize: '16px',
                 padding: '12px 24px',
                 border: 'none',
-                borderRadius: '4px',
+                borderRadius: '5px',
                 cursor: 'pointer'
               }}
               onSuccess={(response) => {
@@ -111,8 +147,20 @@ function Login() {
                 console.log(response);
               }}
             />
-            <button type="submit" className="btn-google">Continue with Google</button>
+            <GoogleOAuthProvider clientId="1087840897429-akb84m84c0i06q9p3a81tbglgtqsn28j.apps.googleusercontent.com">
+              <GoogleLogin
+                scope="https://www.googleapis.com/auth/userinfo.profile"
+                onSuccess={(response) => {
+                  //console.log(response)
+                  googleLogin(response.credential);
+                }}
+                onFailure={(error) => {
+                  console.log(error);
+                }}
+              />
+            </GoogleOAuthProvider>
           </div>
+
         </form>
       </div>
     </div>

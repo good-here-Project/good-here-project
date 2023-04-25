@@ -4,12 +4,22 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Modal from "../modal/modal";
 import UPModal from "../upmodal/upmodal";
+import Profil from "../profil/profil";
 
 axios.defaults.withCredentials = true;
 
 function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpModalOpen, setIsUpModalOpen] = useState(false);
+  const [isProfilOpen, setIsProfilOpen] = useState(false);
+
+  const handleProfilOpen = () => {
+    setIsProfilOpen(true);
+  }
+
+  const handleProfilClose = () => {
+    setIsProfilOpen(false);
+  }
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
@@ -41,7 +51,7 @@ function Header() {
       .then((result) => {
         // console.log(result.status);
         if (result.status === "success") {
-          document.querySelector("#nickname").innerHTML = result.data.nickname;
+          document.querySelector("#nickname").innerHTML = result.data.nickname + "님";
           document.querySelector(".upload").classList.remove("upload");
           document.querySelector(".logout").classList.remove("logout");
         } else {
@@ -111,10 +121,13 @@ function Header() {
               Upload
             </li>
           </div>
-          <li className="logout" id="logout">
-            <a onClick={logout}>
-              로그아웃(<span id="nickname"></span>)
-            </a>
+          <li className="logout" id="logout" onClick={handleProfilOpen}>
+            <div onClick={handleProfilOpen}>
+              {/* 로그아웃(<span id="nickname"></span>) */}
+            </div>
+          </li>
+          <li className="nickname-text">
+            <span id="nickname"></span>
           </li>
         </ul>
       </div>
@@ -140,6 +153,10 @@ function Header() {
       <UPModal isOpen={isUpModalOpen} onClose={handleUpModalClose}>
         <div className="upmoal-main"></div>
       </UPModal>
+
+      <Profil isOpen={isProfilOpen} onClose={handleProfilClose}>
+        <div className="profil-main"></div>
+      </Profil>
     </div>
   );
 }

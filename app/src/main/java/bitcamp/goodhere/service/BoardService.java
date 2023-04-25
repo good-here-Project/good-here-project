@@ -7,6 +7,7 @@ import bitcamp.goodhere.vo.BoardFile;
 public interface BoardService {
   void add(Board board);
   List<Board> list(String keyword);
+  List<Board> boardlist(String keyword);
   Board get(int no);
   void update(Board board);
   void delete(int no);

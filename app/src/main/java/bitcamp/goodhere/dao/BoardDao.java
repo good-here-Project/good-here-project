@@ -8,6 +8,7 @@ import bitcamp.goodhere.vo.Board;
 public interface BoardDao {
   void insert(Board board);
   List<Board> findAll(String keyword);
+  List<Board> findListAll(String keyword);
   Board findByNo(int no);
   void increaseViewCount(int no);
   int update(Board b);
