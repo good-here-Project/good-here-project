@@ -8,6 +8,7 @@ import Sign from "./sign/sign";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Board from "./Board/Board";
 import Form from "./Form/Form";
+import Info from "./info/info";
 import FormComm from "./FormComm/FormComm";
 import FormUpdate from "./FormUpdate/FormUpdate";
 import View from "./View/View";
@@ -27,6 +28,7 @@ function App() {
           <Route path="/Sign" element={<Sign />} />
           <Route path="/Board" element={<Board />} />
           <Route path="/Form" element={<Form />} />
+          <Route path="/Info" element={<Info />} />
           <Route path="/FormComm" element={<FormComm />} />
           <Route path="/View/:no" element={<View />} />
           <Route

@@ -54,7 +54,7 @@
 	width: 310px;
 }
 
-tr {
+.login-form tr {
 	display: grid;
 	grid-template-rows: auto;
 	margin-top: 15px;

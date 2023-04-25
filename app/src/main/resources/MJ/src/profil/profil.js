@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from "react-router-dom";
 import './profil.css';
 import axios from "axios";
 
@@ -39,7 +40,9 @@ function Profil(props) {
 						<div className="profil-content">
 							<ul>
 
-								<li>내정보</li>
+                <Link to="/Info" style={{ textDecoration: "none" }}>
+                  <li>내정보</li>
+                </Link>
 								<li>임시</li>
 								<li>임시</li>
 								<li onClick={logout}>로그아웃</li>
