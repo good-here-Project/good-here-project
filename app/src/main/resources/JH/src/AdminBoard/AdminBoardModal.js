@@ -10,6 +10,11 @@ const AdminBoardModal = ({ isOpen, onClose, selectedBoard, onDelete }) => {
         onClose();
     };
 
+    const handleDeleteBoard = () => {
+        onDelete(selectedBoard);
+        onClose();
+      };
+
     const handleCloseModal = () => {
         onClose();
     };
@@ -24,7 +29,7 @@ const AdminBoardModal = ({ isOpen, onClose, selectedBoard, onDelete }) => {
                         onClose={handleCloseModal}
                         key={selectedBoard.no}
                     />
-                    <AdminBoardDelete board={selectedBoard} onDelete={onDelete} />
+                    <AdminBoardDelete board={selectedBoard} onDelete={handleDeleteBoard} />
                 </div>
             </div>
         </div>

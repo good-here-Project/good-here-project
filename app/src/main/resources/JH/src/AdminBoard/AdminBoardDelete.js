@@ -17,6 +17,7 @@ const AdminBoardDelete = ({ board, onDelete }) => {
             console.log(error);
         } finally {
             setIsDeleting(false);
+            
         }
     };
 

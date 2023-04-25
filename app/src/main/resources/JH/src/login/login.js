@@ -6,11 +6,10 @@ axios.defaults.withCredentials = true;
 
 function Login() {
 
-  const userLogin = function () {
+  const userLogin = function() {
 
     const form = document.querySelector('#login-form');
     const formData = new FormData(form);
-
 
     axios.post('http://localhost/web/auth/login', formData)
       .then(response => {
@@ -59,7 +58,7 @@ function Login() {
         </div>
         <form id="login-form" action="login" method="post" className="login-form">
           <h2>로그인</h2>
-          <table>
+          <table className='login-form-table'>
             <tr>
               <th className="email-th">Email</th>
               <td><input type='email' className='email' name='email'></input></td>
@@ -72,7 +71,7 @@ function Login() {
 
           <div>
             {/* <input type='checkbox' className='checkbox'>ID 저장</input> */}
-            <button id="btn-login" type="button" className="btn-login" onClick={userLogin} >Login</button>
+            <button id="btn-login" type="button" className="btn-login" onClick={userLogin}>Login</button>
           </div>
 
           <div className="under-line">
@@ -82,7 +81,7 @@ function Login() {
           </div>
           <div className="login-other">
             <FacebookLogin
-              appId="606943251328930"
+              appId="126327150409089"
               initParams={{
                 cookie: true,
                 xfbml: true,
@@ -94,7 +93,7 @@ function Login() {
                 fontSize: '16px',
                 padding: '12px 24px',
                 border: 'none',
-                borderRadius: '5px',
+                borderRadius: '4px',
                 cursor: 'pointer'
               }}
               onSuccess={(response) => {

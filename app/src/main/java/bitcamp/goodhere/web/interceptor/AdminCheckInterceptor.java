@@ -27,7 +27,7 @@ public class AdminCheckInterceptor implements HandlerInterceptor {
     }
 
     Member loginUser = (Member) request.getSession().getAttribute("loginUser");
-    if (!loginUser.getEmail().equals("admin@test.com")) {
+    if (!loginUser.getEmail().equals("admin@test.com") || loginUser.getAuth() != 2) {
       response.setContentType("application/json;charset=UTF-8");
       PrintWriter out = response.getWriter();
       out.print(new ObjectMapper().writeValueAsString(

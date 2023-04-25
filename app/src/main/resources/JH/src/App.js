@@ -8,6 +8,7 @@ import Sign from './sign/sign';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AdminMember from './AdminMember/AdminMember';
 import AdminBoard from './AdminBoard/AdminBoard';
+import MyPage from './MyPage/MyPage';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/Sign" element={<Sign />} />
           <Route path="/AdminMember" element={<AdminMember />} />
           <Route path="/AdminBoard" element={<AdminBoard />} />
+          <Route path="/MyPage" element={<MyPage />} />
         </Routes>
 
         <Footer />

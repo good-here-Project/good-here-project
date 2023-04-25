@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from "axios";
 import Sidebar from '../Sidebar/Sidebar';
 import AdminBoardModal from "./AdminBoardModal";
-//import "./AdminBoard.css";
+import "./AdminBoard.css";
 
 function AdminBoard() {
     const [boards, setBoards] = useState([]);
