@@ -4,7 +4,7 @@ import axios from 'axios';
 import FacebookLogin from '@greatsumini/react-facebook-login';
 import { GoogleLogin } from "@react-oauth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
-import NaverLogin from 'react-login-by-naver';
+import NaverLogin from './NaverLogin';
 axios.defaults.withCredentials = true;
 
 function Login() {
@@ -154,13 +154,9 @@ function Login() {
                 }}
               />
             </GoogleOAuthProvider>
-            <NaverLogin
-              clientId="3tcMgqH1HbnbC0Jln_f4"
-              callbackUrl="http://localhost:3000"
-              render={(props) => <div onClick={props.onClick}>Naver Login</div>}
-              onSuccess={(parameter) => console.log(parameter)}
-              onFailure={(result) => console.error(result)}
-            />
+            
+            <NaverLogin />
+
           </div>
 
         </form>

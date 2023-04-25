@@ -1,10 +1,15 @@
 package bitcamp.goodhere.controller;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Collections;
 import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -67,8 +72,8 @@ public class AuthController {
   @RequestMapping("user")
   public Object user(HttpSession session) {
     Member loginUser = (Member) session.getAttribute("loginUser");
-        System.out.println(session);
-        System.out.println(loginUser);
+    System.out.println(session);
+    System.out.println(loginUser);
     if (loginUser != null) {
       return new RestResult()
           .setStatus(RestStatus.SUCCESS)
@@ -172,6 +177,70 @@ public class AuthController {
           .setStatus(RestStatus.FAILURE);
     }
   }
+
+  @PostMapping("naverLogin")
+  public Object naverLogin(@RequestBody Map<String, String> params, HttpSession session) {
+
+    String token = params.get("access_token");
+    String header = "Bearer " + token;
+    String apiURL = "https://openapi.naver.com/v1/nid/me";
+
+    try {
+      URL url = new URL(apiURL);
+      HttpURLConnection con = (HttpURLConnection) url.openConnection();
+      con.setRequestMethod("POST");
+      con.setRequestProperty("Authorization", header);
+
+      int responseCode = con.getResponseCode();
+      BufferedReader br;
+
+      if (responseCode == 200) {
+        br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+      } else {
+        br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+      }
+
+      String inputLine;
+      StringBuffer response = new StringBuffer();
+
+      while ((inputLine = br.readLine()) != null) {
+        response.append(inputLine);
+      }
+      br.close();
+
+      String responseBody = response.toString();
+      JSONObject jsonObject = new JSONObject(responseBody);
+      JSONObject responseJson = jsonObject.getJSONObject("response");
+
+      String nickname = responseJson.getString("nickname");
+      String email = responseJson.getString("email");
+
+      Member user = memberService.get(email);
+      if (user == null) {
+        Member m = new Member();
+        m.setEmail(email);
+        m.setNickname(nickname);
+        m.setPassword("bitcamp-nopassword");
+        m.setTel("010-0000-0000");
+        m.setNickname("네이버");
+
+        memberService.add(m);
+      }
+      user = memberService.get(email);
+
+      session.setAttribute("loginUser", user.getEmail());
+
+      return new RestResult()
+          .setStatus(RestStatus.SUCCESS);
+    } catch (Exception e) {
+      log.error("네이버 로그인 중 에러 발생! : " + e);
+      return new RestResult()
+          .setStatus(RestStatus.FAILURE);
+    }
+  }
+
+
+
 }
 
 
