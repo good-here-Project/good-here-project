@@ -14,7 +14,7 @@ function Header() {
   const [isProfilOpen, setIsProfilOpen] = useState(false);
 
   const handleProfilOpen = () => {
-    setIsProfilOpen(true);
+    setIsProfilOpen((prevState) => !prevState);
   }
 
   const handleProfilClose = () => {
@@ -23,6 +23,7 @@ function Header() {
 
   const handleModalOpen = () => {
     setIsModalOpen(true);
+    setIsProfilOpen(false);
   };
 
   const handleModalClose = () => {
@@ -81,7 +82,7 @@ function Header() {
 
   return (
     <div className="header">
-      <div className="header-head">
+      <div className="header-head" onClick={handleProfilClose}>
         <Link to="/Main" style={{ textDecoration: "none" }}>
           <p>
             <img src="img/logo.png" className="logo"></img>

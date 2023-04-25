@@ -1,22 +1,28 @@
 
 .profil-overlay {
-	position: fixed;
-  top: 0;
+	position: absolute;
+  /* top: 0;
   left: 1100px;
   right: 0;
-  bottom: 735px;
+  bottom: 735px; */
   display: flex;
   justify-content: center;
   align-items: center;
-	/* transform: translate(-58%, -80%); */
+	transform: translate(-60px, -30px);
+}
+
+.profil-content {
+	display: flex;
+	width: 150px;
+	height: 180px;
 }
 
 .profil {
-  background-color: white;
+  background: linear-gradient(101.12deg, #f03394 27.35%, #da34d4 99.99%, #dd3eda 100%, #eb50e8 100%);
   width: 130px;
 	height: 170px;
   border-radius: 4px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 10px #da18a3;
 	transform: translate(10%, 10%);
 	display: flex;
 	justify-content: center;
@@ -25,22 +31,23 @@
 .profil-content ul {
 	display: flex;
 	flex-wrap: wrap;
-	grid-template-rows: 50% 50%;
+	grid-template-rows: 25% 25% 25% 25%;
 	align-items: center;
 	text-align: center;
 	justify-content: center;
 }
 
 .profil-content ul li {
+	color: white;
 	cursor: pointer;
-	border-bottom: 1px solid lightgray;
 	width: 100px;
-	margin-right: 40px;
+	padding-right: 37px;
 	margin-bottom: 12px;
 	padding-bottom: 5px;
 	list-style: none;
 	display: flex;
-	justify-content: center;
+	justify-content: left;
 	align-items: center;
-	text-align: center;
+	text-align: left;
 }
+

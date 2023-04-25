@@ -29,7 +29,7 @@ function Profil(props) {
   return (
     <div className="profil-background" onClick={e => {
       // 모달 내부를 클릭한 경우에는 모달이 닫히지 않도록 합니다.
-      if (e.target.closest('.modal') !== null) {
+      if (e.target.closest('.profil') !== null) {
         return;
       }
       onClose();
@@ -41,11 +41,15 @@ function Profil(props) {
 							<ul>
 
                 <Link to="/Info" style={{ textDecoration: "none" }}>
-                  <li>내정보</li>
+                  <li>내 프로필</li>
                 </Link>
-								<li>임시</li>
-								<li>임시</li>
-								<li onClick={logout}>로그아웃</li>
+								<Link to="/List" style={{ textDecoration: "none" }}>
+                  <li>내 게시글</li>
+                </Link>
+								<li>내 문의</li>
+                <Link to="/Main" style={{ textDecoration: "none" }}>
+                  <li onClick={logout}>Logout</li>
+                </Link>
 
 							</ul>
 						</div>
