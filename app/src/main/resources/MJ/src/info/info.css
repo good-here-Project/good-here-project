@@ -1,0 +1,79 @@
+.info-body {
+	width: 1280px;
+	display: flex;
+	justify-content: center;
+}
+
+.member-file {
+	margin-top: 50px;
+	margin-right: 50px;
+	width: 300px;
+	height: 300px;
+	border: 1px solid;
+}
+
+.member-form {
+	margin-top: 50px;
+	margin-left: 50px;
+	width: 400px;
+	height: 600px;
+	border: 1px solid;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.member-info ul li {
+	list-style: none;
+}
+
+.member-table {
+	border: none;
+}
+
+.member-table tr {
+	border: none;
+}
+
+.member-table tr th {
+	border: none;
+}
+
+.member-table tr th td {
+	border: none;
+}
+
+#f-name {
+	width: 300px;
+	height: 35px;
+	border-radius: 7px;
+	border-color: rgb(19, 79, 190);
+}
+
+#f-nickname {
+	width: 300px;
+	height: 35px;
+	border-radius: 7px;
+	border-color: rgb(19, 79, 190);
+}
+
+#f-email {
+	width: 300px;
+	height: 35px;
+	border-radius: 7px;
+	border-color: rgb(19, 79, 190);
+}
+
+#f-password {
+	width: 300px;
+	height: 35px;
+	border-radius: 7px;
+	border-color: rgb(19, 79, 190);
+}
+
+#f-tel {
+	width: 300px;
+	height: 35px;
+	border-radius: 7px;
+	border-color: rgb(19, 79, 190);
+}

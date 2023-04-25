@@ -39,13 +39,16 @@ function Profil(props) {
 					<div className="profil">
 						<div className="profil-content">
 							<ul>
-
-                <Link to="/Info" style={{ textDecoration: "none" }}>
-                  <li>내 프로필</li>
-                </Link>
-								<Link to="/List" style={{ textDecoration: "none" }}>
-                  <li>내 게시글</li>
-                </Link>
+                <div onClick={onClose}>
+                  <Link to="/Info" style={{ textDecoration: "none" }}>
+                    <li>내 프로필</li>
+                  </Link>
+                </div>
+                <div onClick={onClose}>
+                  <Link to="/List" style={{ textDecoration: "none" }}>
+                    <li>내 게시글</li>
+                  </Link>
+                </div>
 								<li>내 문의</li>
                 <Link to="/Main" style={{ textDecoration: "none" }}>
                   <li onClick={logout}>Logout</li>

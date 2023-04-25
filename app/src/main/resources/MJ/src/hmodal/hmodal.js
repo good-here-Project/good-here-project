@@ -238,22 +238,6 @@ function HModal(props) {
       });
     }
 
-    function checkOwner2(writerNo) {
-      axios.get("http://localhost/web/auth/user")
-      .then(response => {
-        // console.log(response.data);
-        if (response.data.status === 'success') {
-          if (response.data.data.no === writerNo) {
-            document.querySelector('#comment-delete').classList.remove('comment-delete');
-          }
-        }
-      })
-      .catch(error => {
-        alert("로그인 사용자 정보 조회 중 오류 발생!");
-        console.log(error);
-      });
-    }
-
     function updateBtn() {
       const form = document.querySelector('#board-form');
       const formData = new FormData(form);

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import bitcamp.goodhere.service.MemberService;
+import bitcamp.goodhere.service.ObjectStorageService;
 import bitcamp.goodhere.vo.Member;
 import bitcamp.util.RestResult;
 import bitcamp.util.RestStatus;
@@ -28,6 +30,8 @@ public class MemberController {
   }
 
   @Autowired private MemberService memberService;
+  @Autowired private ObjectStorageService objectStorageService;
+  private String bucketName = "bitcamp-bucket22-member-photo";
 
   @PostMapping
   public Object insert(@RequestBody Member member) {
@@ -53,13 +57,20 @@ public class MemberController {
   @PutMapping("{no}")
   public Object update(
       @PathVariable int no,
-      @RequestBody Member member) {
+      Member member,
+      MultipartFile file) {
+
+    String filename = objectStorageService.uploadFile(bucketName, "", file);
+    if (filename != null) {
+      member.setPhoto(filename);
+    }
 
     log.debug(member);
 
+    // 보안을 위해 URL 번호를 게시글 번호로 설정한다.
     member.setNo(no);
-    memberService.update(member);
 
+    memberService.update(member);
     return new RestResult()
         .setStatus(RestStatus.SUCCESS);
   }
