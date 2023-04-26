@@ -17,6 +17,10 @@ function HModal(props) {
 
   const [likeCnt, setLikeCnt] = useState();
 
+  const [photo, setPhoto] = useState(null);
+
+  const [writerImg, setWriterImg] = useState(null);
+
   const handleKeyDown = (event) => {
     if (event.keyCode === 13) {
       event.preventDefault(); // 이벤트의 기본 동작을 막음
@@ -24,16 +28,11 @@ function HModal(props) {
     }
   };
 
-  // console.log(isNo);
-  // console.log(userNo);
-
-
 
   axios.get("http://localhost/web/like/cnt/" + isNo)
     .then(response => {
       const result = response.data;
       setLikeCnt(result);
-      // console.log(result);
     })
     .catch(exception => {
 
@@ -45,7 +44,7 @@ function HModal(props) {
     const result = response.data;
 
     const data = result.data;
-    // console.log(result.data);
+
     if (data === 'false') {
       // 좋아요를 누르지 않은 상태
       setImage('img/heart.png');
@@ -53,7 +52,6 @@ function HModal(props) {
       // 이미 좋아요를 누른 상태
       setImage('img/colorheart.png');
     }
-    // console.log(result);
 
   })
   .catch(exception => {
@@ -110,8 +108,6 @@ function HModal(props) {
       .then((response) => {
         setData(response.data.data);
         const result = response.data;
-        // console.log(result);
-        // checkOwner2(response.data.data.writerNo);
       })
       .catch((error) => console.error(error));
 
@@ -132,7 +128,6 @@ function HModal(props) {
         }
       )
       .then(response => {
-        console.log(response);
         return response;
       })
       .then(result => {
@@ -167,7 +162,6 @@ function HModal(props) {
       })
       .then(result => {
         if (result.status == '200') {
-          console.log(result);
         } else if (result.errorCode == '401') {
         } else {
           alert('입력 실패!');
@@ -195,8 +189,11 @@ function HModal(props) {
       alert('게시글을 조회할 수 없습니다.');
       return;
     }
-    
     const board = result.data;
+
+    const file = board.writer.photo;
+    const filepath = file.split(".com/")[1];
+    setWriterImg(filepath);
 
     document.querySelector("input[name='title']").value = board.title;
     document.querySelector("#f-created-date").innerHTML = board.createdDate;
@@ -205,7 +202,6 @@ function HModal(props) {
 
     let ul = "";
     board.attachedFiles.forEach(file => {
-      // console.log(file);
       if (file.no == 0) return;
       let html = `
       <li id="li-${file.no}">
@@ -213,7 +209,6 @@ function HModal(props) {
         [<a href="#" onClick="deleteFile(${board.no}, ${file.no}); return false;">삭제</a>] 
       </li>`;
         setUrl(`${file.filepath}`);
-        // console.log(url);
       ul += html;
     });
     // document.querySelector("#f-files").innerHTML = ul;
@@ -224,13 +219,15 @@ function HModal(props) {
   function checkOwner(writerNo) {
       axios.get("http://localhost/web/auth/user")
       .then(response => {
-        // console.log(response.data);
+
+        
         if (response.data.status === 'success') {
           if (response.data.data.no === writerNo) {
             document.querySelector('#btn-update').classList.remove('guest');
             document.querySelector('#btn-delete').classList.remove('guest');
           }
         }
+
       })
       .catch(error => {
         alert("로그인 사용자 정보 조회 중 오류 발생!");
@@ -244,7 +241,6 @@ function HModal(props) {
       
       axios.put("http://localhost/web/boards/" + isNo, formData)
         .then(response => {
-        // console.log(response.data);
         if (response.data.status === 'success') {
         window.location.href='./';
         } else {
@@ -272,8 +268,6 @@ function HModal(props) {
           .catch(error => console.error(error));
         }
       }
-
-      
 
       function commentDelete(commentNo) {
         axios
@@ -374,7 +368,8 @@ function HModal(props) {
 
                 <div className='hmodal-view-body'>
                   <div className='hmodal-view-body-head'>
-                    작성자 : <span id="f-writer-name"></span>
+                    <img src={`http://xqhwurtrwszc16694936.cdn.ntruss.com/${writerImg}?type=f&w=40&h=40&ttype=jpg`}/>
+                    <span id="f-writer-name"></span>
                   </div>
                   <div className='hmodal-view-body-body'>
                     <textarea name='content' rows='10' cols='51' className='content-text'></textarea>
@@ -390,13 +385,21 @@ function HModal(props) {
                     <div className='hmodal-view-footer-f-view'>
                       <ul>
                         {data.map((item) => {
+                          let file = item.writer.photo;
+                          let filepath = file.split(".com/")[1];
+  
                           if (item.boardNo === isNo) {
+
                             return (
                               <li key={item.no}>
                                 <div className='comment-header'>
-                                  <div className="comment-header-writer">작성자 : {item.writer.nickname}</div>
+                                  <div className="comment-header-writer">
+                                    <img src={`http://xqhwurtrwszc16694936.cdn.ntruss.com/${filepath}?type=f&w=40&h=40&ttype=jpg`}></img>
+                                    <div className="comment-writer-nickname">
+                                      {item.writer.nickname}
+                                    </div>
+                                  </div>
                                   <div className="comment-header-content">{item.content ? item.content : "내용없음"}</div>
-                                  
                                 </div>
                                 <div className='comment-footer'>
                                   <div className="comment-footer-createDate">

@@ -143,10 +143,10 @@ function Info() {
             >
               <table border="1" className="member-table">
                 <tr>
-                  <th>이메일</th>
+                  <th>Email</th>
                   <td>
                     <input
-                      id="f-email"
+                      id="ff-email"
                       type="email"
                       name="email"
                       value={data.email}
@@ -155,17 +155,17 @@ function Info() {
                 </tr>
 
                 <tr>
-                  <th>암호</th>
-                  <td><input id="f-password" type="password" name="password" className="password" placeholder="특수문자, 영문, 숫자 포함 6~18자리" onBlur={checkPW} value={data.password} onChange={handleInputChange}  />
+                  <th>Password</th>
+                  <td><input id="ff-password" type="password" name="password" className="ff-password" placeholder="특수문자, 영문, 숫자 포함 6~18자리" onBlur={checkPW} value={data.password} onChange={handleInputChange}  />
                   <span className="password_ok">사용 가능한 비밀번호입니다.</span>
                   </td>
                 </tr>
 
                 <tr>
-                  <th>이름</th>
+                  <th>Name</th>
                   <td>
                     <input
-                      id="f-name"
+                      id="ff-name"
                       type="text"
                       name="name"
                       value={data.name}
@@ -173,8 +173,8 @@ function Info() {
                   </td>
                 </tr>
                 <tr>
-                  <th>닉네임</th>
-                  <td><input id="f-nickname" type="nickname" name="nickname" className="nickname" placeholder="닉네임을 입력해주세요." onBlur={checkNickname} value={data.nickname}
+                  <th>Nickname</th>
+                  <td><input id="ff-nickname" type="nickname" name="nickname" className="ff-nickname" placeholder="닉네임을 입력해주세요." onBlur={checkNickname} value={data.nickname}
                       onChange={handleInputChange} />
                   <span className="nickname_ok">사용 가능한 닉네임입니다.</span>
                   <span className="nickname_already">누군가 이 닉네임을 사용하고 있어요.</span>
@@ -183,18 +183,18 @@ function Info() {
                 </tr>
                 
                 <tr>
-                  <th>전화</th>
-                  <td><input type="tel" name="tel" className="tel" maxLength="13" placeholder="휴대폰번호를 입력해주세요." onChange={handleInputChange} value={data.tel} /></td>
+                  <th>Tel</th>
+                  <td><input type="tel" name="tel" className="ff-tel" maxLength="13" placeholder="휴대폰번호를 입력해주세요." onChange={handleInputChange} value={data.tel} /></td>
                 </tr>
                 <tr className="edit">
-                  <th>등록일</th>
+                  <th>Created_Date</th>
                   <td>
-                    <span id="f-createdDate">{data.createdDate}</span>
+                    <span id="ff-createdDate">{data.createdDate}</span>
                   </td>
                 </tr>
 
                 <tr>
-                  <th>사진</th>
+                  <th>Photo</th>
                   <td>
                     <a id="f-photo-origin">
                       <img id="f-photo" className="edit" />
@@ -205,7 +205,7 @@ function Info() {
                 
               </table>
 
-              <div>
+              <div className="profil-btn">
                 <button id="btn-update2" type="button" className="edit" onClick={updateBtn}>변경</button>
                 <Link to="/Main" style={{ textDecoration: "none" }}>
                   <button id="btn-cancel2" type="reset" className="edit">취소</button>

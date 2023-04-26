@@ -16,6 +16,7 @@
     <association property="writer" javaType="member">
       <id column="writer" property="no"/>
       <result column="nickname" property="nickname"/>
+      <result column="photo" property="photo"/>
     </association>
     
     <collection property="attachedFiles" ofType="boardfile">
@@ -80,6 +81,7 @@
       b.writer, 
       (select name from gh_member where member_id = b.writer) name,
       (select nickname from gh_member where member_id = b.writer) nickname,
+      (select photo from gh_member where member_id = b.writer) photo,
       b.created_date, 
       b.view_cnt,
       bf.boardfile_id,

@@ -115,6 +115,7 @@
 	margin-top: 10px;
 	color: gray;
 	font-size: 13px;
+	display: flex;
 }
 
 .content-text {
@@ -207,13 +208,14 @@
 }
 
 .comment-header-writer {
+	display: flex;
 	font-weight: bold;
 	font-size: 13px;
 	color: gray;
 }
 
 .comment-header-content {
-	margin-top: 3px;
+	margin-top: 8px;
 	font-size: 11px;
 	color: gray;
 }
@@ -257,4 +259,24 @@
 
 .file-input {
 	display: none;
+}
+
+.hmodal-view-body-head img {
+	border-radius: 100%;
+}
+
+.comment-header-writer img {
+	border-radius: 100%;
+	width: 30px;
+	height: 30px;
+}
+
+#f-writer-name {
+	margin-left: 10px;
+	margin-top: 15px;
+}
+
+.comment-writer-nickname {
+	margin-left: 10px;
+	margin-top: 10px;
 }

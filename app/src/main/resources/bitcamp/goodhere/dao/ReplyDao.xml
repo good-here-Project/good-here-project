@@ -14,6 +14,7 @@
     <association property="writer" javaType="member">
       <id column="writer" property="no"/>
       <result column="nickname" property="nickname"/>
+      <result column="photo" property="photo"/>
     </association>
   </resultMap>
 
@@ -30,7 +31,8 @@
       c.content,
       c.writer,
       c.created_date, 
-      m.nickname
+      m.nickname,
+      m.photo
     from 
       gh_comment c
       inner join gh_member m on c.writer = m.member_id

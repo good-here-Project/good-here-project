@@ -5,6 +5,7 @@ import axios from "axios";
 import Modal from "../modal/modal";
 import UPModal from "../upmodal/upmodal";
 import Profil from "../profil/profil";
+import BoardUpModal from "../BoardUpModal/BoardUpModal";
 
 axios.defaults.withCredentials = true;
 
@@ -13,6 +14,7 @@ function Header() {
   const [isUpModalOpen, setIsUpModalOpen] = useState(false);
   const [isProfilOpen, setIsProfilOpen] = useState(false);
   const [photo, setPhoto] = useState(null);
+  const [isBoardUpModalOpen, setIsBoardUpModalOpen] = useState(false);
 
   const handleProfilOpen = () => {
     setIsProfilOpen((prevState) => !prevState);
@@ -39,8 +41,12 @@ function Header() {
     setIsUpModalOpen(false);
   };
 
-  const handleUploadComm = () => {
-    window.location.href = "/FormComm";
+  const handleBoardUpModalOpen = () => {
+    setIsBoardUpModalOpen(true);
+  };
+
+  const handleBoardUpModalClose = () => {
+    setIsBoardUpModalOpen(false);
   };
 
   useEffect(() => {
@@ -144,7 +150,7 @@ function Header() {
             <img src="img/hotplace.png"></img>
             <p>Hot 플레이스 업로드</p>
           </div>
-          <div className="modal-board" onClick={handleUploadComm}>
+          <div className="modal-board" onClick={handleBoardUpModalOpen}>
             <img src="img/board.png"></img>
             <p>커뮤니티 업로드</p>
           </div>
@@ -163,6 +169,13 @@ function Header() {
       <Profil isOpen={isProfilOpen} onClose={handleProfilClose}>
         <div className="profil-main"></div>
       </Profil>
+
+      <BoardUpModal
+        isOpen={isBoardUpModalOpen}
+        onClose={handleBoardUpModalClose}
+      >
+        <div className="upmoal-main"></div>
+      </BoardUpModal>
     </div>
   );
 }

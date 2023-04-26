@@ -2,6 +2,8 @@
 	width: 1280px;
 	display: flex;
 	justify-content: center;
+	border-bottom: 1px solid lightgray;
+	padding-bottom: 40px;
 }
 
 .member-file {
@@ -9,7 +11,9 @@
 	margin-right: 50px;
 	width: 300px;
 	height: 300px;
-	border: 1px solid;
+	border: 1px solid lightgray;
+	border-radius: 100%;
+	box-shadow: 5px 5px 5px 5px gray;
 }
 
 .member-profil-form {
@@ -17,63 +21,49 @@
 	margin-left: 50px;
 	width: 500px;
 	height: 600px;
-	border: 1px solid;
+	border: 1px solid lightgray;
+	border-radius: 5px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	box-shadow: 5px 5px 5px 5px gray;
 }
 
-.member-info ul li {
-	list-style: none;
+.member-file img {
+	border-radius: 100%;
 }
 
 .member-table {
-	border: none;
-}
-
-.member-table tr {
-	border: none;
-}
-
-.member-table tr th {
-	border: none;
-}
-
-.member-table tr th td {
-	border: none;
-}
-
-#f-name {
+	border: white;
 	width: 300px;
-	height: 35px;
-	border-radius: 7px;
-	border-color: rgb(19, 79, 190);
+	height: 400px;
 }
 
-#f-nickname {
-	width: 300px;
+.member-table tr td input {
+	width: 250px;
 	height: 35px;
-	border-radius: 7px;
-	border-color: rgb(19, 79, 190);
+	border-color: lightgray;
 }
 
-#f-email {
-	width: 300px;
-	height: 35px;
-	border-radius: 7px;
-	border-color: rgb(19, 79, 190);
+.member-table th {
+	font-weight: lighter;
+	font-size: 15px;
+	padding-right: 60px;
 }
 
-#f-password {
-	width: 300px;
-	height: 35px;
-	border-radius: 7px;
-	border-color: rgb(19, 79, 190);
+.profil-btn {
+	float: right;
+	margin-top: 30px;
 }
 
-#f-tel {
-	width: 300px;
+#btn-update2 {
+	width: 100px;
 	height: 35px;
-	border-radius: 7px;
-	border-color: rgb(19, 79, 190);
+	cursor: pointer;
+}
+
+#btn-cancel2 {
+	width: 100px;
+	height: 35px;
+	cursor: pointer;
 }
