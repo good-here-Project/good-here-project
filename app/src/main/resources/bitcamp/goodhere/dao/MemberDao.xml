@@ -19,8 +19,8 @@
 
   <insert id="insert" parameterType="member" 
           useGeneratedKeys="true" keyProperty="no" keyColumn="member_id">
-    insert into gh_member(email, pwd, name, tel, nickname, introduce, photo, state, auth) 
-    values(#{email}, sha2(#{password}, 256), #{name}, #{tel}, #{nickname}, #{introduce}, #{photo}, #{state}, #{auth})
+    insert into gh_member(email, pwd, name, tel, nickname, introduce, photo, state) 
+    values(#{email}, sha2(#{password}, 256), #{name}, #{tel}, #{nickname}, #{introduce}, #{photo}, #{state})
   </insert>
 
   <select id="findAll" resultMap="memberMap">

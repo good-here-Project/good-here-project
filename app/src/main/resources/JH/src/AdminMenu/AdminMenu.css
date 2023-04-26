@@ -1,7 +1,7 @@
 /* 사이드 바 스타일 */
 .adminmenu {
     width: 200px;
-    height: 400px;
+    height: 300px;
     position: fixed;
     top: 0;
     right: 40px;
@@ -24,10 +24,4 @@
     color: white;
     display: block;
     text-align: center;
-}
-
-/* 활성화된 링크 스타일 */
-.adminmenu a.active {
-    background-color: white;
-    color: #da18a3;
 }

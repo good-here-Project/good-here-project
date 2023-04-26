@@ -1,9 +1,9 @@
 .usermenu {
     width: 200px;
-    height: 400px;
+    height: 300px;
     position: fixed;
-    top: 0;
-    right: 40px;
+    top: 50px;
+    right: 80px;
     background: linear-gradient(to bottom, #eb1484 27.35%, #c91cc3 99.99%, #c81cc5 100%, #c81cc5 100%);
     overflow-x: hidden;
     padding-top: 20px;
@@ -23,10 +23,4 @@
     color: white;
     display: block;
     text-align: center;
-}
-
-/* 활성화된 링크 스타일 */
-.usermenu a.active {
-    background-color: white;
-    color: #da18a3;
 }

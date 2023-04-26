@@ -6,10 +6,10 @@ function AdminMenu() {
     return (
         <div className="adminmenu">
             <NavLink exact to="/" activeClassName="active">홈</NavLink>
-            <NavLink to="/" activeClassName="active">관리자 정보</NavLink>
-            <NavLink to="/" activeClassName="active">관리자 정보</NavLink>
-            <NavLink to="/" activeClassName="active">관리자 정보</NavLink>
-            <NavLink to="/" activeClassName="active">관리자 정보</NavLink>
+            <NavLink to="/AdminMember" activeClassName="active">회원 관리</NavLink>
+            <NavLink to="/AdminBoard" activeClassName="active">게시글 관리</NavLink>
+            <NavLink to="/" activeClassName="active">...</NavLink>
+            <NavLink to="/" activeClassName="active">...</NavLink>
         </div>
     );
 }

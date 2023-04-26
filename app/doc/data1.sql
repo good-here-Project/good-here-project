@@ -17,3 +17,6 @@ VALUES
 alter table gh_board
   add column writer int,
   add constraint gh_board_fk foreign key (writer) references gh_member(member_id);
+  
+  
+  ALTER TABLE gh_member ALTER COLUMN auth SET DEFAULT 1;
