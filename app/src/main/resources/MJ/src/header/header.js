@@ -12,6 +12,7 @@ function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isUpModalOpen, setIsUpModalOpen] = useState(false);
   const [isProfilOpen, setIsProfilOpen] = useState(false);
+  const [photo, setPhoto] = useState(null);
 
   const handleProfilOpen = () => {
     setIsProfilOpen((prevState) => !prevState);
@@ -46,7 +47,6 @@ function Header() {
     axios
       .get("http://localhost/web/auth/user")
       .then((response) => {
-        // console.log(response.data);
         return response.data;
       })
       .then((result) => {
@@ -55,6 +55,13 @@ function Header() {
           document.querySelector("#nickname").innerHTML = result.data.nickname + "님";
           document.querySelector(".upload").classList.remove("upload");
           document.querySelector(".logout").classList.remove("logout");
+          let file = result.data.photo;
+
+          let filepath = file.split("/");
+          let filename = filepath[3];
+
+          setPhoto(filename);
+
         } else {
           document.querySelector(".login").classList.remove("login");
           document.querySelector(".signup").classList.remove("signup");
@@ -122,10 +129,8 @@ function Header() {
               Upload
             </li>
           </div>
-          <li className="logout" id="logout" onClick={handleProfilOpen}>
-            <div onClick={handleProfilOpen}>
-              {/* 로그아웃(<span id="nickname"></span>) */}
-            </div>
+          <li className="logout" id="logout">
+            <img src={`http://xqhwurtrwszc16694936.cdn.ntruss.com/${photo}?type=f&w=40&h=40&ttype=jpg`} onClick={handleProfilOpen}></img>
           </li>
           <li className="nickname-text">
             <span id="nickname"></span>

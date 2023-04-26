@@ -18,6 +18,7 @@ import bitcamp.goodhere.service.ObjectStorageService;
 import bitcamp.goodhere.vo.Member;
 import bitcamp.util.RestResult;
 import bitcamp.util.RestStatus;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/members")
@@ -58,19 +59,24 @@ public class MemberController {
   public Object update(
       @PathVariable int no,
       Member member,
-      MultipartFile file) {
+      MultipartFile file,
+      HttpSession session) {
+    Member loginUser = (Member) session.getAttribute("loginUser");
 
     String filename = objectStorageService.uploadFile(bucketName, "", file);
     if (filename != null) {
-      member.setPhoto(filename);
+      loginUser.setPhoto(filename);
     }
 
     log.debug(member);
 
+    loginUser.setNickname(member.getNickname() != loginUser.getNickname() ? member.getNickname() : loginUser.getNickname());
+    loginUser.setTel(member.getTel() != loginUser.getTel() ? member.getTel() : loginUser.getTel());
+
     // 보안을 위해 URL 번호를 게시글 번호로 설정한다.
     member.setNo(no);
 
-    memberService.update(member);
+    memberService.update(loginUser);
     return new RestResult()
         .setStatus(RestStatus.SUCCESS);
   }

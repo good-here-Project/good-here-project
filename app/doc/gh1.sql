@@ -46,7 +46,7 @@ CREATE TABLE gh_member (
   tel          VARCHAR(30)  NOT NULL COMMENT '전화번호', -- 전화번호
   nickname     VARCHAR(60)  NOT NULL COMMENT '별명', -- 별명
   introduce    TEXT         NULL     COMMENT '자기소개', -- 자기소개
-  photo        VARCHAR(255) NULL     COMMENT '사진', -- 사진
+  photo        VARCHAR(255) NULL     DEFAULT "http://xqhwurtrwszc16694936.cdn.ntruss.com/297cd19b-5b51-451c-b974-0477161b3960-myprofil.png" COMMENT '사진', -- 사진
   created_date DATETIME     NOT NULL DEFAULT now() COMMENT '가입일', -- 가입일
   state        INTEGER      NULL     COMMENT '상태', -- 상태
   auth         INTEGER      NULL     COMMENT '권한' -- 권한
@@ -161,7 +161,7 @@ ALTER TABLE gh_report
 CREATE TABLE gh_re_comment (
   re_comment_id INTEGER  NOT NULL COMMENT '대댓글번호', -- 대댓글번호
   member_id     INTEGER  NOT NULL COMMENT '회원번호', -- 회원번호
-  comment_id    INTEGER  NOT NULL COMMENT '댓글번호', -- 댓글번호
+  parent_comment_id    INTEGER  NOT NULL COMMENT '댓글번호', -- 댓글번호
   content       TEXT     NOT NULL COMMENT '대댓글내용', -- 대댓글내용
   created_date  DATETIME NOT NULL DEFAULT now() COMMENT '대댓글작성일' -- 대댓글작성일
 )
