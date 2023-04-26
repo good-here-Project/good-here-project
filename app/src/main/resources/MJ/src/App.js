@@ -11,10 +11,13 @@ import Form from "./Form/Form";
 import Info from "./info/info";
 import List from "./list/list";
 import FormUpdate from "./FormUpdate/FormUpdate";
+import AdminMember from './AdminMember/AdminMember';
+import AdminBoard from './AdminBoard/AdminBoard';
 import View from "./View/View";
 
 function App() {
   // const [file, setFile] = useState(null);
+  const [user, setUser] = useState(null);
 
   return (
     <BrowserRouter>
@@ -29,8 +32,13 @@ function App() {
           <Route path="/Board" element={<Board />} />
           <Route path="/Form" element={<Form />} />
           <Route path="/Info" element={<Info />} />
+          <Route path="/AdminMember" element={<AdminMember />} />
+          <Route path="/AdminBoard" element={<AdminBoard />} />
           <Route path="/List" element={<List />} />
-          <Route path="/View/:no" element={<View />} />
+          <Route
+            path="/View/:no"
+            element={<View user={user} setUser={setUser} />}
+          />
           <Route
             path="/FormUpdate/:no"
             element={<FormUpdate />}

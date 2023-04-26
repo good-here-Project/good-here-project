@@ -1,10 +1,17 @@
 import React from 'react';
 import './sign.css';
 import { useState } from 'react';
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
+axios.defaults.withCredentials = true;
 
 //----------------------------------회원가입--------------------------------------------
 function Sign() {
+
+  const navigate = useNavigate();
+
   const signUp = function() {
     const form = document.querySelector("#member-form");
     const formData = new FormData(form);
@@ -38,7 +45,6 @@ function Sign() {
       .then((result) => {
         if (result.status == "success") {
           alert("회원가입을 축하드립니다!");
-          window.location.href = '../';
         } else {
           alert("입력 실패!");
           console.log(result.data);
@@ -48,6 +54,8 @@ function Sign() {
         alert("입력 중 오류 발생!");
         console.log(exception);
       });
+
+      navigate("/Main");
   };
 
   //----------------------------------이메일체크--------------------------------------------

@@ -176,6 +176,22 @@ ALTER TABLE gh_re_comment
 
 ALTER TABLE gh_re_comment
   MODIFY COLUMN re_comment_id INTEGER NOT NULL AUTO_INCREMENT COMMENT '대댓글번호';
+  
+-- 대댓글
+-- CREATE TABLE gh_re_comment (
+--  comment_id INTEGER NOT NULL AUTO_INCREMENT COMMENT '댓글번호',
+--  writer INTEGER NOT NULL COMMENT '작성자',
+--  parent_comment_id INTEGER NOT NULL COMMENT '부모댓글번호',
+--  content TEXT NOT NULL COMMENT '댓글내용',
+--  created_date DATETIME NOT NULL DEFAULT now() COMMENT '댓글작성일',
+--  PRIMARY KEY (comment_id),
+--  FOREIGN KEY (writer)
+--    REFERENCES gh_member (member_id)
+--    ON DELETE CASCADE,
+--  FOREIGN KEY (parent_comment_id)
+--    REFERENCES gh_comment (comment_id)
+--    ON DELETE CASCADE
+--) COMMENT '자식댓글';
 
 -- 1:1문의
 CREATE TABLE gh_inquiry (

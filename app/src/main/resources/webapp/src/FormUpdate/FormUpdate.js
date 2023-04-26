@@ -296,7 +296,7 @@ const FormUpdate = (props) => {
                 <Button
                   id="btn-insert"
                   variant="danger"
-                  type="submit"
+                  type="button"
                   style={{ width: "150px" }}
                   onClick={handleSubmit}
                 >

@@ -5,6 +5,7 @@ import Category from "../components/BoardCategory";
 import BoardTable from "../components/BoardTable";
 import Pagination from "../components/Pagination";
 import Nav from "../components/Navigation";
+import SearchBar from "../components/SearchBar";
 
 const Board = () => {
   const baseUrl = "http://localhost";
@@ -13,6 +14,7 @@ const Board = () => {
   const [posts, setPosts] = useState([]);
   const [selectedBoardType, setSelectedBoardType] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [filterBoardList, setFilterBoardList] = useState(null);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -27,6 +29,20 @@ const Board = () => {
     };
     fetchPosts();
   }, []);
+
+  const handleSearch = (keyword) => {
+    axios
+      .get(`${baseUrl}/web/boards`, {
+        params: { keyword },
+      })
+      .then((response) => {
+        setFilterBoardList(response.data);
+        console.log("filterBoardList", filterBoardList);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const boardTypeValue = (type) => {
     switch (type) {
@@ -49,6 +65,12 @@ const Board = () => {
     ? posts.data.filter((post) => post.boardTypeId === selectedBoardType)
     : posts?.data || [];
 
+  const filteredSearchPosts = selectedBoardType
+    ? filterBoardList.data.filter(
+        (post) => post.boardTypeId === selectedBoardType
+      )
+    : filterBoardList?.data || [];
+
   const handlePrevPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
@@ -66,7 +88,14 @@ const Board = () => {
   const maxPage = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
   const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
   const endIndex = startIndex + POSTS_PER_PAGE;
-  const slicedPosts = filteredPosts.slice(startIndex, endIndex);
+  // const slicedPosts = filteredPosts.slice(startIndex, endIndex);
+  const sliceFilterPosts = () => {
+    if (filterBoardList !== null) {
+      return filteredSearchPosts.slice(startIndex, endIndex);
+    } else {
+      return filteredPosts.slice(startIndex, endIndex);
+    }
+  };
 
   return (
     <div className="board-main">
@@ -79,7 +108,7 @@ const Board = () => {
         posts={posts}
         boardTypeValue={boardTypeValue}
         filteredPosts={filteredPosts}
-        slicedPosts={slicedPosts}
+        slicedPosts={sliceFilterPosts()}
       />
       <Pagination
         currentPage={currentPage}
@@ -87,6 +116,7 @@ const Board = () => {
         handleNextPage={handleNextPage}
         maxPage={maxPage}
       />
+      <SearchBar onSearch={handleSearch} />
     </div>
   );
 };
