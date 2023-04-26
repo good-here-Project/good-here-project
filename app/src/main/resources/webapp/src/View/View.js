@@ -10,6 +10,7 @@ import CommentsList from "../components/comment/CommentsList";
 const View = (props) => {
   const baseUrl = "http://localhost";
   const { no } = useParams();
+  const [image, setImage] = useState("./img/heart.png");
   const [content, setContent] = useState({ data: null });
   const [comments, setComments] = useState([]);
   const { user, setUser } = props;
@@ -18,8 +19,7 @@ const View = (props) => {
   const navigate = useNavigate();
   const prevNoRef = useRef(null);
   const [reComments, setReComments] = useState([]);
-  const [likes, setLikes] = useState(null);
-  const [image, setImage] = useState("🤍");
+
   const [likeCnt, setLikeCnt] = useState();
   const [prevImage, setPrevImage] = useState("");
 
@@ -33,9 +33,8 @@ const View = (props) => {
         withCredentials: true,
       })
         .then((response) => {
-          // console.log(response.data.data.likes);
           setContent(response.data);
-          setLikes(response.data.data.likes);
+          // setLikes(response.data.data.likes);
           setIsLoading(false);
         })
         .catch((error) => {
@@ -61,6 +60,17 @@ const View = (props) => {
         })
         .catch((error) => {
           setError(error);
+        });
+
+      axios({
+        method: "GET",
+        url: `${baseUrl}/web/like/cnt/${no}`,
+      })
+        .then((response) => {
+          setLikeCnt(response.data);
+        })
+        .catch((error) => {
+          console.log("error", error);
         });
 
       prevNoRef.current = no; // 현재 no를 이전 no로 저장합니다.
@@ -96,35 +106,94 @@ const View = (props) => {
   }, []);
 
   // 좋아요
-  // axios
-  //   .get("http://localhost/web/like/cnt/" + no)
-  //   .then((response) => {
-  //     const result = response.data;
-  //     setLikeCnt(result);
-  //     // console.log(result);
-  //   })
-  //   .catch((exception) => {});
+  axios
+    .get("http://localhost/web/like/" + no)
+    .then((response) => {
+      const result = response.data;
+      const data = result.data;
+      // console.log(result.data);
+      if (data === "false") {
+        // 좋아요를 누르지 않은 상태
+        setImage("img/heart.png");
+      } else if (data === "true") {
+        // 이미 좋아요를 누른 상태
+        setImage("img/colorheart.png");
+      }
+      // console.log(result);
+    })
+    .catch((exception) => {
+      alert("입력 오류!");
+      console.log(exception);
+    });
 
-  // axios
-  //   .get("http://localhost/web/like/" + no)
-  //   .then((response) => {
-  //     const result = response.data;
+  // 추천 및 추천 취소
+  function handleClick() {
+    if (image === "img/heart.png") {
+      axios
+        .post(
+          "http://localhost/web/like",
+          {},
+          {
+            params: {
+              boardNo: no,
+              memberNo: user.data.no,
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+          return response;
+        })
+        .then((result) => {
+          if (result.status == "200") {
+          } else if (result.errorCode == "401") {
+          } else {
+            alert("입력 실패!");
+          }
+        })
+        .catch((exception) => {
+          alert("입력 오류!");
+          console.log(exception);
+        });
 
-  //     const data = result.data;
-  //     // console.log(result.data);
-  //     if (data === "false") {
-  //       // 좋아요를 누르지 않은 상태
-  //       setImage("🤍");
-  //     } else if (data === "true") {
-  //       // 이미 좋아요를 누른 상태
-  //       setImage("♡");
-  //     }
-  //     // console.log(result);
-  //   })
-  //   .catch((exception) => {
-  //     alert("입력 오류!");
-  //     console.log(exception);
-  //   });
+      setPrevImage("img/heart.png");
+      setImage("img/colorheart.png");
+      window.location.reload();
+    } else {
+      axios
+        .post(
+          "http://localhost/web/like/delete",
+          {},
+          {
+            params: {
+              boardNo: no,
+              memberNo: user.data.no,
+            },
+          }
+        )
+        .then((response) => {
+          return response;
+        })
+        .then((result) => {
+          if (result.status == "200") {
+            console.log(result);
+          } else if (result.errorCode == "401") {
+          } else {
+            alert("입력 실패!");
+          }
+        })
+        .catch((exception) => {
+          alert("입력 오류!");
+          console.log(exception);
+        });
+
+      setImage(prevImage);
+      setPrevImage("");
+      window.location.reload();
+    }
+  }
+
+  // 여기까지
 
   const handleDelete = () => {
     axios({
@@ -147,71 +216,6 @@ const View = (props) => {
 
   if (error) {
     return <div>Error: {error.message}</div>;
-  }
-
-  // 추천 및 추천 취소
-  function handleClick() {
-    if (image === "🤍") {
-      axios
-        .post(
-          "http://localhost/web/like",
-          {},
-          {
-            params: {
-              boardNo: no,
-              memberNo: user.data.no,
-            },
-          }
-        )
-        .then((response) => {
-          // console.log(response);
-          return response;
-        })
-        .then((result) => {
-          if (result.status == "200") {
-          } else if (result.errorCode == "401") {
-          } else {
-            alert("입력 실패!");
-          }
-        })
-        .catch((exception) => {
-          alert("입력 오류!");
-          console.log(exception);
-        });
-
-      setPrevImage("🤍");
-      setImage("♡");
-    } else {
-      axios
-        .post(
-          "http://localhost/web/like/delete",
-          {},
-          {
-            params: {
-              boardNo: no,
-              memberNo: user.data.no,
-            },
-          }
-        )
-        .then((response) => {
-          return response;
-        })
-        .then((result) => {
-          if (result.status == "200") {
-            // console.log(result);
-          } else if (result.errorCode == "401") {
-          } else {
-            alert("입력 실패!");
-          }
-        })
-        .catch((exception) => {
-          alert("입력 오류!");
-          console.log(exception);
-        });
-
-      setImage(prevImage);
-      setPrevImage("");
-    }
   }
 
   const handleBoard = () => {
@@ -290,12 +294,10 @@ const View = (props) => {
               </div>
               <div className="view-content-like">
                 <div className="view-content-like-main">
-                  <img
-                    src={image}
-                    alt=""
-                    className="heart"
-                    onClick={handleClick}
-                  />
+                  <button className="tttttt" onClick={handleClick}>
+                    <img src={image} alt="image" />
+                  </button>
+
                   <div className="likeCntText">{likeCnt}</div>
                   <p>개의 추천</p>
                 </div>
