@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
@@ -179,9 +180,8 @@ public class AuthController {
   }
 
   @PostMapping("naverLogin")
-  public Object naverLogin(@RequestBody Map<String, String> params, HttpSession session) {
+  public Object naverLogin(@RequestParam String token, HttpSession session) {
 
-    String token = params.get("access_token");
     String header = "Bearer " + token;
     String apiURL = "https://openapi.naver.com/v1/nid/me";
 
@@ -214,10 +214,12 @@ public class AuthController {
 
       String nickname = responseJson.getString("nickname");
       String email = responseJson.getString("email");
+      String name = responseJson.getString("name");
 
       Member user = memberService.get(email);
       if (user == null) {
         Member m = new Member();
+        m.setName(name);
         m.setEmail(email);
         m.setNickname(nickname);
         m.setPassword("bitcamp-nopassword");
@@ -228,7 +230,7 @@ public class AuthController {
       }
       user = memberService.get(email);
 
-      session.setAttribute("loginUser", user.getEmail());
+      session.setAttribute("loginUser", user);
 
       return new RestResult()
           .setStatus(RestStatus.SUCCESS);
