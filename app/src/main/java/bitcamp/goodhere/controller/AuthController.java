@@ -21,6 +21,8 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import bitcamp.goodhere.service.MemberService;
 import bitcamp.goodhere.vo.Member;
 import bitcamp.util.RestResult;
@@ -136,6 +138,7 @@ public class AuthController {
   public Object googleLogin(
       @RequestBody Map<String,String> jsonData,
       HttpSession session) throws Exception {
+
     String idToken = jsonData.get("credential");
 
     // GoogleIdTokenVerifier 인스턴스 생성
@@ -240,6 +243,88 @@ public class AuthController {
           .setStatus(RestStatus.FAILURE);
     }
   }
+
+  //------------------------------------------------------------------------------
+
+  @PostMapping("kakaoLogin")
+  public Object kakaoLogin(
+      @RequestParam String token,
+      HttpSession session) {
+
+    String reqURL = "https://kapi.kakao.com/v2/user/me";
+
+    //access_token을 이용하여 사용자 정보 조회
+    try {
+      URL url = new URL(reqURL);
+      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+      conn.setRequestMethod("POST");
+      conn.setDoOutput(true);
+      conn.setRequestProperty("Authorization", "Bearer " + token); //전송할 header 작성, access_token전송
+
+      //결과 코드가 200이라면 성공
+      int responseCode = conn.getResponseCode();
+      System.out.println("responseCode : " + responseCode);
+
+      //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
+      BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+      String line = "";
+      String result = "";
+
+      while ((line = br.readLine()) != null) {
+        result += line;
+      }
+      System.out.println("response body : " + result);
+
+      //Gson 라이브러리로 JSON파싱
+      JsonElement element = JsonParser.parseString(result);
+
+      int id = element.getAsJsonObject().get("id").getAsInt();
+      boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
+      String nickname = element.getAsJsonObject().get("properties").getAsJsonObject().get("nickname").getAsString();
+      //사용자의 이메일
+      String email = "";
+      if(hasEmail){
+        email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
+      }
+
+      System.out.println("id : " + id);
+      System.out.println("email : " + email);
+
+      br.close();
+
+
+
+      // 기존 회원 정보 가져오기
+      Member user = memberService.get(email);
+      if (user == null) {
+        // 구글에서 받은 최소 정보를 가지고 회원 가입을 위한 객체를 준비한다.
+        Member m = new Member();
+        m.setEmail(email);
+        m.setPassword("bitcamp-nopassword");
+        m.setTel("010-0000-0000");
+        m.setNickname("카카오");
+
+        // 회원 가입을 수행한다.
+        memberService.add(m);
+      }
+      user = memberService.get(email);
+
+      // 세션에 로그인 사용자 정보 보관
+      session.setAttribute("loginUser", user);
+
+      return new RestResult()
+          .setStatus(RestStatus.SUCCESS);
+    }  catch (Exception e) {
+      // ID Token이 검증되지 않은 경우
+      log.error("네이버 로그인 중 에러 발생! : " + e);
+      return new RestResult()
+          .setStatus(RestStatus.FAILURE);
+    }
+  }
+
+
+
 
 
 
