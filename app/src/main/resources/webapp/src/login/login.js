@@ -119,7 +119,7 @@ function Login() {
           </div>
           <div className="login-other">
             <FacebookLogin
-              appId="606943251328930"
+              appId="126327150409089"
               initParams={{
                 cookie: true,
                 xfbml: true,
