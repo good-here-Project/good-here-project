@@ -19,6 +19,11 @@
 	  delete from gh_like
 	  where board_id = #{boardNo} and member_id = #{memberNo}
 	</delete>
+	
+	<delete id="deleteByBoardNo" parameterType="BoardLike">
+    delete from gh_like
+    where board_id = #{boardNo}
+  </delete>
 
   <select id="checkState" parameterType="BoardLike" resultType="int">
   select 

@@ -22,6 +22,11 @@ public class DefaultBoardLikeService implements BoardLikeService {
   }
 
   @Override
+  public void deleteByBoardNo(int boardNo) {
+    boardLikeDao.deleteByBoardNo(boardNo);
+  }
+
+  @Override
   public boolean checkState(BoardLike boardlike) {
     if (boardLikeDao.checkState(boardlike) == 1) { return true; }
     return false;

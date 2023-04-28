@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import bitcamp.goodhere.service.BoardLikeService;
 import bitcamp.goodhere.service.BoardService;
 import bitcamp.goodhere.service.ObjectStorageService;
 import bitcamp.goodhere.vo.Board;
@@ -37,6 +38,7 @@ public class BoardController {
 
   @Autowired private BoardService boardService;
   @Autowired private ObjectStorageService objectStorageService;
+  @Autowired private BoardLikeService boardLikeService;
   private String bucketName = "bitcamp-bucket22";
 
   @PostMapping
@@ -166,6 +168,8 @@ public class BoardController {
           .setErrorCode(ErrorCode.rest.UNAUTHORIZED)
           .setData("권한이 없습니다.");
     }
+
+    boardLikeService.deleteByBoardNo(no);
     boardService.delete(no);
 
     return new RestResult()
