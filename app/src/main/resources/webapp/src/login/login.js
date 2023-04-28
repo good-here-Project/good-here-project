@@ -4,6 +4,8 @@ import axios from 'axios';
 import FacebookLogin from '@greatsumini/react-facebook-login';
 import { GoogleLogin } from "@react-oauth/google";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import NaverLogin from './NaverLogin';
+import SocialKakao from './KakaoLogin';
 axios.defaults.withCredentials = true;
 
 function Login() {
@@ -159,6 +161,11 @@ function Login() {
                 }}
               />
             </GoogleOAuthProvider>
+
+            <div className="NaverLogin"><NaverLogin /></div>
+
+            <SocialKakao />
+
           </div>
 
         </form>
