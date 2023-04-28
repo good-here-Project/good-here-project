@@ -4,12 +4,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
-  bottom: 40%;
+  /* position: absolute; */
+  /* bottom: 10%; */
   /* 높이를 조절할 수 있음 */
-  left: 0;
+  /* left: 0;
   right: 0;
-  margin: auto;
+  margin: auto; */
   /* z-index: 999; */
 }
 
