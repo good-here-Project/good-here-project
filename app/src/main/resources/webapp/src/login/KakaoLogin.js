@@ -40,6 +40,23 @@ const SocialKakao =()=>{
               token={kakaoClientId}
               onSuccess={kakaoOnSuccess}
               onFail={kakaoOnFailure}
+              style={{
+                color: "black",
+                fontWeight: "540",
+                backgroundColor: "rgb(255, 235, 0)",
+                display: "inline-block",
+                padding: "0px",
+                width: "210px",
+                height: "40px",
+                //lineHeight: "49px",
+                border: "1px solid lightgray",
+                borderRadius: "3px",
+                fontSize: "14px",
+                textAlign: "center",
+                cursor: "pointer",
+                marginTop: "7px",
+                marginLeft: "0px"
+                }}
           />
         </>
     )

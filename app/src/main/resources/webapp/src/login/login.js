@@ -128,7 +128,7 @@ function Login() {
               style={{
                 backgroundColor: '#4267b2',
                 color: '#fff',
-                fontSize: '16px',
+                fontSize: '15px',
                 padding: '12px 24px',
                 border: 'none',
                 borderRadius: '5px',
@@ -159,6 +159,8 @@ function Login() {
                 onFailure={(error) => {
                   console.log(error);
                 }}
+                size= "large"
+                width= "210px"
               />
             </GoogleOAuthProvider>
 

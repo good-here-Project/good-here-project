@@ -118,7 +118,9 @@
 .login-other {
 	display: flex;
 	flex-direction: column;
-	margin-left: 52px;
+	margin-left: 50px;
+	/* justify-content: center; */
+	/* text-align: center; */
 }
 
 .login-other button {
@@ -126,5 +128,5 @@
 }
 
 .NaverLogin {
-	padding-top: 10px;
+	padding-top: 15px;
 }
