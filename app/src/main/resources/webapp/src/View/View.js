@@ -321,12 +321,7 @@ const View = (props) => {
             </div>
           )}
           <div className="view-comment-head">댓글</div>
-          <CommentsList
-            contentNo={content.data?.no}
-            comments={comments}
-            user={user.data}
-            no={no}
-          />
+          <CommentsList comments={comments} user={user.data} no={no} />
           <CommentForm
             content={content}
             setComments={setComments}

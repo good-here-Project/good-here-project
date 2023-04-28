@@ -2,14 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import "../../styles/recomment.css";
 
-function ReComment({
-  reComment,
-  user,
-  editingReComment,
-  setEditingReComment,
-  handleUpdateComment,
-  handleDeleteComment,
-}) {
+function ReComment({ reComment, user, setEditingReComment }) {
   const baseUrl = "http://localhost";
   const [editing, setEditing] = useState(false);
   const [editingContent, setEditingContent] = useState(reComment.content);
@@ -48,6 +41,7 @@ function ReComment({
       });
   };
 
+  // 대댓글 삭제
   const handleDeleteReComment = (no) => {
     console.log(no);
     axios({
@@ -73,42 +67,44 @@ function ReComment({
     <div className="reComment">
       <div className="reComment-info">
         <span className="reComment-writer">{reComment.writer.nickname}</span>
-        <span className="reComment-content">{reComment.content}</span>
         <span className="reComment-createdDate">{reComment.createdDate}</span>
-
-        {user?.no === reComment.writer.no && !editing && (
-          <div className="reComment-buttons">
-            <button className="reComment-edit" onClick={() => setEditing(true)}>
-              수정
-            </button>
-            <button
-              className="reComment-delete"
-              onClick={() => handleDeleteReComment(reComment.no)}
-            >
-              삭제
-            </button>
-          </div>
-        )}
       </div>
+      <div className="reComment-main">{reComment.content}</div>
+      {user?.no === reComment.writer.no && !editing && (
+        <div className="reComment-buttons">
+          <button className="reComment-edit" onClick={() => setEditing(true)}>
+            수정
+          </button>
+          <button
+            className="reComment-delete"
+            onClick={() => handleDeleteReComment(reComment.no)}
+          >
+            삭제
+          </button>
+        </div>
+      )}
+
       {editing ? (
         <form
-          onSubmit={(e) => handleUpdateComment(reComment.content, reComment.no)}
+        // onSubmit={(e) => handleUpdateComment(reComment.content, reComment.no)}
         >
-          <input
+          <textarea
             type="text"
             className="reComment-edit-form"
             value={editingContent}
             onChange={(e) => setEditingContent(e.target.value)}
           />
-          <button
-            type="button"
-            onClick={(e) => handleUpdateReComment(reComment.no)}
-          >
-            수정 완료
-          </button>
-          <button type="button" onClick={() => setEditing(false)}>
-            취소
-          </button>
+          <div className="reComment-edit-btns">
+            <button
+              type="button"
+              onClick={(e) => handleUpdateReComment(reComment.no)}
+            >
+              수정 완료
+            </button>
+            <button type="button" onClick={() => setEditing(false)}>
+              취소
+            </button>
+          </div>
         </form>
       ) : null}
     </div>

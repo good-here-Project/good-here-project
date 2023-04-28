@@ -120,7 +120,6 @@ button:hover {
 }
 
 .view-comment-nickname {
-  /* border: 1px solid green; */
   user-select: none;
   margin: 5px;
   width: 100%;
@@ -132,6 +131,7 @@ button:hover {
   border: none;
   width: 99.7%;
   height: 50px;
+  resize: none;
 }
 
 .view-comment-insert {

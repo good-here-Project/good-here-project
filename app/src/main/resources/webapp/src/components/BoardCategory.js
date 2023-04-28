@@ -8,6 +8,8 @@ const Category = ({ selectedBoardType, setSelectedBoardType }) => {
     { id: 5, name: "여행 동행" },
   ];
 
+  console.log("selectedBoardType", selectedBoardType);
+
   return (
     <ul className="board-list">
       {boardTypes.map((boardType) => (
