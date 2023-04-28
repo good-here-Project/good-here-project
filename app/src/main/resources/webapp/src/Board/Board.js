@@ -22,7 +22,6 @@ const Board = () => {
         const response = await axios.get(`${baseUrl}/web/boards`, {
           withCredentials: true,
         });
-        console.log("response", response);
         setPosts(response.data);
       } catch (error) {
         console.log(error);
@@ -43,7 +42,6 @@ const Board = () => {
       .catch((error) => {
         console.log(error);
       });
-    console.log("handleSearch 종료");
   };
 
   const boardTypeValue = (type) => {
@@ -62,18 +60,16 @@ const Board = () => {
         return "";
     }
   };
-  console.log("filterBoardList", filterBoardList);
 
   const filteredPosts = selectedBoardType
     ? posts.data.filter((post) => post.boardTypeId === selectedBoardType)
     : posts?.data || [];
 
-  // const filteredSearchPosts =
-  //   selectedBoardType !== null
-  //     ? filterBoardList.data.filter(
-  //         (post) => post.boardTypeId === selectedBoardType
-  //       )
-  //     : [];
+  // const filteredSearchPosts = selectedBoardType
+  //   ? filterBoardList.data.filter(
+  //       (post) => post.boardTypeId === selectedBoardType
+  //     )
+  //   : [];
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
@@ -94,12 +90,13 @@ const Board = () => {
   const endIndex = startIndex + POSTS_PER_PAGE;
   // const slicedPosts = filteredPosts.slice(startIndex, endIndex);
   const sliceFilterPosts = () => {
-    console.log("sliceFilterPosts 호출");
     if (filterBoardList !== null) {
-      const filterBoard = filterBoardList.data.filter(
-        (post) => post.boardTypeId === selectedBoardType
-      );
-      return filterBoard.slice(startIndex, endIndex);
+      const filteredSearchPosts = selectedBoardType
+        ? filterBoardList.data.filter(
+            (post) => post.boardTypeId === selectedBoardType
+          )
+        : filterBoardList?.data || [filterBoardList.data];
+      return filteredSearchPosts.slice(startIndex, endIndex);
     } else {
       return filteredPosts.slice(startIndex, endIndex);
     }
