@@ -109,8 +109,10 @@ function Main() {
           .map((item) =>  {      
 
             let file = item.attachedFiles[0].filepath;
+            // console.log(file);
             let filename = file.split("board/")[1];
-            let filepath = filename.split(".")[0];
+            // console.log(filename);
+            let filepath = filename.split(".mp4")[0];
             // console.log(filepath);
 
             return (
