@@ -106,13 +106,18 @@ function Main() {
           <ul className="mbox">
           {data
           .filter((item) => item.boardTypeId === 0)
-          .map((item) => (
-            // console.log(item.attachedFiles[0].filepath),
-            // console.log(item),
-            <li key={item.no}>
+          .map((item) =>  {      
+
+            let file = item.attachedFiles[0].filepath;
+            let filename = file.split("board/")[1];
+            let filepath = filename.split(".")[0];
+            // console.log(filepath);
+
+            return (
+              <li key={item.no}>
               <div className="mbox-div">
                 <div className="mbox-div-img" onClick={() => setSelectedNo(item.no)}>
-                  <img src="http://qocrfenoqdxa16854260.cdn.ntruss.com/thumbnail/vod-category/b3aedee9-345e-45c8-a32f-887c718077c6-airplane-129744_01.jpg?type=f&w=240&h=250&ttype=jpg"></img>
+                  <img src={`http://qocrfenoqdxa16854260.cdn.ntruss.com/thumbnail/vod-category/${filepath}_01.jpg?type=f&w=240&h=250&ttype=jpg`}></img>
                 </div>
                 <div className="mbox-footer">
                   <div className="mbox-title">{item.title ? item.title : "제목없음"}</div>
@@ -121,8 +126,10 @@ function Main() {
                   </div>
                 </div>
               </div>
-            </li>
-          ))}
+              </li>
+            );
+            
+            })}
           </ul>
         </div>
       </div>
