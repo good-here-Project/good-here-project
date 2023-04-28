@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 
 const BoardTable = ({ boardTypeValue, slicedPosts }) => {
-  console.log("slicePosts", slicedPosts);
+  // console.log("slicePosts", slicedPosts);
   return (
     <table
       className="table table-bordered table-hover dt-responsive"

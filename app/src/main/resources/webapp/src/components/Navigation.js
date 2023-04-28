@@ -11,9 +11,9 @@ const Nav = () => {
           <li className="board">커뮤니티</li>
         </Link>
       </ul>
-      <ul className="list-best">
+      {/* <ul className="list-best">
         <li>인기순</li>
-      </ul>
+      </ul> */}
     </div>
   );
 };

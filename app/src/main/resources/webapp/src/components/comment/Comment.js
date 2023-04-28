@@ -1,24 +1,14 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Navigate, useParams } from "react-router-dom";
 import ReComment from "./ReComment";
 import "../../styles/comment.css";
 
-function Comment({
-  no,
-  comment,
-  user,
-  handleDeleteComment,
-  handleReplyComment,
-}) {
+function Comment({ no, comment, user }) {
   const baseUrl = "http://localhost";
-  // const { no } = useParams();
   const [editingComment, setEditingComment] = useState(false);
   const [editingReComment, setEditingReComment] = useState(null);
   const [editingContent, setEditingContent] = useState(comment.content);
   const [comments, setComments] = useState([]);
-  // console.log("user", user);
-  // console.log("comment", comment);
 
   useEffect(() => {
     axios({
@@ -73,6 +63,23 @@ function Comment({
       });
   };
 
+  // 댓글 삭제
+  const handleDeleteComment = (id) => {
+    axios({
+      method: "DELETE",
+      url: `${baseUrl}/web/replys/${id}`,
+      withCredentials: true,
+    })
+      .then(() => {
+        const updatedComments = comments.filter((comment) => comment.no !== id);
+        setComments(updatedComments);
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const handleReComment = () => {
     axios({
       method: "POST",
@@ -115,9 +122,26 @@ function Comment({
     <div className="comment">
       <div className="comment-info">
         <span className="comment-writer">{comment.writer.nickname}</span>
-        <span className="comment-content">{comment.content}</span>
         <span className="comment-createdDate">{comment.createdDate}</span>
-        {user?.no === comment.writer.no && !editingComment && (
+      </div>
+      <div className="comment-main">
+        {comment.content}
+        {/* <span className="comment-content">{comment.content}</span> */}
+      </div>
+      {user?.no === comment.writer.no && !editingComment && (
+        <div className="comment-main-buttons">
+          <button
+            className="comment-reply"
+            onClick={() => {
+              if (user === null) {
+                // Navigate("/Login");
+                window.location.href = "http://localhost:3000/Login";
+              }
+              setEditingReComment(comment);
+            }}
+          >
+            답글
+          </button>
           <div className="comment-buttons">
             <button
               className="comment-edit"
@@ -132,11 +156,11 @@ function Comment({
               삭제
             </button>
           </div>
-        )}
-      </div>
+        </div>
+      )}
       {editingComment ? (
         <form onSubmit={(e) => handleUpdateComment(e, comment.no)}>
-          <input
+          <textarea
             type="text"
             className="comment-edit-form"
             value={editingContent}
@@ -153,18 +177,7 @@ function Comment({
           </button>
         </form>
       ) : null}
-      <button
-        className="comment-reply"
-        onClick={() => {
-          if (user === null) {
-            // Navigate("/Login");
-            window.location.href = "http://localhost:3000/Login";
-          }
-          setEditingReComment(comment);
-        }}
-      >
-        답글
-      </button>
+
       {editingReComment && editingReComment.no === comment.no ? (
         // 답글 입력 폼
         <div className="comment-reply">
@@ -174,7 +187,6 @@ function Comment({
           <textarea
             className="comment-reply-text"
             defaultValue={""}
-            // value={editingReComment.content && ""}
             onChange={(e) =>
               setEditingReComment({
                 ...editingReComment,
@@ -184,18 +196,18 @@ function Comment({
           />
           <div className="comment-reply-btns">
             <button
-              className="comment-reply-cancel-btn"
-              type="button"
-              onClick={() => setEditingReComment(null)}
-            >
-              취소
-            </button>
-            <button
               className="comment-reply-btn"
               type="button"
               onClick={() => handleReComment()}
             >
               등록
+            </button>
+            <button
+              className="comment-reply-cancel-btn"
+              type="button"
+              onClick={() => setEditingReComment(null)}
+            >
+              취소
             </button>
           </div>
         </div>
@@ -207,10 +219,7 @@ function Comment({
               key={reComment.no}
               reComment={reComment}
               user={user}
-              editingReComment={editingReComment}
               setEditingReComment={setEditingReComment}
-              handleUpdateComment={handleUpdateComment}
-              handleDeleteComment={handleDeleteComment}
             />
           ))}
         </div>
