@@ -7,9 +7,12 @@ const SocialKakao =()=>{
     const kakaoOnSuccess = async (data)=>{
       	console.log(data);
         //const idToken = data.response.id_token  // 인가코드 백엔드로 전달
+        const data1 = {
+          "access_token": data.response.access_token
+        }
 
       
-          axios.post("http://localhost/web/auth/kakaoLogin", { token: data.response.access_token })
+          axios.post("http://localhost/web/auth/kakaoLogin", data1)
             .then(response => {
               console.log(response);
               if (response.data.status === 'success') {

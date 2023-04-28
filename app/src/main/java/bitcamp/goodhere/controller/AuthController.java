@@ -39,37 +39,32 @@ public class AuthController {
     log.trace("AuthController 생성됨!");
   }
 
-  @Autowired private MemberService memberService;
+  @Autowired
+  private MemberService memberService;
 
   @PostMapping("login")
-  public Object login(
-      String email,
-      String password,
-      HttpSession session) {
+  public Object login(String email, String password, HttpSession session) {
 
     Member member = null;
 
     member = memberService.get(email, password);
 
-    //    System.out.println(member);
+    // System.out.println(member);
 
     if (member != null) {
       session.setAttribute("loginUser", member);
-      //      System.out.println(session);
-      //      System.out.println(member);
-      return new RestResult()
-          .setStatus(RestStatus.SUCCESS);
+      // System.out.println(session);
+      // System.out.println(member);
+      return new RestResult().setStatus(RestStatus.SUCCESS);
     } else {
-      return new RestResult()
-          .setStatus(RestStatus.FAILURE);
+      return new RestResult().setStatus(RestStatus.FAILURE);
     }
   }
 
   @GetMapping("logout")
   public Object logout(HttpSession session) {
     session.invalidate();
-    return new RestResult()
-        .setStatus(RestStatus.SUCCESS);
+    return new RestResult().setStatus(RestStatus.SUCCESS);
   }
 
   @RequestMapping("user")
@@ -78,19 +73,15 @@ public class AuthController {
     System.out.println(session);
     System.out.println(loginUser);
     if (loginUser != null) {
-      return new RestResult()
-          .setStatus(RestStatus.SUCCESS)
-          .setData(loginUser);
+      return new RestResult().setStatus(RestStatus.SUCCESS).setData(loginUser);
     } else {
-      return new RestResult()
-          .setStatus(RestStatus.FAILURE);
+      return new RestResult().setStatus(RestStatus.FAILURE);
     }
   }
 
   @PostMapping("facebookLogin")
-  public Object facebookLogin(
-      @RequestBody Map<String,String> jsonData,
-      HttpSession session) throws Exception {
+  public Object facebookLogin(@RequestBody Map<String, String> jsonData, HttpSession session)
+      throws Exception {
 
     // 클라이언트가 보낸 accessToken을 가지고
     // 페이스북 서버에 접속(AJAX 요청)하여 사용자를 정보를 가져온다.
@@ -129,21 +120,21 @@ public class AuthController {
     // 세션에 로그인 사용자 정보 보관
     session.setAttribute("loginUser", user);
 
-    return new RestResult()
-        .setStatus(RestStatus.SUCCESS);
+    return new RestResult().setStatus(RestStatus.SUCCESS);
   }
 
 
   @PostMapping("googleLogin")
-  public Object googleLogin(
-      @RequestBody Map<String,String> jsonData,
-      HttpSession session) throws Exception {
+  public Object googleLogin(@RequestBody Map<String, String> jsonData, HttpSession session)
+      throws Exception {
 
     String idToken = jsonData.get("credential");
 
     // GoogleIdTokenVerifier 인스턴스 생성
-    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
-        .setAudience(Collections.singletonList("1087840897429-akb84m84c0i06q9p3a81tbglgtqsn28j.apps.googleusercontent.com"))
+    GoogleIdTokenVerifier verifier =
+        new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), new GsonFactory())
+        .setAudience(Collections.singletonList(
+            "1087840897429-akb84m84c0i06q9p3a81tbglgtqsn28j.apps.googleusercontent.com"))
         .build();
 
     // ID Token을 검증
@@ -173,12 +164,10 @@ public class AuthController {
       // 세션에 로그인 사용자 정보 보관
       session.setAttribute("loginUser", user);
 
-      return new RestResult()
-          .setStatus(RestStatus.SUCCESS);
+      return new RestResult().setStatus(RestStatus.SUCCESS);
     } else {
       // ID Token이 검증되지 않은 경우
-      return new RestResult()
-          .setStatus(RestStatus.FAILURE);
+      return new RestResult().setStatus(RestStatus.FAILURE);
     }
   }
 
@@ -224,7 +213,6 @@ public class AuthController {
         Member m = new Member();
         m.setName(name);
         m.setEmail(email);
-        m.setNickname(nickname);
         m.setPassword("bitcamp-nopassword");
         m.setTel("010-0000-0000");
         m.setNickname("네이버");
@@ -235,106 +223,91 @@ public class AuthController {
 
       session.setAttribute("loginUser", user);
 
-      return new RestResult()
-          .setStatus(RestStatus.SUCCESS);
+      return new RestResult().setStatus(RestStatus.SUCCESS);
     } catch (Exception e) {
       log.error("네이버 로그인 중 에러 발생! : " + e);
-      return new RestResult()
-          .setStatus(RestStatus.FAILURE);
+      return new RestResult().setStatus(RestStatus.FAILURE);
     }
   }
 
-  //------------------------------------------------------------------------------
+  // ------------------------------------------------------------------------------
 
   @PostMapping("kakaoLogin")
-  public Object kakaoLogin(
-      @RequestParam String token,
-      HttpSession session) {
+  public Object kakaoLogin(@RequestBody Map<String, String> jsonData, HttpSession session) throws Exception {
 
+    String token = jsonData.get("access_token");
+
+    // 1.유저 정보를 요청할 url
     String reqURL = "https://kapi.kakao.com/v2/user/me";
 
-    //access_token을 이용하여 사용자 정보 조회
-    try {
-      URL url = new URL(reqURL);
-      HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    // 2.access_token을 이용하여 사용자 정보 조회
+    URL url = new URL(reqURL);
+    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-      conn.setRequestMethod("POST");
-      conn.setDoOutput(true);
-      conn.setRequestProperty("Authorization", "Bearer " + token); //전송할 header 작성, access_token전송
+    conn.setRequestMethod("POST");
+    conn.setDoOutput(true);
+    conn.setRequestProperty("Authorization", "Bearer " + token); // 전송할 header 작성, access_token전송
 
-      //결과 코드가 200이라면 성공
-      int responseCode = conn.getResponseCode();
-      System.out.println("responseCode : " + responseCode);
+    // 결과 코드가 200이라면 성공
+    int responseCode = conn.getResponseCode();
+    System.out.println("responseCode : " + responseCode);
 
-      //요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
-      BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-      String line = "";
-      String result = "";
+    // 요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
+    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+    String line = "";
+    String result = "";
 
-      while ((line = br.readLine()) != null) {
-        result += line;
-      }
-      System.out.println("response body : " + result);
-
-      //Gson 라이브러리로 JSON파싱
-      JsonElement element = JsonParser.parseString(result);
-
-      int id = element.getAsJsonObject().get("id").getAsInt();
-      boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("has_email").getAsBoolean();
-      String nickname = element.getAsJsonObject().get("properties").getAsJsonObject().get("nickname").getAsString();
-      //사용자의 이메일
-      String email = "";
-      if(hasEmail){
-        email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email").getAsString();
-      }
-
-      System.out.println("id : " + id);
-      System.out.println("email : " + email);
-
-      br.close();
-
-
-
-      // 기존 회원 정보 가져오기
-      Member user = memberService.get(email);
-      if (user == null) {
-        // 구글에서 받은 최소 정보를 가지고 회원 가입을 위한 객체를 준비한다.
-        Member m = new Member();
-        m.setEmail(email);
-        m.setPassword("bitcamp-nopassword");
-        m.setTel("010-0000-0000");
-        m.setNickname("카카오");
-
-        // 회원 가입을 수행한다.
-        memberService.add(m);
-      }
-      user = memberService.get(email);
-
-      // 세션에 로그인 사용자 정보 보관
-      session.setAttribute("loginUser", user);
-
-      return new RestResult()
-          .setStatus(RestStatus.SUCCESS);
-    }  catch (Exception e) {
-      // ID Token이 검증되지 않은 경우
-      log.error("네이버 로그인 중 에러 발생! : " + e);
-      return new RestResult()
-          .setStatus(RestStatus.FAILURE);
+    while ((line = br.readLine()) != null) {
+      result += line;
     }
+
+    System.out.println("response body : " + result);
+
+    // Gson 라이브러리로 JSON파싱
+    JsonElement element = JsonParser.parseString(result);
+
+    //System.out.println("=======>"+element);
+
+    Long id = element.getAsJsonObject().get("id").getAsLong();
+    boolean hasEmail = element.getAsJsonObject().get("kakao_account").getAsJsonObject()
+        .get("has_email").getAsBoolean();
+    // 사용자의 이름
+    String nickname = element.getAsJsonObject().get("properties").getAsJsonObject().get("nickname").getAsString();
+    // 사용자의 이메일
+    String email = "";
+    if (hasEmail) {
+      email = element.getAsJsonObject().get("kakao_account").getAsJsonObject().get("email")
+          .getAsString();
+    }
+    // DB에 카카오로 로그인한 기록이 없다면
+    // 카카오톡에서 전달해준 유저 정보를 토대로
+    // 유저 객체 생성하고 DB에 저장
+    // 이후 프론트에서 요청하는 api 스펙에 맞춰
+    // dto로 변환한 후에 return 해준다.
+    // 기존 회원 정보 가져오기
+
+    Member user = memberService.get(email);
+    if (user == null) {
+      // 구글에서 받은 최소 정보를 가지고 회원 가입을 위한 객체를 준비한다.
+      Member m = new Member();
+      m.setName(nickname);
+      m.setEmail(email);
+      m.setPassword("bitcamp-nopassword");
+      m.setTel("010-0000-0000");
+      m.setNickname(nickname);
+
+      // 회원 가입을 수행한다.
+      memberService.add(m);
+    }
+    user = memberService.get(email);
+
+    // 세션에 로그인 사용자 정보 보관
+    session.setAttribute("loginUser", user);
+
+    return new RestResult().setStatus(RestStatus.SUCCESS);
   }
-
-
-
-
 
 
 }
-
-
-
-
-
-
-
 
 
