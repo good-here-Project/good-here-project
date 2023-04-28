@@ -37,7 +37,7 @@ const Board = () => {
       })
       .then((response) => {
         setFilterBoardList(response.data);
-        console.log("filterBoardList", filterBoardList);
+        // console.log("filterBoardList", filterBoardList);
       })
       .catch((error) => {
         console.log(error);
@@ -65,11 +65,11 @@ const Board = () => {
     ? posts.data.filter((post) => post.boardTypeId === selectedBoardType)
     : posts?.data || [];
 
-  const filteredSearchPosts = selectedBoardType
-    ? filterBoardList.data.filter(
-        (post) => post.boardTypeId === selectedBoardType
-      )
-    : filterBoardList?.data || [];
+  // const filteredSearchPosts = selectedBoardType
+  //   ? filterBoardList.data.filter(
+  //       (post) => post.boardTypeId === selectedBoardType
+  //     )
+  //   : [];
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
@@ -91,6 +91,11 @@ const Board = () => {
   // const slicedPosts = filteredPosts.slice(startIndex, endIndex);
   const sliceFilterPosts = () => {
     if (filterBoardList !== null) {
+      const filteredSearchPosts = selectedBoardType
+        ? filterBoardList.data.filter(
+            (post) => post.boardTypeId === selectedBoardType
+          )
+        : filterBoardList?.data || [filterBoardList.data];
       return filteredSearchPosts.slice(startIndex, endIndex);
     } else {
       return filteredPosts.slice(startIndex, endIndex);
