@@ -42,20 +42,16 @@ public class AuthController {
   @Autowired
   private MemberService memberService;
 
-  @PostMapping("login")
+
+  @PostMapping("/login")
   public Object login(String email, String password, HttpSession session) {
-
     Member member = null;
-
     member = memberService.get(email, password);
-
-    // System.out.println(member);
 
     if (member != null) {
       session.setAttribute("loginUser", member);
-      // System.out.println(session);
-      // System.out.println(member);
-      return new RestResult().setStatus(RestStatus.SUCCESS);
+      // 상태 필드(state)를 포함하여 반환
+      return new RestResult().setStatus(RestStatus.SUCCESS).setData(member);
     } else {
       return new RestResult().setStatus(RestStatus.FAILURE);
     }

@@ -36,7 +36,7 @@ const BoardUpModal = (props) => {
     })
       .then((response) => {
         console.log(response.data);
-        window.location.href = baseUrl + ":3000/Board";
+        // window.location.href = baseUrl + ":3000/Board";
       })
 
       .catch((error) => {

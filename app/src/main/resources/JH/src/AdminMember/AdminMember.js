@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "./AdminMember.css";
 import AdminMemberModal from "./AdminMemberModal"; // Modal 컴포넌트 import
-import "./AdminMember.css";
+import AdminAlertModal from "../AdminAlertModal/AdminAlertModal";
 import Sidebar from "../Sidebar/Sidebar";
 
 function AdminMember() {
@@ -11,6 +11,8 @@ function AdminMember() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedMember, setSelectedMember] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [auth, setAuth] = useState(null);
+  const [showAlert, setShowAlert] = useState(false);
 
   const handleMemberDetails = (member) => {
     setSelectedMember(member);
@@ -43,8 +45,24 @@ function AdminMember() {
   };
 
   useEffect(() => {
-    getAllMembers();
-  }, []);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost/web/auth/user");
+        const user = response.data;
+        setAuth(user.data.auth);
+
+        if (user.data.auth === 2) {
+          getAllMembers();
+        } else {
+          setShowAlert(true);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, [auth, showAlert]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -86,8 +104,10 @@ function AdminMember() {
             <th>상세정보</th>
           </tr>
         </thead>
-        {/* 테이블의 바디 */}
         <tbody>
+          {showAlert && (
+            <AdminAlertModal isOpen={showAlert} onClose={handleCloseModal} />
+          )}
           {filteredMembers.map((member) => (
             <tr key={member.no}>
               <td>{member.no}</td>
