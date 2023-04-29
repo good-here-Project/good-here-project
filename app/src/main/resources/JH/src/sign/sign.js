@@ -1,10 +1,17 @@
 import React from 'react';
 import './sign.css';
 import { useState } from 'react';
+import { Link } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
+axios.defaults.withCredentials = true;
 
 //----------------------------------회원가입--------------------------------------------
 function Sign() {
+
+  const navigate = useNavigate();
+
   const signUp = function() {
     const form = document.querySelector("#member-form");
     const formData = new FormData(form);
@@ -38,7 +45,6 @@ function Sign() {
       .then((result) => {
         if (result.status == "success") {
           alert("회원가입을 축하드립니다!");
-          window.location.href = '../';
         } else {
           alert("입력 실패!");
           console.log(result.data);
@@ -48,6 +54,8 @@ function Sign() {
         alert("입력 중 오류 발생!");
         console.log(exception);
       });
+
+      navigate("/Main");
   };
 
   //----------------------------------이메일체크--------------------------------------------
@@ -195,7 +203,7 @@ function Sign() {
         </div>
         <form id="member-form" className="member-form">
           <h3>회원가입</h3>
-          <table>
+          <table className='member-form-table'>
             <tbody>
               <tr>
                 <th className="email-th">Email</th>
@@ -234,10 +242,6 @@ function Sign() {
               </tr>
             </tbody>
           </table>
-
-          <div className="under-line">
-            <p className="line4"></p>
-          </div>
 
           <div>
             <button type="submit" className="btn btn-primary" id="btn-insert" onClick={signUp}>가입하기</button>

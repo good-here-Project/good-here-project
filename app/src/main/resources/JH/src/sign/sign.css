@@ -51,7 +51,7 @@
 	border: none;
 }
 
-tr {
+.member-form-table tr {
 	display: grid;
 	grid-template-rows: auto;
 	margin-top: 15px;
@@ -179,11 +179,4 @@ tr {
 	color: white;
 	background: linear-gradient(271.15deg, #FE904B 7.64%, #FB724C 90.68%), #EE5757;
 	border: none;
-}
-
-.under-line > .line4 {
-  font-weight: bold;
-  border-bottom: 1px solid #A9A9A9;
-  width: 230px;
-  margin-bottom: 24px;
 }

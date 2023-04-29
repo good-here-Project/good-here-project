@@ -1,5 +1,7 @@
 package bitcamp.goodhere.controller;
 
+import java.util.Map;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import bitcamp.goodhere.service.MemberService;
 import bitcamp.goodhere.service.ObjectStorageService;
 import bitcamp.goodhere.vo.Member;
@@ -103,5 +106,45 @@ public class MemberController {
     int cnt = memberService.nickCheck(nickname);
     return cnt;
   }
+  
+  //관리자 권한
+  @PutMapping("{no}/auth")
+  public Object updateAuth(
+      @PathVariable int no,
+      @RequestBody Map<String,String> paramMap) {
+
+    int auth = Integer.parseInt(paramMap.get("auth"));
+
+    Member member = memberService.get(no);
+    member.setAuth(auth);
+
+    System.out.println("Updated Member: " + member.toString());
+
+    memberService.update(member);
+
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS);
+  }
+
+  // 블랙리스트
+  @PutMapping("{no}/state")
+  public Object updateState(
+      @PathVariable int no,
+      @RequestBody Map<String,String> paramMap) {
+
+    int state = Integer.parseInt(paramMap.get("state"));
+
+    Member member = memberService.get(no);
+    member.setState(state);
+
+    System.out.println("Updated Member: " + member.toString());
+
+    memberService.update(member);
+
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS);
+  }
+  
+  
 
 }
