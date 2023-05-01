@@ -10,4 +10,5 @@ public interface ReplyService {
   List<Reply> getList(Reply reply);
   void delete(int no);
   void update(Reply reply);
+  List<Reply> adminlist();
 }

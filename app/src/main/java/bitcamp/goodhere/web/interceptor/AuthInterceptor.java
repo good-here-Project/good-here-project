@@ -27,6 +27,8 @@ public class AuthInterceptor implements HandlerInterceptor {
     }
 
     Member loginUser = (Member) request.getSession().getAttribute("loginUser");
+
+
     if (loginUser == null) {
       response.setContentType("application/json;charset=UTF-8");
       PrintWriter out = response.getWriter();

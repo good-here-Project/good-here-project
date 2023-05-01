@@ -28,6 +28,9 @@ public class RestResult {
     this.data = data;
     return this;
   }
+  public String getMessage() {
+    return message;
+  }
   public RestResult setMessage(String message) {
     this.message = message;
     return this;

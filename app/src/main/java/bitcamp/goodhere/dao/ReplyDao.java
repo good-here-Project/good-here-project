@@ -14,4 +14,5 @@ public interface ReplyDao {
   int delete(int no);
   int deleteOfBoard(int boardNo);
   int update(Reply reply);
+  List<Reply> adminfindAll();
 }

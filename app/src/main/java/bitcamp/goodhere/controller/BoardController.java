@@ -49,6 +49,12 @@ public class BoardController {
 
     Member loginUser = (Member) session.getAttribute("loginUser");
 
+    if (loginUser.getState() == 1) {
+      return new RestResult()
+          .setStatus(RestStatus.FAILURE)
+          .setMessage("사이트 이용이 제한된 사용자입니다.");
+    }
+
     Member writer = new Member();
     writer.setNo(loginUser.getNo());
     board.setWriter(writer);
@@ -120,6 +126,7 @@ public class BoardController {
       Board board,
       List<MultipartFile> files,
       HttpSession session) throws Exception {
+    System.out.println("UP 호출");
 
     Member loginUser = (Member) session.getAttribute("loginUser");
 
@@ -128,11 +135,13 @@ public class BoardController {
     board.setNo(no);
 
     Board old = boardService.get(board.getNo());
-    if (old.getWriter().getNo() != loginUser.getNo()) {
-      return new RestResult()
-          .setStatus(RestStatus.FAILURE)
-          .setErrorCode(ErrorCode.rest.UNAUTHORIZED)
-          .setData("권한이 없습니다.");
+    if (loginUser.getAuth() != 2) {
+      if (old.getWriter().getNo() != loginUser.getNo()) {
+        return new RestResult()
+            .setStatus(RestStatus.FAILURE)
+            .setErrorCode(ErrorCode.rest.UNAUTHORIZED)
+            .setData("권한이 없습니다.");
+      }
     }
 
     List<BoardFile> boardFiles = new ArrayList<>();
@@ -159,14 +168,18 @@ public class BoardController {
 
   @DeleteMapping("{no}")
   public Object delete(@PathVariable int no, HttpSession session) {
+
     Member loginUser = (Member) session.getAttribute("loginUser");
 
-    Board old = boardService.get(no);
-    if (old.getWriter().getNo() != loginUser.getNo()) {
-      return new RestResult()
-          .setStatus(RestStatus.FAILURE)
-          .setErrorCode(ErrorCode.rest.UNAUTHORIZED)
-          .setData("권한이 없습니다.");
+    if (loginUser.getAuth() != 2) {
+      // 로그인한 사용자가 관리자가 아닌 경우
+      Board old = boardService.get(no);
+      if (old.getWriter().getNo() != loginUser.getNo()) {
+        return new RestResult()
+            .setStatus(RestStatus.FAILURE)
+            .setErrorCode(ErrorCode.rest.UNAUTHORIZED)
+            .setData("권한이 없습니다.");
+      }
     }
 
     boardLikeService.deleteByBoardNo(no);
@@ -181,6 +194,7 @@ public class BoardController {
       @PathVariable int boardNo,
       @PathVariable int fileNo,
       HttpSession session) {
+
     Member loginUser = (Member) session.getAttribute("loginUser");
     Board old = boardService.get(boardNo);
 

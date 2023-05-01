@@ -38,6 +38,13 @@ public class ReplyController {
 
     Member loginUser = (Member) session.getAttribute("loginUser");
 
+    if (loginUser.getState() == 1) {
+      System.out.println("블랙리스트");
+      return new RestResult()
+          .setStatus(RestStatus.FAILURE)
+          .setMessage("사이트 이용이 제한된 사용자입니다.");
+    }
+
     Member writer = new Member();
     writer.setNo(loginUser.getNo());
     reply.setWriter(writer);
@@ -54,6 +61,13 @@ public class ReplyController {
     return new RestResult()
         .setStatus(RestStatus.SUCCESS)
         .setData(replyService.list());
+  }
+
+  @GetMapping("/adminlist")
+  public Object adminlist() {
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS)
+        .setData(replyService.adminlist());
   }
 
   @GetMapping("{no}")
@@ -75,11 +89,13 @@ public class ReplyController {
 
     Reply old = replyService.get(reply.getNo());
     System.out.println("호출이요");
-    if (old.getWriter().getNo() != loginUser.getNo()) {
-      return new RestResult()
-          .setStatus(RestStatus.FAILURE)
-          .setErrorCode(ErrorCode.rest.UNAUTHORIZED)
-          .setData("권한이 없습니다.");
+    if (loginUser.getAuth() != 2) {
+      if (old.getWriter().getNo() != loginUser.getNo()) {
+        return new RestResult()
+            .setStatus(RestStatus.FAILURE)
+            .setErrorCode(ErrorCode.rest.UNAUTHORIZED)
+            .setData("권한이 없습니다.");
+      }
     }
 
     replyService.update(reply);
@@ -92,11 +108,13 @@ public class ReplyController {
 
     Reply old = replyService.get(no);
 
-    if (old.getWriter().getNo() != loginUser.getNo()) {
-      return new RestResult()
-          .setStatus(RestStatus.FAILURE)
-          .setErrorCode(ErrorCode.rest.UNAUTHORIZED)
-          .setData("권한이 없습니다.");
+    if (loginUser.getAuth() != 2) {
+      if (old.getWriter().getNo() != loginUser.getNo()) {
+        return new RestResult()
+            .setStatus(RestStatus.FAILURE)
+            .setErrorCode(ErrorCode.rest.UNAUTHORIZED)
+            .setData("권한이 없습니다.222");
+      }
     }
     replyService.delete(no);
 

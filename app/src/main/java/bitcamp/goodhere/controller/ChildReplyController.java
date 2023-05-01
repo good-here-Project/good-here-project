@@ -37,6 +37,13 @@ public class ChildReplyController {
       HttpSession session) throws Exception {
 
     Member loginUser = (Member) session.getAttribute("loginUser");
+
+    if (loginUser.getState() == 1) {
+      System.out.println("블랙리스트");
+      return new RestResult()
+          .setStatus(RestStatus.FAILURE)
+          .setMessage("사이트 이용이 제한된 사용자입니다.");
+    }
     Member writer = new Member();
     writer.setNo(loginUser.getNo());
     //    writer.setNo(1);
@@ -78,11 +85,13 @@ public class ChildReplyController {
 
     System.out.println("update controller 호출");
     ChildReply old = childReplyService.get(childReply.getNo());
-    if (old.getWriter().getNo() != loginUser.getNo()) {
-      return new RestResult()
-          .setStatus(RestStatus.FAILURE)
-          .setErrorCode(ErrorCode.rest.UNAUTHORIZED)
-          .setData("권한이 없습니다.");
+    if (loginUser.getAuth() != 2) {
+      if (old.getWriter().getNo() != loginUser.getNo()) {
+        return new RestResult()
+            .setStatus(RestStatus.FAILURE)
+            .setErrorCode(ErrorCode.rest.UNAUTHORIZED)
+            .setData("권한이 없습니다.");
+      }
     }
 
     childReplyService.update(childReply);
@@ -94,17 +103,19 @@ public class ChildReplyController {
   public Object delete(@PathVariable int no, HttpSession session) {
 
     //    Member loginUser = (Member) session.getAttribute("loginUser");
+    Member loginUser = (Member) session.getAttribute("loginUser");
     System.out.println("delete 호출");
     Member writer = new Member();
     writer.setNo(1);
 
     ChildReply old = childReplyService.get(no);
-
-    if (old.getWriter().getNo() != writer.getNo()) {
-      return new RestResult()
-          .setStatus(RestStatus.FAILURE)
-          .setErrorCode(ErrorCode.rest.UNAUTHORIZED)
-          .setData("권한이 없습니다.");
+    if (loginUser.getAuth() != 2) {
+      if (old.getWriter().getNo() != writer.getNo()) {
+        return new RestResult()
+            .setStatus(RestStatus.FAILURE)
+            .setErrorCode(ErrorCode.rest.UNAUTHORIZED)
+            .setData("권한이 없습니다.33");
+      }
     }
     childReplyService.delete(no);
 

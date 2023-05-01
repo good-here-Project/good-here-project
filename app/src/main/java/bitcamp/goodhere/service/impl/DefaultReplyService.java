@@ -40,6 +40,11 @@ public class DefaultReplyService implements ReplyService {
     return parentComments;
   }
 
+  @Override
+  public List<Reply> adminlist() {
+    return replyDao.adminfindAll();
+  }
+
   @Transactional
   @Override
   public void update(Reply reply) {

@@ -116,7 +116,7 @@ public class MemberController {
     Member member = memberService.get(no);
     member.setAuth(auth);
 
-    System.out.println("Updated Member: " + member.toString());
+    //    System.out.println("Updated Member: " + member.toString());
 
     memberService.update(member);
 
@@ -135,7 +135,7 @@ public class MemberController {
     Member member = memberService.get(no);
     member.setState(state);
 
-    System.out.println("Updated Member: " + member.toString());
+    //    System.out.println("Updated Member: " + member.toString());
 
     memberService.update(member);
 

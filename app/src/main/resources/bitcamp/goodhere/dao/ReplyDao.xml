@@ -40,6 +40,22 @@
       c.comment_id desc
   </select>
   
+    <select id="adminfindAll" resultMap="replyMap">
+    select 
+      c.comment_id,
+      c.board_id, 
+      c.content,
+      c.writer,
+      c.created_date, 
+      m.nickname,
+      m.photo
+    from 
+      gh_comment c
+      inner join gh_member m on c.writer = m.member_id
+    order by 
+      c.comment_id desc
+  </select>
+  
   <select id="findByNo" parameterType="int" resultMap="replyMap">
     select 
       c.comment_id,
