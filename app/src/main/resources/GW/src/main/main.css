@@ -37,7 +37,6 @@
 }
 
 .list li {
-	cursor: pointer;
 	font-size: 20px;
 	font-weight: bold;
 	padding-left: 25px;
@@ -47,22 +46,53 @@
 	justify-content: center;
 	display: grid;
 	grid-template-columns: 300px 300px 300px 300px;
+	overflow-y: scroll;
+	height: 660px;
 }
 
 .mbox img {
-	width: 250px;
-	height: 220px;
 	background-repeat: no-repeat;
+	border-radius: 5px;
+}
+
+.mbox-div-img {
+	cursor: pointer;
 }
 
 .body .mbox li {
 	padding-top: 10px;
 	text-align: center;
-	cursor: pointer;
 	margin: 10px;
 	list-style: none;
 	width: 270px;
-	height: 300px;
-	border: 1px solid;
+	height: 310px;
+	border: 1px solid lightgray;
 	border-radius: 15px;
+}
+
+.mbox-div {
+	display: grid;
+	grid-template-rows: 95%
+}
+
+.mbox-footer {
+	border-top: 1px solid lightgray;
+	display: flex;
+	justify-content: space-between;
+}
+
+.mbox-title {
+	padding-top: 8px;
+	margin-left: 18px;
+	font-size: 13px;
+}
+
+.mbox-heart {
+	padding-top: 8px;
+	margin-right: 18px;
+}
+
+.mbox-heart img {
+	width: 15px;
+	height: 15px;
 }

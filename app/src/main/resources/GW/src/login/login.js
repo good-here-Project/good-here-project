@@ -1,9 +1,8 @@
 import React from 'react';
 import './login.css';
 import axios from 'axios';
-import FacebookLogin from '@greatsumini/react-facebook-login';
-import { GoogleLogin } from "@react-oauth/google";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+import FacebookLogin from './FacebookLogin';
+import GoogleLogin from './GoogleLogin';
 import NaverLogin from './NaverLogin';
 import SocialKakao from './KakaoLogin';
 axios.defaults.withCredentials = true;
@@ -30,56 +29,12 @@ function Login() {
       });
   };
 
-  // ---------------------------------페이스북 로그인-----------------------------------
-  function facebookLogin(accessToken) {
-    const data = {
-      "accessToken": accessToken
-    };
-
-    axios.post("http://localhost/web/auth/facebookLogin", data)
-      .then(response => {
-        console.log(response);
-        if (response.data.status === 'success') {
-          window.location.href = '/';
-          alert('페이스북 로그인 성공!');
-        } else {
-          alert('페이스북 로그인 실패!');
-        }
-      })
-      .catch(exception => {
-        alert("페이스북 로그인 오류!");
-        console.log(exception);
-      });
-  }
-
-  // ---------------------------------구글 로그인-----------------------------------
-  function googleLogin(credential) {
-    const data = {
-      "credential": credential
+  const handleKeyDown = (event) => {
+    if (event.keyCode === 13) {
+      event.preventDefault(); // 이벤트의 기본 동작을 막음
+      userLogin();
     }
-
-    console.log(credential);
-
-    axios.post("http://localhost/web/auth/googleLogin", data)
-      .then(response => {
-        console.log(response);
-        if (response.data.status === 'success') {
-          window.location.href = '/';
-          alert('구글 로그인 성공!');
-        } else {
-          alert('구글 로그인 실패!');
-        }
-      })
-      .catch(exception => {
-        alert("구글 로그인 오류!");
-        console.log(exception);
-      });
-  }
-
-  //--------
-
-
-
+  };
 
 
   return (
@@ -97,7 +52,7 @@ function Login() {
             </tr>
             <tr>
               <th className="password-th">password</th>
-              <td><input type='password' className='password' name='password'></input></td>
+              <td><input type='password' className='password' name='password' onKeyDown={handleKeyDown}></input></td>
             </tr>
           </table>
 
@@ -112,56 +67,16 @@ function Login() {
             <p className="line3"></p>
           </div>
           <div className="login-other">
-            <FacebookLogin
-              appId="606943251328930"
-              initParams={{
-                cookie: true,
-                xfbml: true,
-                version: 'v16.0',
-              }}
-              style={{
-                backgroundColor: '#4267b2',
-                color: '#fff',
-                fontSize: '16px',
-                padding: '12px 24px',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer'
-              }}
-              onSuccess={(response) => {
-                console.log('Login Success!');
-                console.log(response);
-                facebookLogin(response.accessToken);
-              }}
-              onFail={(error) => {
-                console.log('Login Failed!');
-                console.log('status: ', error.status);
-              }}
-              onProfileSuccess={(response) => {
-                console.log('Get Profile Success!');
-                console.log('name: ', response.name);
-                console.log(response);
-              }}
-            />
-            <GoogleOAuthProvider clientId="1087840897429-akb84m84c0i06q9p3a81tbglgtqsn28j.apps.googleusercontent.com">
-              <GoogleLogin
-                scope="https://www.googleapis.com/auth/userinfo.profile"
-                onSuccess={(response) => {
-                  //console.log(response)
-                  googleLogin(response.credential);
-                }}
-                onFailure={(error) => {
-                  console.log(error);
-                }}
-              />
-            </GoogleOAuthProvider>
-            
-            <NaverLogin />
+
+            <FacebookLogin />
+
+            <GoogleLogin /> 
+
+            <div className="NaverLogin"><NaverLogin /></div>
 
             <SocialKakao />
 
           </div>
-
         </form>
       </div>
     </div>
