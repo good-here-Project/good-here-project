@@ -11,6 +11,8 @@ import Form from "./Form/Form";
 import Info from "./info/info";
 import List from "./list/list";
 import FormUpdate from "./FormUpdate/FormUpdate";
+import Hotplace from "./hotplace/hotplace";
+import Comu from "./comu/comu";
 import View from "./View/View";
 
 function App() {
@@ -31,6 +33,8 @@ function App() {
           <Route path="/Form" element={<Form />} />
           <Route path="/Info" element={<Info />} />
           <Route path="/List" element={<List />} />
+          <Route path="/Comu" element={<Comu />} />
+          <Route path="/Hotplace" element={<Hotplace />} />
           <Route
             path="/View/:no"
             element={<View user={user} setUser={setUser} />}

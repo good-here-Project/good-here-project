@@ -1,0 +1,52 @@
+.list-board-comu-header {
+    width: 850px;
+    /* border: 1px solid; */
+    margin-left: 30px;
+}
+
+.list-board-comu-header span:first-child {
+    margin-left: 15px;
+    margin-right: 210px;
+}
+
+.list-board-comu-header span:nth-child(2) {
+    margin-right: 238px;
+}
+
+.list-board-comu-header span:nth-child(3) {
+    margin-right: 97px;
+}
+
+.list-board-comu-header span:nth-child(4) {
+    margin-right: 68px;
+}
+
+.list-board-coum-footer {
+    width: 850px;
+    margin-left: 30px;
+    display: flex;
+}
+
+.list-board-coum-list {
+    overflow-y: scroll;
+    height: 330px;
+}
+
+.list-main {
+    border-bottom: 1px solid lightgray;
+}
+/* .list-board-comu-form {
+    border-bottom: 1px solid lightgray;
+} */
+
+.list-board-coum-list li {
+    list-style: none;
+}
+
+.list-board-coum-footer table {
+    text-align: center;
+}
+
+.board-title-name {
+    cursor: pointer;
+}

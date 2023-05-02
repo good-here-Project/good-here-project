@@ -1,0 +1,70 @@
+.list-main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 50px;
+}
+
+.list-header {
+    padding-left: 120px;
+    width: 950px;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    padding-bottom: 30px;
+    border-bottom: 1px solid lightgray;
+}
+
+.list-body {
+    margin-top: 30px;
+    width: 950px;
+    height: 450px;
+}
+
+.list-member-file img {
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+}
+
+.list-member-info {
+    margin-left: 60px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.list-mbox {
+    justify-content: center;
+	display: grid;
+    width: 950px;
+	grid-template-columns: 230px 230px 230px 230px;
+	overflow-y: scroll;
+	height: 330px;
+}
+
+.list-mbox li {
+    cursor: pointer;
+    padding-top: 10px;
+	text-align: center;
+	margin: 10px;
+    margin-right: 40px;
+	list-style: none;
+	width: 200px;
+	height: 245px;
+	border: 1px solid lightgray;
+	border-radius: 15px;
+}
+
+.list-mbox-div-img img {
+    width: 170px;
+    height: 190px;
+}
+
+
+.list-member-board {
+    margin-top: 40px;
+}
+
+.list-member-board-list {
+    margin-right: 40px;
+}

@@ -9,11 +9,14 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Board from "./Board/Board";
 import Form from "./Form/Form";
 import Info from "./info/info";
-import List from "./list/list";
 import FormUpdate from "./FormUpdate/FormUpdate";
 import AdminMember from './AdminMember/AdminMember';
 import AdminBoard from './AdminBoard/AdminBoard';
 import View from "./View/View";
+import List from "./list/list";
+import Hotplace from "./hotplace/hotplace";
+import Comu from "./comu/comu";
+
 
 function App() {
   // const [file, setFile] = useState(null);
@@ -35,6 +38,8 @@ function App() {
           <Route path="/AdminMember" element={<AdminMember />} />
           <Route path="/AdminBoard" element={<AdminBoard />} />
           <Route path="/List" element={<List />} />
+          <Route path="/Comu" element={<Comu />} />
+          <Route path="/Hotplace" element={<Hotplace />} />
           <Route
             path="/View/:no"
             element={<View user={user} setUser={setUser} />}
