@@ -15,6 +15,7 @@ import View from "./View/View";
 import AdminMember from "./AdminMember/AdminMember";
 import AdminBoard from "./AdminBoard/AdminBoard";
 import AdminComment from "./AdminComment/AdminComment";
+import AdminInquiry from "./AdminInquiry/AdminInquiry";
 
 function App() {
   // const [file, setFile] = useState(null);
@@ -37,6 +38,7 @@ function App() {
           <Route path="/AdminMember" element={<AdminMember />} />
           <Route path="/AdminBoard" element={<AdminBoard />} />
           <Route path="/AdminComment" element={<AdminComment />} />
+          <Route path="/AdminInquiry" element={<AdminInquiry />} />
           <Route
             path="/View/:no"
             element={<View user={user} setUser={setUser} />}

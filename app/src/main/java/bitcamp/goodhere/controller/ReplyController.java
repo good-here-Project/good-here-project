@@ -38,6 +38,8 @@ public class ReplyController {
 
     Member loginUser = (Member) session.getAttribute("loginUser");
 
+    System.out.println(reply);
+
     if (loginUser.getState() == 1) {
       System.out.println("블랙리스트");
       return new RestResult()

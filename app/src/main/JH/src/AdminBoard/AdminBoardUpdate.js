@@ -99,7 +99,7 @@ const AdminBoardUpdate = ({ board, onUpdate, onClose }) => {
             onChange={handleChange}
           />
         </div>
-        <div className="form-group">
+        {/* <div className="form-group">
           <label htmlFor="file">첨부 파일:</label>
           <input
             type="file"
@@ -107,7 +107,7 @@ const AdminBoardUpdate = ({ board, onUpdate, onClose }) => {
             id="file"
             onChange={handleFileChange}
           />
-        </div>
+        </div> */}
         <div className="form-group">
           <label htmlFor="content">내 용:</label>
           <input
@@ -122,9 +122,9 @@ const AdminBoardUpdate = ({ board, onUpdate, onClose }) => {
           <label htmlFor="createdDate">가입일:</label>
           <span id="createdDate">{updatedBoard?.createdDate}</span>
         </div>
-        <div className="form-buttons">
+        {/* <div className="form-buttons">
           <button type="submit">수정</button>
-        </div>
+        </div> */}
       </form>
     </div>
   );

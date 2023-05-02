@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bitcamp.goodhere.dao.AnswerDao">
+
+  <resultMap type="answer" id="answerMap">
+    <id column="answer_id" property="no"/>
+
+    <result column="content" property="content"/>
+    <result column="question_id" property="questionNo"/>
+
+    <result column="created_at" property="createdDate"/>
+
+    
+    <association property="writer" javaType="member">
+      <id column="writer" property="no"/>
+      <result column="nickname" property="nickname"/>
+    </association>
+    
+  </resultMap>
+
+   <insert id="insert" parameterType="answer" 
+          useGeneratedKeys="true" keyColumn="question_id" keyProperty="no">
+    insert into gh_answer(question_id, content, writer) 
+    values(#{questionNo}, #{content}, #{writer.no})
+  </insert>
+
+</mapper>
