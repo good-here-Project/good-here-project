@@ -1,0 +1,36 @@
+/* 사이드 바 스타일 */
+.sidebar {
+  width: 280px;
+  height: 100%;
+  position: absolute;
+  background: linear-gradient(
+    to bottom,
+    #eb1484 27.35%,
+    #c91cc3 99.99%,
+    #c81cc5 100%,
+    #c81cc5 100%
+  );
+  overflow-x: hidden;
+  border-radius: 10%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transform: translate(-320px, 320px);
+}
+
+/* 사이드 바 링크 스타일 */
+.sidebar a {
+  font: bold;
+  padding: 12px 16px;
+  text-decoration: none;
+  font-size: 24px;
+  color: white;
+  display: block;
+  text-align: center;
+}
+
+/* 활성화된 링크 스타일 */
+.sidebar a.active {
+  background-color: white;
+  color: #da18a3;
+}

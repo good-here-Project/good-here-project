@@ -1,0 +1,48 @@
+.reComment {
+  /* border: 1px solid black; */
+  background-color: rgb(255, 235, 244);
+  margin: 20px 0 26px 20px;
+  /* min-height: 55px; */
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.reComment-writer {
+  /* background-color: rgb(246, 222, 189); */
+  padding: 2px;
+  margin-left: 10px;
+  border-radius: 10px;
+}
+
+.reComment-createdDate {
+  float: right;
+}
+
+.reComment-main {
+  padding-top: 10px;
+  margin-left: 10px;
+  word-break: break-all;
+}
+
+.reComment-buttons {
+  /* border: 1px solid black; */
+  margin-top: 11px;
+  /* margin: 10px 0 0 10px; */
+  float: right;
+}
+
+.reComment-edit-form {
+  /* border: 1px solid black; */
+  min-height: 60px;
+  width: 97%;
+  padding-left: 10px;
+  border: none;
+  margin: 20px 0 10px 10px;
+  /* background-color: rgb(229, 229, 229); */
+  border-radius: 5px;
+  resize: none;
+}
+
+.reComment-edit-btns {
+  margin-left: 10px;
+}
