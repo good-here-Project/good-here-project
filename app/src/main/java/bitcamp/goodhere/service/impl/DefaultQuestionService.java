@@ -3,8 +3,11 @@ package bitcamp.goodhere.service.impl;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import bitcamp.goodhere.dao.QuestionDao;
 import bitcamp.goodhere.service.QuestionService;
+import bitcamp.goodhere.vo.Answer;
 import bitcamp.goodhere.vo.Question;
 
 @Service
@@ -25,10 +28,21 @@ public class DefaultQuestionService implements QuestionService {
   //      boardFileDao.insertList(board.getAttachedFiles());
   //    }
   //  }
+  
+  @Transactional
+  @Override
+  public void add(Question question) {
+    questionDao.insert(question);
+  }
 
   @Override
   public List<Question> list() {
     return questionDao.findAll();
+  }
+  
+  @Override
+  public List<Question> mylist() {
+    return questionDao.findmylist();
   }
 
   //  @Override

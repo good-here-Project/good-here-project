@@ -193,6 +193,35 @@ ALTER TABLE gh_re_comment
 --    ON DELETE CASCADE
 --) COMMENT '자식댓글';
 
+  
+  CREATE TABLE gh_question (
+    question_id INT AUTO_INCREMENT PRIMARY KEY,
+    writer INT,
+    title VARCHAR(255),
+    content TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE gh_question
+  ADD CONSTRAINT FK_gh_member_TO_gh_question -- 회원 -> 게시글
+  FOREIGN KEY (
+  writer -- 회원번호
+  )
+  REFERENCES gh_member ( -- 회원
+  member_id -- 회원번호
+  );
+
+
+CREATE TABLE gh_answer (
+    answer_id INT PRIMARY KEY AUTO_INCREMENT PRIMARY KEY,
+    question_id INT,
+    writer INT,
+    content TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (question_id) REFERENCES gh_question(question_id),
+    FOREIGN KEY (writer) REFERENCES gh_member(member_id)
+);
+
 -- 1:1문의
 CREATE TABLE gh_inquiry (
   inquiry_id   INTEGER      NOT NULL COMMENT '문의번호', -- 문의번호

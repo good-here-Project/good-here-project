@@ -6,6 +6,7 @@ import bitcamp.goodhere.vo.Question;
 public interface QuestionService {
   //  void add(Board board);
   List<Question> list();
+  List<Question> mylist();
   //  List<Board> boardlist(String keyword);
   //  Board get(int no);
   //  void update(Board board);
@@ -13,4 +14,5 @@ public interface QuestionService {
   //
   //  BoardFile getFile(int fileNo);
   //  void deleteFile(int fileNo);
+void add(Question question);
 }

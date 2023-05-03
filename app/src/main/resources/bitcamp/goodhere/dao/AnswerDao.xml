@@ -26,4 +26,16 @@
     values(#{questionNo}, #{content}, #{writer.no})
   </insert>
 
+  <select id="findAll" resultMap="answerMap">
+    select 
+      a.answer_id,
+      a.question_id,  
+      a.writer,
+      a.content,
+      a.created_at,
+      m.nickname
+    from 
+      gh_answer a
+      inner join gh_member m on a.writer = m.member_id
+  </select>
 </mapper>

@@ -4,11 +4,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import bitcamp.goodhere.service.QuestionService;
+import bitcamp.goodhere.vo.Answer;
+import bitcamp.goodhere.vo.Member;
+import bitcamp.goodhere.vo.Question;
 import bitcamp.util.RestResult;
 import bitcamp.util.RestStatus;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/questions")
@@ -22,7 +28,32 @@ public class QuestionController {
 
   Logger log = LogManager.getLogger(getClass());
 
+  @PostMapping
+  public Object insert(
+      Question question,
+      HttpSession session) throws Exception{
 
+    Member loginUser = (Member) session.getAttribute("loginUser");
+
+    System.out.println(question);
+
+    if (loginUser.getState() == 1) {
+      System.out.println("블랙리스트");
+      return new RestResult()
+          .setStatus(RestStatus.FAILURE)
+          .setMessage("사이트 이용이 제한된 사용자입니다.");
+    
+    }
+    Member writer = new Member();
+    writer.setNo(loginUser.getNo());
+    question.setWriter(writer);
+
+    questionService.add(question);
+
+    return new RestResult().setStatus(RestStatus.SUCCESS);
+
+  }
+  
 
   @Autowired private QuestionService questionService;
   // @Autowired private ObjectStorageService objectStorageService;
@@ -81,6 +112,21 @@ public class QuestionController {
         .setData(questionService.list());
   }
 
+  @GetMapping("/mylist")
+  public Object mylist(HttpSession session) {
+    log.debug("QuestionController.mylist() 호출됨!");
+    
+    Member loginUser = (Member) session.getAttribute("loginUser");
+    
+
+    // MappingJackson2HttpMessageConverter 가 jackson 라이브러리를 이용해
+    // 자바 객체를 JSON 문자열로 변환하여 클라이언트로 보낸다.
+    // 이 컨버터를 사용하면 굳이 UTF-8 변환을 설정할 필요가 없다.
+    // 즉 produces = "application/json;charset=UTF-8" 를 설정하지 않아도 된다.
+    return new RestResult()
+        .setStatus(RestStatus.SUCCESS)
+        .setData(questionService.mylist());
+  }
 
   //  @GetMapping("/list")
   //  public Object boardlist(String keyword) {

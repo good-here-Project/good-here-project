@@ -33,4 +33,24 @@
       inner join gh_member m on q.writer = m.member_id
   </select>
   
+<select id="findmylist" resultMap="questionMap">
+  SELECT 
+    q.question_id, 
+    q.title, 
+    q.writer,
+    q.content,
+    q.created_at,
+    m.nickname
+  FROM 
+    gh_question q
+    INNER JOIN gh_member m ON q.writer = m.member_id
+</select>
+
+  <insert id="insert" parameterType="question" 
+          useGeneratedKeys="true" keyColumn="question_id" keyProperty="no">
+    insert into gh_question(title, content, writer) 
+    values(#{title}, #{content}, #{writer.no})
+  </insert>
+
+  
 </mapper>
