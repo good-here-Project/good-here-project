@@ -45,6 +45,11 @@
 - CloudDB for MySQL  
 
 
+## 미리보기
+<img width="1280" alt="thum" src="https://github.com/good-here-Project/good-here-project/assets/111367394/4df38da0-f755-467f-ab6f-c64924d615d8">
+
+
+
 
 ## 주요 기능
 - 영상 시청 및 카테고리별 글 작성 가능
