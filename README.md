@@ -45,13 +45,13 @@
 - CloudDB for MySQL  
 
 
-#### 메인 페이지
+### 메인 페이지
 <img width="480" alt="thum" src="https://github.com/good-here-Project/good-here-project/assets/111367394/4df38da0-f755-467f-ab6f-c64924d615d8">
-#### 핫플레이스 게시글
+### 핫플레이스 게시글
 <img width="480" alt="스크린샷 2023-05-16 오후 5 39 48" src="https://github.com/good-here-Project/good-here-project/assets/111367394/b8a20b8e-7e4c-4f51-98e7-6d0a65b3ddf5">
-#### 댓글 및 대댓글
+### 댓글 및 대댓글
 <img width="480" alt="스크린샷 2023-05-16 오후 5 41 39" src="https://github.com/good-here-Project/good-here-project/assets/111367394/7ad0db5a-1c2f-4cea-aa51-ff1e384c2ceb">
-#### 관리자 페이지
+### 관리자 페이지
 <img width="480" alt="스크린샷 2023-05-16 오후 5 42 26" src="https://github.com/good-here-Project/good-here-project/assets/111367394/b6e21860-6b7f-427b-8f88-f5c6c11b7652">
 
 
