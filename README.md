@@ -45,8 +45,8 @@
 - CloudDB for MySQL  
 
 
-## 미리보기
-<img width="1280" alt="thum" src="https://github.com/good-here-Project/good-here-project/assets/111367394/4df38da0-f755-467f-ab6f-c64924d615d8">
+## 메인 화면
+<img width="720" alt="thum" src="https://github.com/good-here-Project/good-here-project/assets/111367394/4df38da0-f755-467f-ab6f-c64924d615d8">
 
 
 
